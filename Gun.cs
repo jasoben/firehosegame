@@ -32,8 +32,8 @@ namespace Firehose
 
         public void Update(Player player1, GameTime gameTime)
         {
-            this.spriteX = player1.playerLocationX + 50 * degree;
-            this.spriteY = player1.playerLocationY;
+            this.spriteX = player1.playerLocationX + 60 * degree;
+            this.spriteY = player1.playerLocationY + 20;
         }
     }
 }
