@@ -1,0 +1,10 @@
+F:\Monogame Temp\Firehose\obj\x86\Debug\Platformer.exe
+F:\Monogame Temp\Firehose\obj\x86\Debug\Platformer.pdb
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Content\prep2.png
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Platformer.exe
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Platformer.pdb
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\MonoGame.Framework.dll
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\OpenTK.dll
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Tao.Sdl.dll
+F:\Monogame Temp\Firehose\obj\x86\Debug\Firehose.csprojResolveAssemblyReference.cache
+F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Content\aiming_reticule.png
