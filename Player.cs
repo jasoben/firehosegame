@@ -75,7 +75,6 @@ namespace Firehose
 		{
 			Move (controls);
 			Jump (controls, gameTime);
-            Fire (controls, gameTime);
             playerLocationX = spriteX;
             playerLocationY = spriteY;
         }
@@ -143,19 +142,6 @@ namespace Firehose
 			}
 		}
 
-        private void Aim(Controls controls, GameTime gameTime)
-        {
-            //Aim Gun
-
-
-        }
-        private void Fire(Controls controls, GameTime gameTime)
-        {
-            // Fire on button press
-            if (controls.onPress(Keys.LeftControl, Buttons.B))
-            {
-                Console.WriteLine("Hello There Mr. Squishy.");
-            }
-        }
+        
     }
 }

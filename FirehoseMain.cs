@@ -20,8 +20,8 @@ namespace Firehose
         SpriteBatch spriteBatch;
         Player player1;
         Controls controls;
-        Gun flameGun;
-
+        FlameGun flameGun;
+        
         public FirehoseMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -39,7 +39,7 @@ namespace Firehose
             // TODO: Add your initialization logic here
 
             player1 = new Player(50, 50, 50, 50);
-            flameGun = new Gun(10,10);
+            flameGun = new FlameGun(10,10);
 
             base.Initialize();
 
@@ -88,7 +88,7 @@ namespace Firehose
             //Up, down, left, right affect the coordinates of the sprite
 
             player1.Update(controls, gameTime);
-            flameGun.Update(player1, gameTime);
+            flameGun.Update(player1, controls, gameTime);
 
             base.Update(gameTime);
         }
