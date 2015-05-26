@@ -35,9 +35,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Fire.cs" />
+    <Compile Include="FireParticle.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="FirehoseMain.cs" />
+    <Compile Include="FireParticleEngine.cs" />
     <Compile Include="FlameGun.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -61,7 +62,11 @@
     <Content Include="Content\aiming_reticule.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\fire.png">
+    <Content Include="Content\fire.png" />
+    <Content Include="Content\fire1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fire2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\prep2.png">

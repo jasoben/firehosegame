@@ -13,7 +13,7 @@ namespace Firehose
 {
     class FlameGun : Sprite
     {
-        Fire fire;
+        FireParticle fire;
         
         public float degreeX = 60f;
         public float degreeY = 20f;
@@ -68,7 +68,7 @@ namespace Firehose
             // Fire on button press
             if (controls.onPress(Keys.LeftControl, Buttons.B) || controls.isHeld(Keys.LeftControl, Buttons.B))
             {
-                fire = new Fire(x, y);
+             //   fire = new FireParticle(x, y);
             }
         }
     }

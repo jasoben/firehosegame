@@ -21,6 +21,7 @@ namespace Firehose
         Player player1;
         Controls controls;
         FlameGun flameGun;
+        FireParticleEngine fireParticleEngine;
         
         public FirehoseMain()
         {
@@ -60,6 +61,13 @@ namespace Firehose
             flameGun.LoadContent(this.Content);
 
             // TODO: use this.Content to load your game content here
+
+            List<Texture2D> fireTextures = new List<Texture2D>();
+          //  fireTextures.Add(Content.Load<Texture2D>("fire.png"));
+            fireTextures.Add(Content.Load<Texture2D>("fire1.png"));
+            fireTextures.Add(Content.Load<Texture2D>("fire2.png"));
+            fireParticleEngine = new FireParticleEngine(fireTextures, new Vector2(400, 240));
+
         }
 
         /// <summary>
@@ -90,6 +98,12 @@ namespace Firehose
             player1.Update(controls, gameTime);
             flameGun.Update(player1, controls, gameTime);
 
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+            {
+                fireParticleEngine.FireEmitterLocation = new Vector2(flameGun.flameGunLocationX, flameGun.flameGunLocationY);
+                fireParticleEngine.Update();
+            }
+
             base.Update(gameTime);
         }
 
@@ -105,6 +119,7 @@ namespace Firehose
             spriteBatch.Begin();
             player1.Draw(spriteBatch);
             flameGun.Draw(spriteBatch);
+            fireParticleEngine.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
