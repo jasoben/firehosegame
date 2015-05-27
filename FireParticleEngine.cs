@@ -15,12 +15,15 @@ namespace Firehose
     {
         private Random fireRandom;
         public Vector2 FireEmitterLocation { get; set; }
+        public Vector2 PlayerLocation { get; set; }
         private List<FireParticle> fireParticles;
         private List<Texture2D> fireTextures;
+        
 
-        public FireParticleEngine(List<Texture2D> fireTextures, Vector2 fireLocation)
+        public FireParticleEngine(List<Texture2D> fireTextures, Vector2 fireLocation, Vector2 playerLocation)
         {
             FireEmitterLocation = fireLocation;
+            PlayerLocation = playerLocation;
             this.fireTextures = fireTextures;
             this.fireParticles = new List<FireParticle>();
             fireRandom = new Random();
@@ -30,9 +33,7 @@ namespace Firehose
         {
             Texture2D fireTexture = fireTextures[fireRandom.Next(fireTextures.Count)];
             Vector2 firePosition = FireEmitterLocation;
-            Vector2 fireVelocity = new Vector2(
-                    1f * (float)(fireRandom.NextDouble() * 2 - 1),
-                    1f * (float)(fireRandom.NextDouble() * 2 - 1));
+            Vector2 fireVelocity = (FireEmitterLocation - PlayerLocation) / 5;
             float fireAngle = 0;
             float fireAngularVelocity = 0.1f * (float)(fireRandom.NextDouble() * 2 - 1);
             Color fireColor = new Color(255, 255, 255);
@@ -45,14 +46,18 @@ namespace Firehose
             return new FireParticle(fireTexture, firePosition, fireVelocity, fireAngle, fireAngularVelocity, fireColor, fireSize, fireTTL);
         }
 
-        public void Update()
+        public void Update(Boolean isFiringFlame)
         {
             int fireTotal = 30;
-            for (int i = 0; i < fireTotal; i++)
-            {
-                fireParticles.Add(GenerateNewFireParticle());
-            }
 
+            if (isFiringFlame == true)
+            {
+                for (int i = 0; i < fireTotal; i++)
+                {
+                    fireParticles.Add(GenerateNewFireParticle());
+                }
+            }
+            
             for (int fireParticle = 0; fireParticle < fireParticles.Count; fireParticle++)
             {
                 fireParticles[fireParticle].Update();
@@ -62,6 +67,9 @@ namespace Firehose
                     fireParticle--;
                 }
             }
+
+            
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

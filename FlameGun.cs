@@ -19,8 +19,10 @@ namespace Firehose
         public float degreeY = 20f;
         public int angle = 0;
 
-        public int flameGunLocationX;
-        public int flameGunLocationY;
+        public int FlameGunLocationX { get; set; }
+        public int FlameGunLocationY { get; set; }
+
+        public bool isFiringFlame = false;
 
         public FlameGun(int width, int height)
         {
@@ -38,13 +40,18 @@ namespace Firehose
             sb.Draw(crossHairImage, new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight), Color.White);
         }
 
-        public void Update(Player player1, Controls controls, GameTime gameTime)
+        public void Update(Player player1, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine)
         {
-            this.spriteX = flameGunLocationX = player1.playerLocationX + (int) degreeX + 25;
-            this.spriteY = flameGunLocationY = player1.playerLocationY + (int) degreeY + 25;
+            this.spriteX = FlameGunLocationX = player1.PlayerLocationX + (int) degreeX + 25;
+            this.spriteY = FlameGunLocationY = player1.PlayerLocationY + (int) degreeY + 25;
 
-            FireFlame(flameGunLocationX, flameGunLocationY, controls, gameTime); 
+            FireFlame(FlameGunLocationX, FlameGunLocationY, controls, gameTime, fireParticleEngine, player1, this); 
             AimFlame(controls, gameTime);
+
+            if (isFiringFlame == false)
+            {
+                fireParticleEngine.Update(isFiringFlame);
+            } 
         }
 
         private void AimFlame(Controls controls, GameTime gameTime)
@@ -63,12 +70,24 @@ namespace Firehose
             degreeX = (float)Math.Cos((Math.PI / 180) * angle) * 60;
             degreeY = (float)Math.Sin((Math.PI / 180) * angle) * 60;
         }
-        private void FireFlame(int x, int y, Controls controls, GameTime gameTime)
+        private void FireFlame(int x, int y, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine, Player player1, FlameGun flameGun)
         {
             // Fire on button press
             if (controls.onPress(Keys.LeftControl, Buttons.B) || controls.isHeld(Keys.LeftControl, Buttons.B))
             {
-             //   fire = new FireParticle(x, y);
+                isFiringFlame = true;
+                fireParticleEngine.FireEmitterLocation = new Vector2(this.FlameGunLocationX, this.FlameGunLocationY);
+                fireParticleEngine.PlayerLocation = new Vector2(player1.PlayerLocationX, player1.PlayerLocationY);
+                fireParticleEngine.Update(isFiringFlame);
+            }
+
+            //stop firing
+            if (controls.onRelease(Keys.LeftControl, Buttons.B))
+            {
+                isFiringFlame = false;
+                fireParticleEngine.FireEmitterLocation = new Vector2(this.FlameGunLocationX, this.FlameGunLocationY);
+                fireParticleEngine.PlayerLocation = new Vector2(player1.PlayerLocationX, player1.PlayerLocationY);
+                fireParticleEngine.Update(isFiringFlame);
             }
         }
     }

@@ -66,7 +66,7 @@ namespace Firehose
           //  fireTextures.Add(Content.Load<Texture2D>("fire.png"));
             fireTextures.Add(Content.Load<Texture2D>("fire1.png"));
             fireTextures.Add(Content.Load<Texture2D>("fire2.png"));
-            fireParticleEngine = new FireParticleEngine(fireTextures, new Vector2(400, 240));
+            fireParticleEngine = new FireParticleEngine(fireTextures, new Vector2(flameGun.FlameGunLocationX, flameGun.FlameGunLocationY), new Vector2 (player1.PlayerLocationX, player1.PlayerLocationY));
 
         }
 
@@ -96,13 +96,11 @@ namespace Firehose
             //Up, down, left, right affect the coordinates of the sprite
 
             player1.Update(controls, gameTime);
-            flameGun.Update(player1, controls, gameTime);
+            flameGun.Update(player1, controls, gameTime, fireParticleEngine);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-            {
-                fireParticleEngine.FireEmitterLocation = new Vector2(flameGun.flameGunLocationX, flameGun.flameGunLocationY);
-                fireParticleEngine.Update();
-            }
+            
+               
+          
 
             base.Update(gameTime);
         }

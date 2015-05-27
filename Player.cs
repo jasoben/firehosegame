@@ -22,14 +22,15 @@ namespace Firehose
 		public double gravity = .5;
 		public int maxFallSpeed = 10;
 		private int jumpPoint = 0;
-        public int playerLocationX;
-        public int playerLocationY;
+
+        public int PlayerLocationX { get; set; }
+        public int PlayerLocationY { get; set; }
 
         
         public Player(int x, int y, int width, int height)
         {
-            this.spriteX = playerLocationX = x;
-            this.spriteY = playerLocationY = y;
+            this.spriteX = PlayerLocationX = x;
+            this.spriteY = PlayerLocationY = y;
             this.spriteWidth = width;
             this.spriteHeight = height;
 			grounded = false;
@@ -75,8 +76,8 @@ namespace Firehose
 		{
 			Move (controls);
 			Jump (controls, gameTime);
-            playerLocationX = spriteX;
-            playerLocationY = spriteY;
+            PlayerLocationX = spriteX;
+            PlayerLocationY = spriteY;
         }
 
 		public void Move(Controls controls)
