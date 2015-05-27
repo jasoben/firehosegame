@@ -42,10 +42,10 @@ namespace Firehose
 
         public void Update(Player player1, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine)
         {
-            this.spriteX = FlameGunLocationX = player1.PlayerLocationX + (int) degreeX + 25;
-            this.spriteY = FlameGunLocationY = player1.PlayerLocationY + (int) degreeY + 25;
+            this.spriteX = FlameGunLocationX = player1.PlayerLocationX + (int) degreeX;
+            this.spriteY = FlameGunLocationY = player1.PlayerLocationY + (int) degreeY;
 
-            FireFlame(FlameGunLocationX, FlameGunLocationY, controls, gameTime, fireParticleEngine, player1, this); 
+            FireFlame(controls, gameTime, fireParticleEngine, player1, this); 
             AimFlame(controls, gameTime);
 
             if (isFiringFlame == false)
@@ -70,7 +70,7 @@ namespace Firehose
             degreeX = (float)Math.Cos((Math.PI / 180) * angle) * 60;
             degreeY = (float)Math.Sin((Math.PI / 180) * angle) * 60;
         }
-        private void FireFlame(int x, int y, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine, Player player1, FlameGun flameGun)
+        private void FireFlame(Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine, Player player1, FlameGun flameGun)
         {
             // Fire on button press
             if (controls.onPress(Keys.LeftControl, Buttons.B) || controls.isHeld(Keys.LeftControl, Buttons.B))

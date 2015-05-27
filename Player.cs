@@ -29,10 +29,12 @@ namespace Firehose
         
         public Player(int x, int y, int width, int height)
         {
-            this.spriteX = PlayerLocationX = x;
-            this.spriteY = PlayerLocationY = y;
+            this.spriteX = x;
+            this.spriteY = y;
             this.spriteWidth = width;
             this.spriteHeight = height;
+            PlayerLocationX = x + spriteWidth / 2;
+            PlayerLocationY = y + spriteHeight / 2;
 			grounded = false;
 			moving = false;
 			pushing = false;
@@ -76,8 +78,8 @@ namespace Firehose
 		{
 			Move (controls);
 			Jump (controls, gameTime);
-            PlayerLocationX = spriteX;
-            PlayerLocationY = spriteY;
+            PlayerLocationX = spriteX + spriteWidth / 2;
+            PlayerLocationY = spriteY + spriteHeight / 2;
         }
 
 		public void Move(Controls controls)
