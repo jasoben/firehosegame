@@ -1,0 +1,37 @@
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Font.xnb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\SDL.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Fonts\detailsFont.xnb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Fonts\frameRateCounterFont.xnb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Fonts\menufont.xnb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\alphabet.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\car.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\goo.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\link.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\object.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Samples\wheel.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Materials\blank.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Materials\dots.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Materials\pavement.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Materials\squares.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Materials\waves.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\arrow.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\buttons.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\cursor.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\gradient.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\logo.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\popup.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\slider.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\socket.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Content\Common\stick.png
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Samples MonoGame.exe
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Samples MonoGame.pdb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\DebugView MonoGame.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\MonoGame.Framework.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\Tao.Sdl.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\OpenTK.dll
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\DebugView MonoGame.pdb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\bin\WindowsGL\Debug\FarseerPhysics MonoGame.pdb
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\obj\x86\Debug\Samples MonoGame.csprojResolveAssemblyReference.cache
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\obj\x86\Debug\Samples MonoGame.exe
+F:\Monogame Temp\Firehose\Farseer Physics Engine 3.5 Samples\Farseer Physics Samples 3.5\obj\x86\Debug\Samples MonoGame.pdb

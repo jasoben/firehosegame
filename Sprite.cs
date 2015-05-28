@@ -13,7 +13,8 @@ namespace Firehose
 		protected int spriteX, spriteY;
 		protected int spriteWidth, spriteHeight;
 		protected Texture2D image;
-        protected Texture2D flameImage;
+        protected Texture2D crossHairImage;
+        protected Texture2D fireImage;
 
 		public Sprite ()
 		{

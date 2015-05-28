@@ -22,16 +22,19 @@ namespace Firehose
 		public double gravity = .5;
 		public int maxFallSpeed = 10;
 		private int jumpPoint = 0;
-        public int playerLocationX;
-        public int playerLocationY;
+
+        public int PlayerLocationX { get; set; }
+        public int PlayerLocationY { get; set; }
 
         
         public Player(int x, int y, int width, int height)
         {
-            this.spriteX = playerLocationX = x;
-            this.spriteY = playerLocationY = y;
+            this.spriteX = x;
+            this.spriteY = y;
             this.spriteWidth = width;
             this.spriteHeight = height;
+            PlayerLocationX = x + spriteWidth / 2;
+            PlayerLocationY = y + spriteHeight / 2;
 			grounded = false;
 			moving = false;
 			pushing = false;
@@ -75,9 +78,8 @@ namespace Firehose
 		{
 			Move (controls);
 			Jump (controls, gameTime);
-            Fire (controls, gameTime);
-            playerLocationX = spriteX;
-            playerLocationY = spriteY;
+            PlayerLocationX = spriteX + spriteWidth / 2;
+            PlayerLocationY = spriteY + spriteHeight / 2;
         }
 
 		public void Move(Controls controls)
@@ -143,19 +145,6 @@ namespace Firehose
 			}
 		}
 
-        private void Aim(Controls controls, GameTime gameTime)
-        {
-            //Aim Gun
-
-
-        }
-        private void Fire(Controls controls, GameTime gameTime)
-        {
-            // Fire on button press
-            if (controls.onPress(Keys.LeftControl, Buttons.B))
-            {
-                Console.WriteLine("Hello There Mr. Squishy.");
-            }
-        }
+        
     }
 }
