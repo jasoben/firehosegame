@@ -7,26 +7,56 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Tao.Sdl;
+using FarseerPhysics.Common.PhysicsLogic;
+using FarseerPhysics.Dynamics;
+
 #endregion
 
 namespace Firehose
 {
     /// <summary>
-    /// This is the main type for your game
+    /// Firehose game type
     /// </summary>
-    public class FirehoseMain : Game
+    public class FirehoseMain : Game  
     {
+
+        #region Firehose fields
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player1;
+        Player player2;
         Controls controls;
-        FlameGun flameGun;
-        FireParticleEngine fireParticleEngine;
+        FlameGun flameGun1;
+        WaterGun waterGun1;
+        FlameGun flameGun2;
+        WaterGun waterGun2;
         
+        Altar altar1;
+        Altar altar2;
+        Altar altar3;
+        Altar altar4;
+        Altar altar5;
+
+        FireParticleEngine fireParticleEngine;
+      
+        #region Farseer fields
+        // Farseer Physics Engine fields
+
+        private World firehoseWorld;
+
+        private Body player1Body;
+        private Body player2Body;
+
+        private Body groundBody;
+
+        #endregion
+
+
         public FirehoseMain()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -39,11 +69,25 @@ namespace Firehose
         {
             // TODO: Add your initialization logic here
 
+            firehoseWorld = new World(new Vector2(0, 9.82f)); // defines the new world and it's gravitational constant
+
             player1 = new Player(50, 50, 50, 50);
-            flameGun = new FlameGun(10,10);
+            player2 = new Player(50, 50, 50, 50);
+
+            flameGun1 = new FlameGun(10, 10);
+            flameGun2 = new FlameGun(10, 10);
+
+            waterGun1 = new WaterGun(10, 10);
+            waterGun2 = new WaterGun(10, 10);
+
+            altar1 = new Altar();
+            altar2 = new Altar();
+            altar3 = new Altar();
+            altar4 = new Altar();
+            altar5 = new Altar();
+
 
             base.Initialize();
-
           
             controls = new Controls();
 
@@ -58,15 +102,17 @@ namespace Firehose
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player1.LoadContent(this.Content);
-            flameGun.LoadContent(this.Content);
+            flameGun1.LoadContent(this.Content);
 
             // TODO: use this.Content to load your game content here
 
             List<Texture2D> fireTextures = new List<Texture2D>();
-          //  fireTextures.Add(Content.Load<Texture2D>("fire.png"));
+            fireTextures.Add(Content.Load<Texture2D>("fire.png"));
             fireTextures.Add(Content.Load<Texture2D>("fire1.png"));
             fireTextures.Add(Content.Load<Texture2D>("fire2.png"));
-            fireParticleEngine = new FireParticleEngine(fireTextures, new Vector2(flameGun.FlameGunLocationX, flameGun.FlameGunLocationY), new Vector2 (player1.PlayerLocationX, player1.PlayerLocationY));
+            
+            // the fireParticleEngine is what generates the water or fire particles
+            fireParticleEngine = new FireParticleEngine(fireTextures, new Vector2(flameGun1.FlameGunLocationX, flameGun1.FlameGunLocationY), new Vector2 (player1.PlayerLocationX, player1.PlayerLocationY));
 
         }
 
@@ -96,9 +142,12 @@ namespace Firehose
             //Up, down, left, right affect the coordinates of the sprite
 
             player1.Update(controls, gameTime);
-            flameGun.Update(player1, controls, gameTime, fireParticleEngine);
+            flameGun1.Update(player1, controls, gameTime, fireParticleEngine);
+            waterGun1.Update(player1, controls, gameTime, waterParticleEngine);
 
-            
+            player2.Update(controls, gameTime);
+            flameGun2.Update(player2, controls, gameTime, fireParticleEngine);
+            waterGun2.Update(player1, controls, gameTime, waterParticleEngine);
                
           
 
@@ -115,9 +164,17 @@ namespace Firehose
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            
             player1.Draw(spriteBatch);
-            flameGun.Draw(spriteBatch);
+            player2.Draw(spriteBatch);
+            
+            flameGun1.Draw(spriteBatch);
+            flameGun2.Draw(spriteBatch);
+            waterGun1.Draw(spriteBatch);
+            waterGun2.Draw(spriteBatch);
+
             fireParticleEngine.Draw(spriteBatch);
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

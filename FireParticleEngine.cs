@@ -16,7 +16,7 @@ namespace Firehose
         private Random fireRandom;
         public Vector2 FireEmitterLocation { get; set; }
         public Vector2 PlayerLocation { get; set; }
-        private List<FireParticle> fireParticles;
+        private List<Particle> fireParticles;
         private List<Texture2D> fireTextures;
         
 
@@ -25,11 +25,11 @@ namespace Firehose
             FireEmitterLocation = fireLocation;
             PlayerLocation = playerLocation;
             this.fireTextures = fireTextures;
-            this.fireParticles = new List<FireParticle>();
+            this.fireParticles = new List<Particle>();
             fireRandom = new Random();
         }
 
-        private FireParticle GenerateNewFireParticle()
+        private Particle GenerateNewFireParticle()
         {
             Texture2D fireTexture = fireTextures[fireRandom.Next(fireTextures.Count)];
             Vector2 firePosition = FireEmitterLocation;
@@ -43,7 +43,7 @@ namespace Firehose
             float fireSize = (float)fireRandom.NextDouble();
             int fireTTL = 20 + fireRandom.Next(40);
 
-            return new FireParticle(fireTexture, firePosition, fireVelocity, fireAngle, fireAngularVelocity, fireColor, fireSize, fireTTL);
+            return new Particle(fireTexture, firePosition, fireVelocity, fireAngle, fireAngularVelocity, fireColor, fireSize, fireTTL);
         }
 
         public void Update(Boolean isFiringFlame)

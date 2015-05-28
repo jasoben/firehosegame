@@ -35,7 +35,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FireParticle.cs" />
+    <Compile Include="Altar.cs" />
+    <Compile Include="Particle.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="FirehoseMain.cs" />
     <Compile Include="FireParticleEngine.cs" />
@@ -44,8 +45,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprite.cs" />
+    <Compile Include="WaterGun.cs" />
+    <Compile Include="WaterParticleEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FarseerPhysics MonoGame">
+      <HintPath>Farseer Physics Engine 3.5 Samples\Farseer Physics Engine 3.5\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>

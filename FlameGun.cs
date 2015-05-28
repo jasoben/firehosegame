@@ -13,7 +13,7 @@ namespace Firehose
 {
     class FlameGun : Sprite
     {
-        FireParticle fire;
+        Particle fire;
         
         public float degreeX = 60f;
         public float degreeY = 20f;
@@ -40,7 +40,7 @@ namespace Firehose
             sb.Draw(crossHairImage, new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight), Color.White);
         }
 
-        public void Update(Player player1, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine)
+        public void Update(Player currentPlayer, Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine)
         {
             this.spriteX = FlameGunLocationX = player1.PlayerLocationX + (int) degreeX;
             this.spriteY = FlameGunLocationY = player1.PlayerLocationY + (int) degreeY;
@@ -70,7 +70,7 @@ namespace Firehose
             degreeX = (float)Math.Cos((Math.PI / 180) * angle) * 60;
             degreeY = (float)Math.Sin((Math.PI / 180) * angle) * 60;
         }
-        private void FireFlame(Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine, Player player1, FlameGun flameGun)
+        private void FireFlame(Controls controls, GameTime gameTime, FireParticleEngine fireParticleEngine, Player player, FlameGun flameGun)
         {
             // Fire on button press
             if (controls.onPress(Keys.LeftControl, Buttons.B) || controls.isHeld(Keys.LeftControl, Buttons.B))
