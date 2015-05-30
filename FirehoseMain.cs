@@ -23,9 +23,12 @@ namespace Firehose
         #region Firehose fields
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         Player player1;
         Player player2;
+
         Controls controls;
+
         FlameGun flameGun1;
         WaterGun waterGun1;
         FlameGun flameGun2;
@@ -38,6 +41,9 @@ namespace Firehose
         Altar altar5;
 
         FireParticleEngine fireParticleEngine;
+        #endregion
+
+        
       
         #region Farseer fields
         // Farseer Physics Engine fields
@@ -55,6 +61,10 @@ namespace Firehose
         public FirehoseMain()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.IsFullScreen = true; 
+
             Content.RootDirectory = "Content";
 
         }
@@ -99,6 +109,8 @@ namespace Firehose
         /// </summary>
         protected override void LoadContent()
         {
+            
+            
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player1.LoadContent(this.Content);
@@ -132,6 +144,11 @@ namespace Firehose
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
+            //update the world physics
+
+            firehoseWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+            
             //set our keyboardstate tracker update can change the gamestate on every cycle
             controls.Update();
 

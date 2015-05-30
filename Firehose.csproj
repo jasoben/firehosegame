@@ -41,6 +41,7 @@
     <Compile Include="FirehoseMain.cs" />
     <Compile Include="FireParticleEngine.cs" />
     <Compile Include="FlameGun.cs" />
+    <Compile Include="PhysicsObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

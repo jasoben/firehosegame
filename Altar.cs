@@ -14,7 +14,7 @@ using FarseerPhysics.Dynamics;
 
 namespace Firehose
 {
-    class Altar
+    class Altar : Sprite
     {
         public Altar()
         {

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Storage;
 
 namespace Firehose
 {
-	class Player : Sprite
+	class Player : PhysicsObject
     {
 		private bool moving;
 		private bool grounded;
@@ -26,8 +26,9 @@ namespace Firehose
         public int PlayerLocationX { get; set; }
         public int PlayerLocationY { get; set; }
 
+        protected PhysicsObject physObj; 
         
-        public Player(int x, int y, int width, int height)
+        public Player(int x, int y, int width, int height, PhysicsObject physObj)
         {
             this.spriteX = x;
             this.spriteY = y;
@@ -46,6 +47,11 @@ namespace Firehose
 			x_vel = 0;
 			y_vel = 0;
 			movedX = 0;
+
+            //Physics Object
+            this.physObj = physObj;
+
+
         }
 
         public int getX(){

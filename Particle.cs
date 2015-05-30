@@ -17,7 +17,7 @@ namespace Firehose
     /// <summary>
     /// This class defines what the fire particle looks like and what it does
     /// </summary>
-    public class Particle : Game
+    public class Particle : PhysicsObject
     {
                 
 
