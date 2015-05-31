@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FireHoseTake2(DirectX)")]
-[assembly: AssemblyProduct("FireHoseTake2(DirectX)")]
+[assembly: AssemblyTitle("FireHoseTake2_DirectX_(DirectX)")]
+[assembly: AssemblyProduct("FireHoseTake2_DirectX_(DirectX)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]

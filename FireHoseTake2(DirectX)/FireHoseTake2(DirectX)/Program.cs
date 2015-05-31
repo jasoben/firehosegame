@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 {
 #if WINDOWS || LINUX
     /// <summary>

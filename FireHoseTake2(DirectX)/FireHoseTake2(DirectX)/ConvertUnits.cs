@@ -5,7 +5,7 @@
 
 using Microsoft.Xna.Framework;
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 
 {
     /// <summary>

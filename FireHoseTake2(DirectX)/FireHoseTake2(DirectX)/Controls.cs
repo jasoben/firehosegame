@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Storage;
 using Tao.Sdl; 
 
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 {
 	public class Controls
 	{

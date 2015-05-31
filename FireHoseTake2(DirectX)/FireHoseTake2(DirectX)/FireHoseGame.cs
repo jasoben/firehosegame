@@ -16,7 +16,7 @@ using Tao.Sdl;
 
 #endregion
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 {
     /// <summary>
     /// This is the main type for your game
@@ -28,7 +28,11 @@ namespace FireHoseTake2
         Controls controls;
 
         World world;
-        
+
+        public World gameWorld
+        {
+            get { return world; }
+        }
         Body level;
 
         Player player1;
@@ -39,6 +43,11 @@ namespace FireHoseTake2
        
         Texture2D levelTexture;
         Texture2D waterTexture;
+
+        public Texture2D ParticleTexture
+        {
+            get { return waterTexture; }
+        }
 
         private Vector2 levelOrigin;
 
@@ -128,7 +137,7 @@ namespace FireHoseTake2
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             
 
-            waterTexture = Content.Load<Texture2D>("waterdrop.png");
+            
             levelTexture = Content.Load<Texture2D>("level.png");
 
             screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);

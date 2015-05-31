@@ -12,3 +12,5 @@ F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Content\fire1.png
 F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\Content\fire2.png
 F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll
 F:\Monogame Temp\Firehose\bin\WindowsGL\Debug\FarseerPhysics MonoGame.pdb
+F:\Monogame Temp\Firehose\FirehoseTake1\obj\x86\Debug\Firehose.exe
+F:\Monogame Temp\Firehose\FirehoseTake1\obj\x86\Debug\Firehose.pdb

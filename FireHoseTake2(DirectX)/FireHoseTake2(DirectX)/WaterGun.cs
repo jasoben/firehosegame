@@ -15,7 +15,7 @@ using FarseerPhysics.Dynamics.Contacts;
 
 #endregion
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 {
     class WaterGun
     {
@@ -23,36 +23,64 @@ namespace FireHoseTake2
         //Player player;
         public Vector2 PlayerPosition;
         Texture2D waterGunTexture;
-        WaterDrop waterDrop; 
+        Texture2D waterDropTexture; 
+        ParticleEngine waterParticleEngine;
 
-        public WaterGun(Player player, Vector2 playerPosition)
+        World world;
+
+        public bool isFiring = false;
+
+        public WaterGun(Player player, Vector2 playerPosition, World world)
         {
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             PlayerPosition = playerPosition;
+
+            this.world = world;
+            
             
         }
 
         public void LoadContent(ContentManager content)
         {
             waterGunTexture = content.Load<Texture2D>("waterdrop.png");
-
+            waterDropTexture = content.Load<Texture2D>("waterdrop.png");
+            waterParticleEngine = new ParticleEngine(world, waterDropTexture, PlayerPosition, PlayerPosition);
+                
         }
 
         public void Update(Vector2 playerPosition, Controls controls, List<Keys> playerControls)
         {
             PlayerPosition = playerPosition;
             BlastWater(controls, playerControls);
+            if (isFiring == false)
+            {
+                waterParticleEngine.Update(isFiring);
+            }
         }
 
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(waterGunTexture, ConvertUnits.ToDisplayUnits(PlayerPosition), null, Color.White);
+            waterParticleEngine.Draw(sb);
         }
 
         public void BlastWater(Controls controls, List<Keys> playerControls)
         {
-            if (controls.isHeld(playerControls[4], Buttons.LeftThumbstickRight))
-                waterDrop = new WaterDrop(PlayerPosition);
+            if (controls.onPress(playerControls[4], Buttons.X))
+            {
+                isFiring = true;
+                waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
+                waterParticleEngine.PlayerLocation = PlayerPosition;
+                waterParticleEngine.Update(isFiring);
+            }
+            if (controls.onRelease(playerControls[4], Buttons.X))
+            {
+                isFiring = false;
+                waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
+                waterParticleEngine.PlayerLocation = PlayerPosition;
+                waterParticleEngine.Update(isFiring);
+            }
+
         }
     }
 }

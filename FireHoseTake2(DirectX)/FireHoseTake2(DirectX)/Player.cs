@@ -16,7 +16,7 @@ using Tao.Sdl;
 
 #endregion
 
-namespace FireHoseTake2
+namespace FireHoseTake2_DirectX_
 {
     class Player
     {
@@ -30,7 +30,7 @@ namespace FireHoseTake2
         public Player(Vector2 playerStartPosition, World world)
         {
 
-           ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
 
             Vector2 playerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
             
@@ -40,7 +40,7 @@ namespace FireHoseTake2
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
 
-            waterGun = new WaterGun(this, playerPosition);
+            waterGun = new WaterGun(this, playerPosition, world);
             
 
         }
@@ -80,7 +80,7 @@ namespace FireHoseTake2
             if (controls.onPress(playerControls[2], Buttons.A))
                 playerBody.ApplyLinearImpulse(new Vector2(0, -4));
             //} else {
-            if (controls.isHeld(playerControls[3], Buttons.X))
+            if (controls.isHeld(playerControls[3], Buttons.B))
                 playerBody.ApplyForce(new Vector2(0, -20f));
 
             if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp))
