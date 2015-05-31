@@ -25,6 +25,8 @@ namespace FireHoseTake2
         Vector2 playerOrigin;
         WaterGun waterGun;
 
+        Vector2 flyDirection;
+
         public Player(Vector2 playerStartPosition, World world)
         {
 
@@ -80,6 +82,15 @@ namespace FireHoseTake2
             //} else {
             if (controls.isHeld(playerControls[3], Buttons.X))
                 playerBody.ApplyForce(new Vector2(0, -20f));
+
+            if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp))
+            {
+                flyDirection = controls.Fly();
+                flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
+                playerBody.ApplyForce(flyDirection);
+            }
+            
+           
             //}
 
         }

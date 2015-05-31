@@ -65,22 +65,29 @@ namespace FireHoseTake2
 				(gp.IsButtonDown(button) && gpo.IsButtonDown(button));
 		}
 
-        public Vector2 isThumbStick(int thumbStickX, int thumbStickY)
+        public bool isThumbStick(Buttons button)
         {
-           
-            float maxSpeed = 1f;
-            float scale = maxSpeed * 10;
 
-            float rawThumbStickX = gp.ThumbSticks.Right.X * maxSpeed * 100;
-            float rawThumbStickY = gp.ThumbSticks.Right.Y * maxSpeed * 100;
-
-            thumbStickX = (int)rawThumbStickX;
-            thumbStickY = (int)rawThumbStickY;
-
-            return new Vector2(thumbStickX, thumbStickY); 
-
+            return (gp.IsButtonDown(button) && gpo.IsButtonDown(button));
+            
         }
-                
+
+        public Vector2 Fly()
+        {
+            float maxSpeed = 30f;
+                        
+            float rawThumbStickX = gp.ThumbSticks.Right.X * maxSpeed;
+            float rawThumbStickY = gp.ThumbSticks.Right.Y * maxSpeed;
+
+            int thumbStickX = (int)rawThumbStickX;
+            int thumbStickY = (int)rawThumbStickY;
+
+            Console.WriteLine(new Vector2(thumbStickX, thumbStickY));
+
+            return new Vector2(thumbStickX, thumbStickY);
+
+            
+        }
 
 	
 	}

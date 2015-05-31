@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Tao.Sdl; 
 
 
 namespace FireHoseTake2
@@ -31,6 +32,8 @@ namespace FireHoseTake2
 			gpo = gp;
 			kb = Keyboard.GetState();
 			this.gp = GamePad.GetState(PlayerIndex.One);
+
+            
 		}
 
 		public bool isPressed(Keys key, Buttons button)
@@ -61,6 +64,24 @@ namespace FireHoseTake2
 			return (kb.IsKeyDown(key) && kbo.IsKeyDown(key)) ||
 				(gp.IsButtonDown(button) && gpo.IsButtonDown(button));
 		}
+
+        public Vector2 isThumbStick(int thumbStickX, int thumbStickY)
+        {
+           
+            float maxSpeed = 1f;
+            float scale = maxSpeed * 10;
+
+            float rawThumbStickX = gp.ThumbSticks.Right.X * maxSpeed * 100;
+            float rawThumbStickY = gp.ThumbSticks.Right.Y * maxSpeed * 100;
+
+            thumbStickX = (int)rawThumbStickX;
+            thumbStickY = (int)rawThumbStickY;
+
+            return new Vector2(thumbStickX, thumbStickY); 
+
+        }
+                
+
 	
 	}
 }

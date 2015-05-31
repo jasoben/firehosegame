@@ -34,3 +34,4 @@ F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.Properties.R
 F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.csproj.GenerateResource.Cache
 F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.exe
 F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.pdb
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Tao.Sdl.dll
