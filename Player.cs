@@ -40,7 +40,7 @@ namespace Firehose
 			pushing = false;
             
 			// Movement
-			speed = 5;
+			speed = 15;
 			friction = .15;
 			x_accel = 0;
 			x_vel = 0;
