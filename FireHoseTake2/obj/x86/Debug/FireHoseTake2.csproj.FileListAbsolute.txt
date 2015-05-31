@@ -1,0 +1,36 @@
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\obj\x86\Debug\FireHoseTake2.csprojResolveAssemblyReference.cache
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\SDL.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Controls.cs
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.exe
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.pdb
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Lidgren.Network.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\MonoGame.Framework.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\OpenTK.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Tao.Sdl.dll
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\FarseerPhysics MonoGame.pdb
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\obj\x86\Debug\FireHoseTake2.exe
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\obj\x86\Debug\FireHoseTake2.pdb
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Content\dude.png
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Content\level.png
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\Content\waterdrop.png
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.exe.config
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\obj\x86\Debug\FireHoseTake2.Properties.Resources.resources
+C:\Users\jcb2h\Documents\Visual Studio 2013\Projects\FireHoseTake2\FireHoseTake2\obj\x86\Debug\FireHoseTake2.csproj.GenerateResource.Cache
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.exe.config
+F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.exe
+F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.pdb
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Content\dude.png
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Content\level.png
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Content\waterdrop.png
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Controls.cs
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\Lidgren.Network.dll
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\MonoGame.Framework.dll
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\OpenTK.dll
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FarseerPhysics MonoGame.pdb
+F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.csprojResolveAssemblyReference.cache
+F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.Properties.Resources.resources
+F:\Monogame Temp\Firehose\FireHoseTake2\obj\x86\Debug\FireHoseTake2.csproj.GenerateResource.Cache
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.exe
+F:\Monogame Temp\Firehose\FireHoseTake2\bin\WindowsGL\Debug\FireHoseTake2.pdb
