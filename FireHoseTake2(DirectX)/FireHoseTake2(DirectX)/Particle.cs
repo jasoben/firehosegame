@@ -19,11 +19,9 @@ namespace FireHoseTake2_DirectX_
     class Particle
     {
 
-        Body particleBody;
-        World world;
-
         public Texture2D ParticleTexture { get; set; }
         public Vector2 ParticlePosition { get; set; }
+        public Vector2 ParticleVelocity { get; set; }
         
         //public float FireAngle { get; set; }
         //public float FireAngularVelocity { get; set; }
@@ -31,41 +29,33 @@ namespace FireHoseTake2_DirectX_
         public float ParticleSize { get; set; }
         public int ParticleTTL { get; set; }
 
-        public Particle(World world, Texture2D particleTexture, Vector2 particlePosition, Color particleColor, float particleSize, int particleTTL)
+        public Particle(Texture2D particleTexture, Vector2 particlePosition, Vector2 particleVelocity, Color particleColor, float particleSize, int particleTTL)
         {
-            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
 
-            ParticlePosition = particlePosition;
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+            ParticlePosition = ConvertUnits.ToDisplayUnits(particlePosition);
             ParticleTexture = particleTexture;
             ParticleColor = particleColor;
             ParticleSize = particleSize;
             ParticleTTL = particleTTL;
-            this.world = world;
-
-            ParticlePosition  = ConvertUnits.ToSimUnits(ParticlePosition + new Vector2(0, 1.25f));
-
-            particleBody = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(2f), 20f, ParticlePosition);
-            particleBody.BodyType = BodyType.Dynamic;
-
-            particleBody.Restitution = .3f;
-            particleBody.Friction = .5f;
-
-            //particleBody.ApplyForce(new Vector2(100, 0));
-
-            
+            ParticleVelocity = new Vector2(particleVelocity.X, -1 * particleVelocity.Y);
+            ParticleVelocity = ParticleVelocity / 5;
         }
 
         public void Update()
         {
             ParticleTTL--;
-
-
+            ParticlePosition += ParticleVelocity;
+            
         }
 
         
         public void Draw(SpriteBatch particleSB)
         {
-            particleSB.Draw(ParticleTexture, ConvertUnits.ToDisplayUnits(ParticlePosition), null, Color.White); 
+            Rectangle sourceRectangle = new Rectangle(0, 0, ParticleTexture.Width, ParticleTexture.Height);
+            Vector2 origin = new Vector2(ParticleTexture.Width / 2, ParticleTexture.Height / 2);
+            particleSB.Draw(ParticleTexture, ParticlePosition, sourceRectangle, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
+           
         }
     }
 }

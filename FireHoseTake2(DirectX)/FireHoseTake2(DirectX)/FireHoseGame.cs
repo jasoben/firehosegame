@@ -38,8 +38,12 @@ namespace FireHoseTake2_DirectX_
         Player player1;
         Player player2;
 
-        public List<Keys> Player1Controls;
-        public List<Keys> Player2Controls;
+        public List<Keys> Player1KeyControls;
+        public List<Keys> Player2KeyControls;
+        
+        public List<Buttons> Player1ButtonControls;
+        public List<Buttons> Player2ButtonControls;
+
        
         Texture2D levelTexture;
         Texture2D waterTexture;
@@ -112,14 +116,23 @@ namespace FireHoseTake2_DirectX_
 
             controls = new Controls();
 
-            Player1Controls = new List<Keys>() 
+            Player1KeyControls = new List<Keys>() 
             {
                 Keys.A, Keys.D, Keys.Space, Keys.W, Keys.F
             };
-            Player2Controls = new List<Keys>() 
+            Player2KeyControls = new List<Keys>() 
             {
                 Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
             };
+
+            //Player1ButtonControls = new List<Buttons>() 
+            //{
+            //    Buttons.A, Buttons.B, Buttons.X, Buttons.Y, Buttons.LeftThumb
+            //};
+            //Player2ButtonControls = new List<Buttons>() 
+            //{
+            //    Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
+            //};
 
 
             base.Initialize();
@@ -188,8 +201,8 @@ namespace FireHoseTake2_DirectX_
 
             controls.Update();
 
-            player1.Update(controls, gameTime, Player1Controls);
-            player2.Update(controls, gameTime, Player2Controls);
+            player1.Update(controls, gameTime, Player1KeyControls);
+            player2.Update(controls, gameTime, Player2KeyControls);
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 

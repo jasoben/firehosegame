@@ -34,7 +34,7 @@ namespace FireHoseTake2_DirectX_
 
             Vector2 playerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
             
-            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(20 / 2f), ConvertUnits.ToSimUnits(20 / 2f), 50f, playerPosition);
+            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
             playerBody.BodyType = BodyType.Dynamic;
 
             playerBody.Restitution = .3f;
@@ -62,7 +62,7 @@ namespace FireHoseTake2_DirectX_
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(playerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.White, playerBody.Rotation, playerOrigin, 1f, SpriteEffects.None, 0f);
+            sb.Draw(playerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.White, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
             waterGun.Draw(sb);
         }
 
@@ -83,7 +83,7 @@ namespace FireHoseTake2_DirectX_
             if (controls.isHeld(playerControls[3], Buttons.B))
                 playerBody.ApplyForce(new Vector2(0, -20f));
 
-            if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp))
+            if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
             {
                 flyDirection = controls.Fly();
                 flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
@@ -97,14 +97,14 @@ namespace FireHoseTake2_DirectX_
 
         public void LimitVelocity()
         {
-            if (playerBody.LinearVelocity.X > 1)
-            {
-                playerBody.LinearVelocity = new Vector2(1, playerBody.LinearVelocity.Y);
-            }
-            if (playerBody.LinearVelocity.X < -1)
-            {
-                playerBody.LinearVelocity = new Vector2(-1, playerBody.LinearVelocity.Y);
-            }
+            //if (playerBody.LinearVelocity.X > 1)
+            //{
+            //    playerBody.LinearVelocity = new Vector2(1, playerBody.LinearVelocity.Y);
+            //}
+            //if (playerBody.LinearVelocity.X < -1)
+            //{
+            //    playerBody.LinearVelocity = new Vector2(-1, playerBody.LinearVelocity.Y);
+            //}
         }
     }
 }

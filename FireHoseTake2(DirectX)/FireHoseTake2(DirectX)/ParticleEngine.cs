@@ -20,31 +20,33 @@ namespace FireHoseTake2_DirectX_
     class ParticleEngine
     {
         public Vector2 ParticleEmitterLocation { get; set; }
-        public Vector2 PlayerLocation { get; set; }
+        public Vector2 ParticleEmitterVelocity { get; set; }
         private List<Particle> particles;
         private Texture2D particleTexture;
-        World world;
+        
 
-        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 playerLocation)
+        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation)
         {
             ParticleEmitterLocation = particleEmitterLocation;
-            PlayerLocation = playerLocation;
+            //ParticleEmitterVelocity = particleVelocity;
+            //PlayerLocation = playerLocation;
             this.particleTexture = particleTexture;
             this.particles = new List<Particle>();
-            this.world = world;
+            
         }
 
         private Particle GenerateNewParticle()
         {
             Texture2D theParticleTexture = particleTexture;
-
+            
             Vector2 particleLocation  = ParticleEmitterLocation;
+            Vector2 particleVelocity = ParticleEmitterVelocity;
             
             Color particleColor = new Color(255, 255, 255);
-            float particleSize = 2f;
+            float particleSize = .2f;
             int particleTTL = 20;
 
-            return new Particle(world, theParticleTexture, particleLocation, particleColor, particleSize, particleTTL);
+            return new Particle(theParticleTexture, particleLocation, particleVelocity, particleColor, particleSize, particleTTL);
         }
 
         public void Update(Boolean isFiring)
@@ -53,6 +55,7 @@ namespace FireHoseTake2_DirectX_
 
             if (isFiring == true)
             {
+                
                 for (int i = 0; i < particleTotal; i++)
                 {
                     particles.Add(GenerateNewParticle());

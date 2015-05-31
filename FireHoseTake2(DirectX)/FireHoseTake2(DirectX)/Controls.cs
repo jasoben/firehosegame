@@ -74,7 +74,7 @@ namespace FireHoseTake2_DirectX_
 
         public Vector2 Fly()
         {
-            float maxSpeed = 30f;
+            float maxSpeed = 20f;
                         
             float rawThumbStickX = gp.ThumbSticks.Right.X * maxSpeed;
             float rawThumbStickY = gp.ThumbSticks.Right.Y * maxSpeed;
@@ -82,9 +82,7 @@ namespace FireHoseTake2_DirectX_
             int thumbStickX = (int)rawThumbStickX;
             int thumbStickY = (int)rawThumbStickY;
 
-            Console.WriteLine(new Vector2(thumbStickX, thumbStickY));
-
-            return new Vector2(thumbStickX, thumbStickY);
+           return new Vector2(thumbStickX, thumbStickY);
 
             
         }
