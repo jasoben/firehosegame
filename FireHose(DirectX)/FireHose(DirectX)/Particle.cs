@@ -22,7 +22,9 @@ namespace FireHose_DirectX_
         public Texture2D ParticleTexture { get; set; }
         public Vector2 ParticlePosition { get; set; }
         public Vector2 ParticleVelocity { get; set; }
-        
+        public Rectangle SourceRectangle;
+        public Rectangle FlyingRectangle;
+
         //public float FireAngle { get; set; }
         //public float FireAngularVelocity { get; set; }
         public Color ParticleColor { get; set; }
@@ -40,22 +42,35 @@ namespace FireHose_DirectX_
             ParticleTTL = particleTTL;
             ParticleVelocity = new Vector2(particleVelocity.X, -1 * particleVelocity.Y);
             ParticleVelocity = ParticleVelocity / 5;
+            SourceRectangle = new Rectangle(0, 0, ParticleTexture.Width, ParticleTexture.Height);
+            FlyingRectangle = SourceRectangle;
+            FlyingRectangle.Width = 50;
+            FlyingRectangle.Height = 50;
+
         }
 
         public void Update()
         {
             ParticleTTL--;
             ParticlePosition += ParticleVelocity;
+
+            FlyingRectangle.X = (int)ParticlePosition.X;
+            FlyingRectangle.Y += (int)ParticlePosition.Y;
             
         }
 
         
         public void Draw(SpriteBatch particleSB)
         {
-            Rectangle sourceRectangle = new Rectangle(0, 0, ParticleTexture.Width, ParticleTexture.Height);
             Vector2 origin = new Vector2(ParticleTexture.Width / 2, ParticleTexture.Height / 2);
-            particleSB.Draw(ParticleTexture, ParticlePosition, sourceRectangle, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
+            particleSB.Draw(ParticleTexture, ParticlePosition, SourceRectangle, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
            
         }
+
+        public Rectangle GetRectangle() 
+        {
+            return FlyingRectangle;
+            
+        }   
     }
 }

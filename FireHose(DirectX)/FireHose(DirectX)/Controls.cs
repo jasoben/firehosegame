@@ -101,7 +101,7 @@ namespace FireHose_DirectX_
             
         }
 
-        public Vector2 Fly()
+        public Vector2 FlyFire()
         {
             float maxSpeed = 20f;
                         
@@ -114,6 +114,20 @@ namespace FireHose_DirectX_
            return new Vector2(thumbStickX, thumbStickY);
 
             
+        }
+        public Vector2 FlyWater()
+        {
+            float maxSpeed = 15f;
+
+            float rawThumbStickX = gp.ThumbSticks.Left.X * maxSpeed;
+            float rawThumbStickY = gp.ThumbSticks.Left.Y * maxSpeed;
+
+            int thumbStickX = (int)rawThumbStickX;
+            int thumbStickY = (int)rawThumbStickY;
+
+            return new Vector2(thumbStickX, thumbStickY);
+
+
         }
 
 	

@@ -39,6 +39,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionDetector.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="FireGun.cs" />

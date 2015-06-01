@@ -50,7 +50,7 @@ namespace FireHose_DirectX_
         {
             waterGunTexture = content.Load<Texture2D>("watergun.png");
             waterDropTexture = content.Load<Texture2D>("particle.png");
-            waterParticleEngine = new ParticleEngine(world, waterDropTexture, PlayerPosition, Color.Orange);
+            waterParticleEngine = new ParticleEngine(world, waterDropTexture, PlayerPosition, Color.Blue);
                 
         }
 
@@ -63,7 +63,7 @@ namespace FireHose_DirectX_
                 waterParticleEngine.Update(isFiring);
             }
 
-            GunOrigin = controls.Fly() * 10;
+            GunOrigin = controls.FlyWater() * 10;
             GunOrigin = new Vector2(GunOrigin.X, -1 * GunOrigin.Y);
             GunRotation = (float)(Math.Atan2(GunOrigin.Y, GunOrigin.X));
 
@@ -80,23 +80,26 @@ namespace FireHose_DirectX_
 
         public void BlastWater(Controls controls, List<Keys> playerControls)
         {
-            if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
+            if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
             {
-               isFiring = true;
-                waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
-                waterParticleEngine.ParticleEmitterVelocity = controls.Fly();
-                waterParticleEngine.Update(isFiring);
-                
-                
-            } else         
-            {
-                isFiring = false;
-                waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
-                waterParticleEngine.ParticleEmitterVelocity = controls.Fly();
-                waterParticleEngine.Update(isFiring);
-                
-            }
+                if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
+                {
+                    isFiring = true;
+                    waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
+                    waterParticleEngine.ParticleEmitterVelocity = controls.FlyWater();
+                    waterParticleEngine.Update(isFiring);
 
+
+                }
+                else
+                {
+                    isFiring = false;
+                    waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
+                    waterParticleEngine.ParticleEmitterVelocity = controls.FlyWater();
+                    waterParticleEngine.Update(isFiring);
+
+                }
+            }
         }
     }
 }

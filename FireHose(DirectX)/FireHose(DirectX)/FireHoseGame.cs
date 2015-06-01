@@ -44,7 +44,24 @@ namespace FireHose_DirectX_
         Texture2D levelTexture;
         
         public Texture2D ParticleTexture;
-        
+
+        CollisionDetector Player1CollisionDetector;
+        CollisionDetector Player2CollisionDetector;
+
+        public Rectangle Player1Rectangle;
+        public Rectangle Player2Rectangle;
+
+        public List<Rectangle> Player1FireRectangles;
+        public List<Rectangle> Player2FireRectangles;
+
+        public bool Player1Damaged;
+        public bool Player2Damaged;
+
+        public int PlayerDamageMeter;
+        public int Player1DamageMeter;
+        public int Player2DamageMeter;
+
+
         private Vector2 levelOrigin;
 
         public Vector2 LevelOrigin
@@ -85,7 +102,7 @@ namespace FireHose_DirectX_
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1800;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferHeight = 900;
 
             Content.RootDirectory = "Content";
 
@@ -133,6 +150,10 @@ namespace FireHose_DirectX_
             //    Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
             //};
 
+            Player1CollisionDetector = new CollisionDetector();
+            Player2CollisionDetector = new CollisionDetector();
+            Player1DamageMeter = 0;
+            Player2DamageMeter = 0;
 
             base.Initialize();
         }
@@ -204,12 +225,25 @@ namespace FireHose_DirectX_
             Controls[2].Update();
 
             player1.Update(Controls[1], gameTime, Player1KeyControls);
-            player2.Update(Controls[2], gameTime, Player2KeyControls);
+            player2.Update(Controls[2], gameTime, Player1KeyControls);
+
+            Player1FireRectangles = player1.GetFireRectangles();
+            Player2FireRectangles = player2.GetFireRectangles();
+            Player1Rectangle = player1.GetPlayerRectangle();
+            Player2Rectangle = player2.GetPlayerRectangle();
+
+            Player2Damaged = Player1CollisionDetector.CheckCollided(Player1FireRectangles, Player2Rectangle);
+            Player1Damaged = Player2CollisionDetector.CheckCollided(Player2FireRectangles, Player1Rectangle);
+
+            Player1DamageMeter = CheckDamage(Player1Damaged, player1, Player1DamageMeter);
+            Player2DamageMeter = CheckDamage(Player2Damaged, player2, Player2DamageMeter);
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
+            Console.WriteLine(Mouse.GetState().Position);
             base.Update(gameTime);
 
+           
             
             
              
@@ -239,6 +273,31 @@ namespace FireHose_DirectX_
             base.Draw(gameTime);
         }
 
+        private int CheckDamage(bool playerDamage, Player player, int playerDamageMeter)
+        {
+            PlayerDamageMeter = playerDamageMeter;
+
+            if (playerDamage == true)
+            {
+                player.PlayerColor = Color.Orange;
+                PlayerDamageMeter++;
+            }
+            else
+            {
+                player.PlayerColor = Color.White;
+            }
+
+            if (PlayerDamageMeter > 10)
+            {
+                player.Restart(player.PlayerStartPosition, world);
+                PlayerDamageMeter = 0;
+            }
+
+
+
+            return PlayerDamageMeter;
+
+        }
         
 
         
