@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Controls.cs" />
     <Compile Include="ConvertUnits.cs" />
+    <Compile Include="FireGun.cs" />
     <Compile Include="FireHoseGame.cs" />
     <Compile Include="ParticleEngine.cs" />
     <Compile Include="Player.cs" />
@@ -70,13 +71,16 @@
     <Content Include="Content\dude.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\gun.png">
+    <Content Include="Content\firegun.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\watergun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\level.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\waterdrop.png">
+    <Content Include="Content\particle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

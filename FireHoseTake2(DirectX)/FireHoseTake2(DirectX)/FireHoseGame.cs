@@ -25,7 +25,7 @@ namespace FireHoseTake2_DirectX_
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Controls controls;
+        public List<Controls> Controls;
 
         World world;
 
@@ -40,19 +40,11 @@ namespace FireHoseTake2_DirectX_
 
         public List<Keys> Player1KeyControls;
         public List<Keys> Player2KeyControls;
-        
-        public List<Buttons> Player1ButtonControls;
-        public List<Buttons> Player2ButtonControls;
-
-       
+               
         Texture2D levelTexture;
-        Texture2D waterTexture;
-
-        public Texture2D ParticleTexture
-        {
-            get { return waterTexture; }
-        }
-
+        
+        public Texture2D ParticleTexture;
+        
         private Vector2 levelOrigin;
 
         public Vector2 LevelOrigin
@@ -114,12 +106,19 @@ namespace FireHoseTake2_DirectX_
         {
             // TODO: Add your initialization logic here
 
-            controls = new Controls();
+            List<Controls> controls = new List<Controls>(); 
+            controls.Add(new Controls(1));
+            controls.Add(new Controls(1));
+            controls.Add(new Controls(2));
+
+            Controls = controls; 
 
             Player1KeyControls = new List<Keys>() 
             {
                 Keys.A, Keys.D, Keys.Space, Keys.W, Keys.F
             };
+
+           
             Player2KeyControls = new List<Keys>() 
             {
                 Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
@@ -166,10 +165,10 @@ namespace FireHoseTake2_DirectX_
             level.Restitution = .3f;
             level.Friction = .5f;
 
-            player1 = new Player(Player1StartPosition, world);
+            player1 = new Player(Player1StartPosition, world, 1);
             player1.LoadContent(this.Content);
 
-            player2 = new Player(Player2StartPosition, world);
+            player2 = new Player(Player2StartPosition, world, 2);
             player2.LoadContent(this.Content);
 
             
@@ -198,11 +197,14 @@ namespace FireHoseTake2_DirectX_
 
             // TODO: Add your update logic here
 
+            
 
-            controls.Update();
+            
+            Controls[1].Update();
+            Controls[2].Update();
 
-            player1.Update(controls, gameTime, Player1KeyControls);
-            player2.Update(controls, gameTime, Player2KeyControls);
+            player1.Update(Controls[1], gameTime, Player1KeyControls);
+            player2.Update(Controls[2], gameTime, Player2KeyControls);
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 

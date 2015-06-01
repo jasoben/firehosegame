@@ -17,7 +17,7 @@ using FarseerPhysics.Dynamics.Contacts;
 
 namespace FireHoseTake2_DirectX_
 {
-    class WaterGun
+    class FireGun
     {
 
         //Player player;
@@ -27,8 +27,8 @@ namespace FireHoseTake2_DirectX_
         public Vector2 GunOrigin;
         public float GunRotation;
 
-        Texture2D waterGunTexture;
-        Texture2D waterDropTexture; 
+        Texture2D fireGunTexture;
+        Texture2D fireDropTexture; 
         ParticleEngine waterParticleEngine;
         
 
@@ -36,7 +36,7 @@ namespace FireHoseTake2_DirectX_
 
         public bool isFiring = false;
 
-        public WaterGun(Player player, Vector2 playerPosition, World world)
+        public FireGun(Player player, Vector2 playerPosition, World world)
         {
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             PlayerPosition = playerPosition;
@@ -48,9 +48,9 @@ namespace FireHoseTake2_DirectX_
 
         public void LoadContent(ContentManager content)
         {
-            waterGunTexture = content.Load<Texture2D>("watergun.png");
-            waterDropTexture = content.Load<Texture2D>("particle.png");
-            waterParticleEngine = new ParticleEngine(world, waterDropTexture, PlayerPosition, Color.Orange);
+            fireGunTexture = content.Load<Texture2D>("firegun.png");
+            fireDropTexture = content.Load<Texture2D>("particle.png");
+            waterParticleEngine = new ParticleEngine(world, fireDropTexture, PlayerPosition, Color.Orange);
                 
         }
 
@@ -74,7 +74,7 @@ namespace FireHoseTake2_DirectX_
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(waterGunTexture, ConvertUnits.ToDisplayUnits(PlayerPosition), null, Color.White, GunRotation, new Vector2 (0,0), .2f, SpriteEffects.None, 0f);
+            sb.Draw(fireGunTexture, ConvertUnits.ToDisplayUnits(PlayerPosition), null, Color.White, GunRotation, new Vector2 (0,0), .2f, SpriteEffects.None, 0f);
             waterParticleEngine.Draw(sb);
         }
 
@@ -82,9 +82,9 @@ namespace FireHoseTake2_DirectX_
         {
             if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
             {
-               isFiring = true;
+                isFiring = true;
                 waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
-                waterParticleEngine.ParticleEmitterVelocity = controls.Fly();
+                waterParticleEngine.ParticleEmitterVelocity = controls.Fly() * 2;
                 waterParticleEngine.Update(isFiring);
                 
                 
@@ -92,7 +92,7 @@ namespace FireHoseTake2_DirectX_
             {
                 isFiring = false;
                 waterParticleEngine.ParticleEmitterLocation = PlayerPosition;
-                waterParticleEngine.ParticleEmitterVelocity = controls.Fly();
+                waterParticleEngine.ParticleEmitterVelocity = controls.Fly() * 2;
                 waterParticleEngine.Update(isFiring);
                 
             }

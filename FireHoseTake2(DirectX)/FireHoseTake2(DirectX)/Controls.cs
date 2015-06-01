@@ -14,39 +14,68 @@ namespace FireHoseTake2_DirectX_
 	{
 		public KeyboardState kb;
 		public KeyboardState kbo;
-		public GamePadState gp;
+		
+        public GamePadState gp;
 		public GamePadState gpo;
 
-		public Controls()
+        public int PlayerNumber;
+
+        public Controls(int playerNumber)
 		{
 			this.kb = Keyboard.GetState();
 			this.kbo = Keyboard.GetState();
-			this.gp = GamePad.GetState(PlayerIndex.One);
-			this.gpo = GamePad.GetState(PlayerIndex.One);
+
+            PlayerNumber = playerNumber; 
+
+            if (PlayerNumber == 1)
+            {
+                this.gp = GamePad.GetState(PlayerIndex.One);
+                this.gpo = GamePad.GetState(PlayerIndex.One);
+
+
+            }
+            else if (PlayerNumber == 2)
+            {
+                this.gp = GamePad.GetState(PlayerIndex.Two);
+                this.gpo = GamePad.GetState(PlayerIndex.Two);
+
+            }
+
+            
 
 		}
-
+        
 		public void Update()
-		{
+		{ 
 			kbo = kb;
 			gpo = gp;
 			kb = Keyboard.GetState();
-			this.gp = GamePad.GetState(PlayerIndex.One);
+            
 
+            if (PlayerNumber == 1)
+            {
+                this.gp = GamePad.GetState(PlayerIndex.One);
+               
+
+              
+            } else if (PlayerNumber == 2)
+            {
+                this.gp = GamePad.GetState(PlayerIndex.Two);
+                
+                
+            }
             
 		}
 
+        
 		public bool isPressed(Keys key, Buttons button)
 		{
-			//Console.WriteLine (button);
 			return kb.IsKeyDown(key) || gp.IsButtonDown(button);
 		}
 
 		public bool onPress(Keys key, Buttons button)
 		{
-			if ((gp.IsButtonDown (button) && gpo.IsButtonUp (button))) {
-				Console.WriteLine (button);
-			}
+			
 			return (kb.IsKeyDown(key) && kbo.IsKeyUp(key)) ||
 				(gp.IsButtonDown(button) && gpo.IsButtonUp(button));
 		}
