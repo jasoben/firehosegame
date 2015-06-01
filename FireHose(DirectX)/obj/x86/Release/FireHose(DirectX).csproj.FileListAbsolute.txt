@@ -1,0 +1,33 @@
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Content\dude.png
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Content\firegun.png
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Content\watergun.png
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Content\level.png
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Content\particle.png
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\FireHose(DirectX).exe
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\FireHose(DirectX).pdb
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\FarseerPhysics MonoGame.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\MonoGame.Framework.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\Tao.Sdl.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.MediaFoundation.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.XAudio2.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct3D11.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.DXGI.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct2D1.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.XInput.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.RawInput.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct3D9.dll
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\FarseerPhysics MonoGame.pdb
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\MonoGame.Framework.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.MediaFoundation.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.XAudio2.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct3D11.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.DXGI.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct2D1.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.XInput.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.RawInput.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\bin\Windows\Release\SharpDX.Direct3D9.xml
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\obj\x86\Release\FireHose(DirectX).csprojResolveAssemblyReference.cache
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\obj\x86\Release\FireHose(DirectX).exe
+F:\Monogame Temp\Firehose\FireHose(DirectX)\FireHose(DirectX)\obj\x86\Release\FireHose(DirectX).pdb
