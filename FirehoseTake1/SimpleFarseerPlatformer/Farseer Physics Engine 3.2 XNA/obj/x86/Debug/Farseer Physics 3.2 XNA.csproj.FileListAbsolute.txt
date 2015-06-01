@@ -1,6 +1,0 @@
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\bin\x86\Debug\FarseerPhysicsXNA.dll
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\bin\x86\Debug\FarseerPhysicsXNA.pdb
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\obj\x86\Debug\FarseerPhysicsXNA.dll
-C:\Users\Travis\Documents\Visual Studio 2010\Projects\SimpleFarseerPlatformer\Farseer Physics Engine 3.2 XNA\obj\x86\Debug\FarseerPhysicsXNA.pdb
