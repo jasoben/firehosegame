@@ -17,7 +17,8 @@ namespace FireHose_DirectX_
 		
         public GamePadState gp;
 		public GamePadState gpo;
-
+        
+        //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls
         public int PlayerNumber;
 
         public Controls(int playerNumber)
@@ -25,44 +26,38 @@ namespace FireHose_DirectX_
 			this.kb = Keyboard.GetState();
 			this.kbo = Keyboard.GetState();
 
+            //set field to property
             PlayerNumber = playerNumber; 
+
+            //determine which player we want to pass the controls to, based on the method calls from that player object
+            //we need two gamepad states here, because one is passing the "Pressed" state, and the other is passing the "Released" state
+            //if we had only one, we couldn't have methods in this class to determine states like "isHeld" 
 
             if (PlayerNumber == 1)
             {
                 this.gp = GamePad.GetState(PlayerIndex.One);
                 this.gpo = GamePad.GetState(PlayerIndex.One);
-
-
             }
             else if (PlayerNumber == 2)
             {
                 this.gp = GamePad.GetState(PlayerIndex.Two);
                 this.gpo = GamePad.GetState(PlayerIndex.Two);
-
             }
-
-            
-
-		}
+        }
         
 		public void Update()
 		{ 
 			kbo = kb;
 			gpo = gp;
 			kb = Keyboard.GetState();
-            
 
+            //determine which player we want to pass the controls to, based on the method calls from that player object
             if (PlayerNumber == 1)
             {
                 this.gp = GamePad.GetState(PlayerIndex.One);
-               
-
-              
             } else if (PlayerNumber == 2)
             {
                 this.gp = GamePad.GetState(PlayerIndex.Two);
-                
-                
             }
             
 		}
@@ -73,6 +68,7 @@ namespace FireHose_DirectX_
 			return kb.IsKeyDown(key) || gp.IsButtonDown(button);
 		}
 
+        //the difference between isPressed and onPress is that onPress methods a full press instead of a tap
 		public bool onPress(Keys key, Buttons button)
 		{
 			
@@ -101,6 +97,8 @@ namespace FireHose_DirectX_
             
         }
 
+        //This method calculates the vector of flying when the player blasts fire
+        //TODO: maxSpeed actually controls the acceloration, not a real maxSpeed -- maybe rename it?
         public Vector2 FlyFire()
         {
             float maxSpeed = 20f;
@@ -111,10 +109,11 @@ namespace FireHose_DirectX_
             int thumbStickX = (int)rawThumbStickX;
             int thumbStickY = (int)rawThumbStickY;
 
-           return new Vector2(thumbStickX, thumbStickY);
-
-            
+            return new Vector2(thumbStickX, thumbStickY);
         }
+
+        //This method calculates the vector of flying when the player blasts water
+        //TODO: I see now that we might be able to control both with the same method
         public Vector2 FlyWater()
         {
             float maxSpeed = 15f;

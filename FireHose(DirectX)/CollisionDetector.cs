@@ -27,6 +27,8 @@ namespace FireHose_DirectX_
             
         }
 
+        //TODO: this method has to check for a whole list of rectangles although I'm re-thinking this and maybe don't need the list...
+
         public bool CheckCollided(List<Rectangle> rectangles, Rectangle rectangle2)
         {
             if (rectangles != null)

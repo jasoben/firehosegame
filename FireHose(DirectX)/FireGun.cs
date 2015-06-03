@@ -15,15 +15,17 @@ using FarseerPhysics.Dynamics.Contacts;
 
 #endregion
 
+
 namespace FireHose_DirectX_
 {
+    /// <summary>
+    /// This is the class for the flamethrower. 
+    /// </summary>
     class FireGun
     {
 
-        //Player player;
         public Vector2 PlayerPosition;
         
-
         public Vector2 GunOrigin;
         public float GunRotation;
 
@@ -31,11 +33,13 @@ namespace FireHose_DirectX_
         Texture2D fireDropTexture; 
         ParticleEngine fireParticleEngine;
 
+        //this list passes the particle rectangles down into the base class to check
         public List<Rectangle> FireRectangles; 
        
-
+        //world field to receive world from the base class
         World world;
 
+        //this property is to adjust the update for the particle emitter
         public bool isFiring = false;
 
         public FireGun(Player player, Vector2 playerPosition, World world)
@@ -50,6 +54,10 @@ namespace FireHose_DirectX_
         {
             fireGunTexture = content.Load<Texture2D>("firegun.png");
             fireDropTexture = content.Load<Texture2D>("particle.png");
+
+            //load the particle emitter object that activates when we fire
+            //note the color orange for fire!
+
             fireParticleEngine = new ParticleEngine(world, fireDropTexture, PlayerPosition, Color.Orange);
                 
         }
@@ -58,17 +66,20 @@ namespace FireHose_DirectX_
         {
             PlayerPosition = playerPosition;
             BlastFire(controls, playerControls);
+            
+            //this conditional continues to update the particles after we stop firing
             if (isFiring == false)
             {
                 fireParticleEngine.Update(isFiring);
+
+                //this gets all the rectangles of the particles that have been emitted and passes them to the list, which gets passed down to the base class
                 FireRectangles = fireParticleEngine.GetRectangles();
             }
 
+            //compute where to place the gun in relation to the body based on inputs (called down below)
             GunOrigin = controls.FlyFire() * 10;
             GunOrigin = new Vector2(GunOrigin.X, -1 * GunOrigin.Y);
             GunRotation = (float)(Math.Atan2(GunOrigin.Y, GunOrigin.X));
-
-            //testing
 
             
             
@@ -88,6 +99,8 @@ namespace FireHose_DirectX_
                 fireParticleEngine.ParticleEmitterLocation = PlayerPosition;
                 fireParticleEngine.ParticleEmitterVelocity = controls.FlyFire() * 2;
                 fireParticleEngine.Update(isFiring);
+                
+                //this gets all the rectangles of the particles that have been emitted and passes them to the list, which gets passed down to the base class
                 FireRectangles = fireParticleEngine.GetRectangles();
                 
             } else         
@@ -96,11 +109,14 @@ namespace FireHose_DirectX_
                 fireParticleEngine.ParticleEmitterLocation = PlayerPosition;
                 fireParticleEngine.ParticleEmitterVelocity = controls.FlyFire() * 2;
                 fireParticleEngine.Update(isFiring);
+
+                //this gets all the rectangles of the particles that have been emitted and passes them to the list, which gets passed down to the base class
                 FireRectangles = fireParticleEngine.GetRectangles();
             }
 
         }
 
+        //method called by player class to get particle rectangles and pass them down to the base class
         public List<Rectangle> GetRectangles()
         {
             return FireRectangles; 
