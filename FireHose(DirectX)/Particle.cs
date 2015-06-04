@@ -8,7 +8,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using FarseerPhysics.Factories;
 using FarseerPhysics.Collision;
+using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
@@ -24,6 +26,11 @@ namespace FireHose_DirectX_
         public Vector2 ParticleVelocity { get; set; }
         public Rectangle SourceRectangle;
 
+        public Body ParticleBody;
+        public World ThisWorld;
+        CircleShape particleCircle;
+        
+
         private Random randomDirection;
         private int r;
         
@@ -33,28 +40,38 @@ namespace FireHose_DirectX_
         public float ParticleSize { get; set; }
         public int ParticleTTL { get; set; }
 
-        public Particle(Texture2D particleTexture, Vector2 particlePosition, Vector2 particleVelocity, int particlePower, Color particleColor, float particleSize, int particleTTL)
+        public Particle(World world, Texture2D particleTexture, Vector2 particlePosition, Vector2 particleVelocity, int particlePower, Color particleColor, float particleSize, int particleTTL)
         {
+
+            randomDirection = new Random();
+            r = randomDirection.Next(-8, 8);
+            ThisWorld = world; 
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             ParticlePosition = ConvertUnits.ToDisplayUnits(particlePosition);
             ParticleTexture = particleTexture;
             ParticleColor = particleColor;
             ParticleSize = particleSize;
-            ParticleTTL = particleTTL;
-            
-            
             SourceRectangle = new Rectangle(0, 0, ParticleTexture.Width, ParticleTexture.Height);
-            randomDirection = new Random();
-            r = randomDirection.Next(-8, 8);
-
+            ParticleTTL = particleTTL + r;
             ParticleVelocity = (particleVelocity + new Vector2(r, r)) / particlePower;
+
+            particleCircle = new CircleShape(.2f, .05f);
+            ParticleBody = BodyFactory.CreateBody(ThisWorld);
+            Fixture particleFixture = ParticleBody.CreateFixture(particleCircle);
+            particleFixture.IsSensor = true;
+            particleFixture.Body.Enabled = false;
+            
+            
+            
+
         }
 
         public void Update()
         {
             ParticleTTL--;
             ParticlePosition += ParticleVelocity;
+            
 
         }
 
@@ -62,7 +79,7 @@ namespace FireHose_DirectX_
         public void Draw(SpriteBatch particleSB)
         {
             Vector2 origin = new Vector2(ParticleTexture.Width / 2, ParticleTexture.Height / 2);
-            particleSB.Draw(ParticleTexture, ParticlePosition, SourceRectangle, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
+            particleSB.Draw(ParticleTexture, ParticlePosition, null, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
            
         }
 

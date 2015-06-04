@@ -25,6 +25,7 @@ namespace FireHose_DirectX_
         private Texture2D particleTexture;
         public Color ParticleColor;
 
+        public World ThisWorld;
      
 
         public int ParticlePower;
@@ -39,7 +40,8 @@ namespace FireHose_DirectX_
             ParticleColor = particleColor;
             ParticlePower = particlePower;
             ParticleVelocity = particleVelocity;
-           
+            ThisWorld = world;
+       
         }
 
         private Particle GenerateNewParticle()
@@ -50,7 +52,7 @@ namespace FireHose_DirectX_
             float particleSize = .2f;
             int particleTTL = 30;
             
-            return new Particle(theParticleTexture, ParticleEmitterLocation, ParticleVelocity, ParticlePower, ParticleColor, particleSize, particleTTL);
+            return new Particle(ThisWorld, theParticleTexture, ParticleEmitterLocation, ParticleVelocity, ParticlePower, ParticleColor, particleSize, particleTTL);
         }
 
         public void Update(Boolean isFiring, Vector2 particleEmitterLocation, Vector2 particleVelocity)
@@ -74,8 +76,10 @@ namespace FireHose_DirectX_
                 particles[currentParticle].Update();
                 if (particles[currentParticle].ParticleTTL <= 0)
                 {
+                    particles[currentParticle].ParticleBody.Dispose();
                     particles.RemoveAt(currentParticle);
                     currentParticle--;
+
                 }
             }
 

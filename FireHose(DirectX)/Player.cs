@@ -50,7 +50,9 @@ namespace FireHose_DirectX_
             
             playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, PlayerPosition);
             playerBody.BodyType = BodyType.Dynamic;
-
+            //playerBody.CollisionCategories = Category.Cat1;
+            //playerBody.CollidesWith = Category.Cat1 | Category.Cat2;
+           
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
 

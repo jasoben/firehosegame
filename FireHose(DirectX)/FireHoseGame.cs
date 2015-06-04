@@ -147,6 +147,7 @@ namespace FireHose_DirectX_
             };
 
             this.IsMouseVisible = true;
+
             base.Initialize();
 
         }
@@ -250,6 +251,8 @@ namespace FireHose_DirectX_
                         
             base.Draw(gameTime);
         }
+
+        
 
     }
 }

@@ -40,7 +40,7 @@ namespace FireHose_DirectX_
 
         public Color ParticleColor;
 
-        World world;
+        public World ThisWorld;
 
         //this bool decides which gun to use
         public bool IsItFire;
@@ -51,9 +51,8 @@ namespace FireHose_DirectX_
         {
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             PlayerPosition = playerPosition;
-            
+            ThisWorld = world;
 
-            this.world = world;
             IsItFire = isItFire;
 
             if (IsItFire == true)
@@ -77,7 +76,7 @@ namespace FireHose_DirectX_
             waterGunTexture = content.Load<Texture2D>("watergun.png");
             particleTexture = content.Load<Texture2D>("particle.png");
 
-            particleEngine = new ParticleEngine(world, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor, ParticlePower);
+            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor, ParticlePower);
                 
         }
 
