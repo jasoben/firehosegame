@@ -23,8 +23,10 @@ namespace FireHose_DirectX_
         Body playerBody;
         Texture2D playerTexture;
         Vector2 playerOrigin;
-        FireGun fireGun;
-        WaterGun waterGun;
+        Gun fireGun;
+        Gun waterGun;
+
+        public String Location;
 
         Vector2 flyDirection;
         public Vector2 PlayerPosition;
@@ -44,20 +46,19 @@ namespace FireHose_DirectX_
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             
-            Vector2 playerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
+            PlayerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
             
-            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
+            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, PlayerPosition);
             playerBody.BodyType = BodyType.Dynamic;
 
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
 
-            fireGun = new FireGun(this, playerPosition, world);
-            waterGun = new WaterGun(this, playerPosition, world);
+            fireGun = new Gun(this, PlayerPosition, world, true);
+            waterGun = new Gun(this, PlayerPosition, world, false);
 
             PlayerNumber = playerNumber;
 
-            PlayerPosition = ConvertUnits.ToDisplayUnits(playerBody.Position);
             PlayerStartPosition = playerStartPosition;
             World = world;
 
@@ -79,11 +80,11 @@ namespace FireHose_DirectX_
             fireGun.Update(playerBody.Position, controls, playerControls);
             waterGun.Update(playerBody.Position, controls, playerControls);
             PlayerPosition = ConvertUnits.ToDisplayUnits(playerBody.Position);
-            FireRectangles = fireGun.GetRectangles();
-
-            CheckBounds();
             
+            CheckBounds();
 
+            Location = fireGun.GetLocation();
+           
             
         }
 
@@ -130,7 +131,7 @@ namespace FireHose_DirectX_
 
             if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
             {
-                flyDirection = controls.FlyFire();
+                flyDirection = controls.Fly(true);
                 flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
                 playerBody.ApplyForce(flyDirection);
             }
@@ -139,7 +140,7 @@ namespace FireHose_DirectX_
             {
                 if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
                 {
-                    flyDirection = controls.FlyWater();
+                    flyDirection = controls.Fly(false);
                     flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
                 }
@@ -173,17 +174,6 @@ namespace FireHose_DirectX_
 
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
-        }
-
-        public Rectangle GetPlayerRectangle()
-        {
-            PlayerRectangle = new Rectangle(((int)PlayerPosition.X - 100), ((int)PlayerPosition.Y - 100), 200, 200);
-            return PlayerRectangle;
-        }
-
-        public List<Rectangle> GetFireRectangles()
-        {
-            return FireRectangles; 
         }
 
         public void CheckBounds()

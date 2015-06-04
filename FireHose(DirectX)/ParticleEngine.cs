@@ -19,15 +19,17 @@ namespace FireHose_DirectX_
 {
     class ParticleEngine
     {
-        public Vector2 ParticleEmitterLocation { get; set; }
-        public Vector2 ParticleEmitterVelocity { get; set; }
+        public Vector2 ParticleEmitterLocation;
+        public Vector2 ParticleVelocity;
         private List<Particle> particles;
         private Texture2D particleTexture;
         public Color ParticleColor;
 
-        public List<Rectangle> ParticleRectangles;
-      
-        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Color particleColor)
+     
+
+        public int ParticlePower;
+
+        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int particlePower)
         {
             ParticleEmitterLocation = particleEmitterLocation;
             //ParticleEmitterVelocity = particleVelocity;
@@ -35,29 +37,27 @@ namespace FireHose_DirectX_
             this.particleTexture = particleTexture;
             this.particles = new List<Particle>();
             ParticleColor = particleColor;
-            ParticleRectangles = new List<Rectangle>();
-            
+            ParticlePower = particlePower;
+            ParticleVelocity = particleVelocity;
+           
         }
 
         private Particle GenerateNewParticle()
         {
             Texture2D theParticleTexture = particleTexture;
             
-            Vector2 particleLocation  = ParticleEmitterLocation;
-            Vector2 particleVelocity = ParticleEmitterVelocity;
-            
             Color particleColor = new Color(255, 255, 255);
             float particleSize = .2f;
-            int particleTTL = 20;
+            int particleTTL = 30;
             
-            ParticleRectangles.Add(new Rectangle(0,0,0,0));
-
-            return new Particle(theParticleTexture, particleLocation, particleVelocity, ParticleColor, particleSize, particleTTL);
+            return new Particle(theParticleTexture, ParticleEmitterLocation, ParticleVelocity, ParticlePower, ParticleColor, particleSize, particleTTL);
         }
 
-        public void Update(Boolean isFiring)
+        public void Update(Boolean isFiring, Vector2 particleEmitterLocation, Vector2 particleVelocity)
         {
-            int particleTotal = 30;
+            int particleTotal = 100;
+            ParticleVelocity = particleVelocity;
+            ParticleEmitterLocation = particleEmitterLocation;
 
             if (isFiring == true)
             {
@@ -72,11 +72,9 @@ namespace FireHose_DirectX_
             for (int currentParticle = 0; currentParticle< particles.Count; currentParticle++)
             {
                 particles[currentParticle].Update();
-                ParticleRectangles[currentParticle] = particles[currentParticle].GetRectangle();
                 if (particles[currentParticle].ParticleTTL <= 0)
                 {
                     particles.RemoveAt(currentParticle);
-                    ParticleRectangles.RemoveAt(currentParticle);
                     currentParticle--;
                 }
             }
@@ -95,10 +93,7 @@ namespace FireHose_DirectX_
             //    spriteBatch.End();
         }
 
-        public List<Rectangle> GetRectangles()
-        {
-            return ParticleRectangles; 
-        }
+        
 
     }
 }
