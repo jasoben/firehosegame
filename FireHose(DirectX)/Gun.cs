@@ -84,18 +84,19 @@ namespace FireHose_DirectX_
         {
             PlayerPosition = playerPosition;
             Blast(controls, playerControls);
-            if (isFiring == false)
-            {
-                particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-            }
+            //if (isFiring == false)
+            //{
+            //    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+            //}
 
+            particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
             GunOrigin = controls.Fly(IsItFire) * 10;
             GunOrigin = new Vector2(GunOrigin.X, -1 * GunOrigin.Y);
             GunRotation = (float)(Math.Atan2(GunOrigin.Y, GunOrigin.X));
 
-            //testing
-
-            GetLocation();
+            
+            //call dummy method for pushing information to text box for testing
+            //GetLocation();
             
         }
 
@@ -119,25 +120,28 @@ namespace FireHose_DirectX_
             
 
             if (!IsItFire) {
-               
-               if ((!controls.isHeld(Keys.U, Buttons.LeftShoulder)) && 
-               ((controls.isThumbStick(Buttons.LeftThumbstickDown) || 
-               controls.isThumbStick(Buttons.LeftThumbstickUp) || 
-               controls.isThumbStick(Buttons.LeftThumbstickLeft) || 
-               controls.isThumbStick(Buttons.LeftThumbstickRight))))
-                    {
-                        isFiring = true;
-                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-                    } else
-                    {
-                        isFiring = false;
-                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-                    }
-            } else 
-            {
-                if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
+
+                if ((!controls.isHeld(Keys.U, Buttons.LeftShoulder)) &&
+                ((controls.isThumbStick(Buttons.LeftThumbstickDown) ||
+                controls.isThumbStick(Buttons.LeftThumbstickUp) ||
+                controls.isThumbStick(Buttons.LeftThumbstickLeft) ||
+                controls.isThumbStick(Buttons.LeftThumbstickRight))))
+                //if(controls.isHeld(Keys.R, Buttons.A))
                 {
                     isFiring = true;
+                    particleEngine.GenerateNewParticle(30);
+                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                } else
+                {
+                    isFiring = false;
+                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                }
+            } else 
+            {
+                if (controls.isHeld(Keys.Y, Buttons.A) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
+                {
+                    isFiring = true;
+                    particleEngine.GenerateNewParticle(120);
                     particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
                 } else
                 {
@@ -150,12 +154,15 @@ namespace FireHose_DirectX_
             
         }
 
-        public string GetLocation()
-        {
-            return MyString = ConvertUnits.ToDisplayUnits(particleEngine.ParticleEmitterLocation).ToString();
-            //return MyString = ConvertUnits.ToDisplayUnits(PlayerPosition).ToString();
 
-        }
+        //This is a dummy method for rending information to the text box
+
+        //public string GetLocation()
+        //{
+        //    //return MyString = ConvertUnits.ToDisplayUnits(particleEngine.ParticleEmitterLocation).ToString();
+        //    return MyString = ConvertUnits.ToDisplayUnits(PlayerPosition).ToString();
+
+        //}
 
     }
 }

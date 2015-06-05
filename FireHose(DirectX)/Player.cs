@@ -20,13 +20,13 @@ namespace FireHose_DirectX_
 {
     class Player
     {
-        Body playerBody;
+        public Body playerBody;
         Texture2D playerTexture;
         Vector2 playerOrigin;
         Gun fireGun;
         Gun waterGun;
 
-        public String Location;
+        public int PlayerHealth;
 
         Vector2 flyDirection;
         public Vector2 PlayerPosition;
@@ -50,9 +50,10 @@ namespace FireHose_DirectX_
             
             playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, PlayerPosition);
             playerBody.BodyType = BodyType.Dynamic;
-            //playerBody.CollisionCategories = Category.Cat1;
-            //playerBody.CollidesWith = Category.Cat1 | Category.Cat2;
+            playerBody.CollisionCategories = Category.Cat1;
+            playerBody.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat4 ;
            
+            
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
 
@@ -64,7 +65,9 @@ namespace FireHose_DirectX_
             PlayerStartPosition = playerStartPosition;
             World = world;
 
-            PlayerColor = Color.White; 
+            PlayerColor = Color.White;
+
+            PlayerHealth = 10000;
         }
 
         public void LoadContent(ContentManager content)
@@ -82,12 +85,12 @@ namespace FireHose_DirectX_
             fireGun.Update(playerBody.Position, controls, playerControls);
             waterGun.Update(playerBody.Position, controls, playerControls);
             PlayerPosition = ConvertUnits.ToDisplayUnits(playerBody.Position);
-            
             CheckBounds();
-
-            Location = fireGun.GetLocation();
-           
             
+            //Dummy method for pushing info to text box
+            //Location = fireGun.GetLocation();
+            
+                        
         }
 
         public void Draw(SpriteBatch sb)
@@ -106,7 +109,7 @@ namespace FireHose_DirectX_
             //if (player.ContactList != null)
             //{
 
-            if (controls.isHeld(Keys.U, Buttons.LeftShoulder))
+            if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
             {
                 if (controls.isHeld(playerControls[0], Buttons.LeftThumbstickLeft))
                 {
@@ -143,7 +146,7 @@ namespace FireHose_DirectX_
                 if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
                 {
                     flyDirection = controls.Fly(false);
-                    flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
+                    flyDirection = new Vector2(-2* flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
                 }
             }
@@ -152,6 +155,7 @@ namespace FireHose_DirectX_
 
         }
 
+        
         public void LimitVelocity()
         {
             //if (playerBody.LinearVelocity.X > 1)
@@ -186,5 +190,8 @@ namespace FireHose_DirectX_
 
             }
         }
+
+        
+        
     }
 }

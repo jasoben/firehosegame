@@ -21,12 +21,26 @@ namespace FireHose_DirectX_
     {
         public Vector2 ParticleEmitterLocation;
         public Vector2 ParticleVelocity;
-        private List<Particle> particles;
+        Vector2 particleOrigin;
+
+        private List<Body> particles;
+        private List<Color> particleColors;
+        private List<int> particlesTTL;
+        private Dictionary<Body, Color> particleDictionary = new Dictionary<Body,Color>(); 
+
         private Texture2D particleTexture;
         public Color ParticleColor;
 
         public World ThisWorld;
-     
+
+        Body particle;
+
+        public int ParticleTTL;
+        private float particleDensity;
+        private float particlePower;
+
+        Random randomVelocity;
+        private List<float> particleVelocities;
 
         public int ParticlePower;
 
@@ -35,54 +49,100 @@ namespace FireHose_DirectX_
             ParticleEmitterLocation = particleEmitterLocation;
             //ParticleEmitterVelocity = particleVelocity;
             //PlayerLocation = playerLocation;
+            
             this.particleTexture = particleTexture;
-            this.particles = new List<Particle>();
+            particleOrigin = new Vector2(particleTexture.Width / 2f, particleTexture.Height / 2f);
+
+            particles = new List<Body>();
+            particlesTTL = new List<int>();
+            particleVelocities = new List<float>();
+            particleColors = new List<Color>();
+
             ParticleColor = particleColor;
             ParticlePower = particlePower;
             ParticleVelocity = particleVelocity;
             ThisWorld = world;
-       
+            
+            
         }
 
-        private Particle GenerateNewParticle()
+        public Body GenerateNewParticle(int particleTTL)
         {
             Texture2D theParticleTexture = particleTexture;
             
             Color particleColor = new Color(255, 255, 255);
-            float particleSize = .2f;
-            int particleTTL = 30;
+            ParticleTTL = particleTTL; 
+
+            randomVelocity = new Random();
+
+            particle = BodyFactory.CreateCircle(ThisWorld, ConvertUnits.ToSimUnits(particleTexture.Width / 2), particleDensity, ParticleEmitterLocation);
+            particle.BodyType = BodyType.Dynamic;
+            particle.Restitution = .1f;
+            particle.Friction = .5f;
+
             
-            return new Particle(ThisWorld, theParticleTexture, ParticleEmitterLocation, ParticleVelocity, ParticlePower, ParticleColor, particleSize, particleTTL);
+            if (ParticleTTL > 50)
+            {
+                particle.CollisionCategories = Category.Cat3;
+                particle.CollidesWith = Category.Cat4 | Category.Cat1;
+                particle.IsSensor = true;
+                particleVelocities.Add(-100);
+                particleColors.Add(ParticleColor);
+                particleDensity = 1f;
+                particlePower = .1f;                
+            }
+            else
+            {
+                particle.CollisionCategories = Category.Cat2;
+                particle.CollidesWith = Category.Cat1 | Category.Cat4;
+                particleVelocities.Add(randomVelocity.Next(1, 20));
+                particleColors.Add(ParticleColor);
+                particleDensity = 1f;
+                particlePower = .2f;
+            }
+            
+            particles.Add(particle);
+            particlesTTL.Add(ParticleTTL);
+
+            particleDictionary.Add(particle, ParticleColor);
+
+            return particle;
         }
 
         public void Update(Boolean isFiring, Vector2 particleEmitterLocation, Vector2 particleVelocity)
         {
-            int particleTotal = 100;
-            ParticleVelocity = particleVelocity;
-            ParticleEmitterLocation = particleEmitterLocation;
 
-            if (isFiring == true)
+            ParticleEmitterLocation = particleEmitterLocation;
+            ParticleVelocity = particleVelocity;
+            
+            for (int i = 0; i < particles.Count; i++)
             {
+                particlesTTL[i] = particlesTTL[i] - 1;
                 
-                for (int i = 0; i < particleTotal; i++)
+                if (particlesTTL[i] > (ParticleTTL - 10))
                 {
-                    particles.Add(GenerateNewParticle());
+                    particles[i].ApplyLinearImpulse((ParticleVelocity / 300)+ (ParticleVelocity / (100 * (particleVelocities[i]))));
+                }
+                if (particlesTTL[i] < 10)
+                {
+                    particleDictionary[particles[i]] = new Color(ParticleColor, (.1f * i));
+                    particles[i].Mass = .001f;
+                }
+                if (particlesTTL[i] < 0)
+                {
+                    
+                    particles[i].Dispose();
+                    particleDictionary.Remove(particles[i]);
+                    particles.RemoveAt(i);
+                    particlesTTL.RemoveAt(i);
+                    particleVelocities.RemoveAt(i);
                     
                 }
+
+                
             }
 
-            for (int currentParticle = 0; currentParticle< particles.Count; currentParticle++)
-            {
-                particles[currentParticle].Update();
-                if (particles[currentParticle].ParticleTTL <= 0)
-                {
-                    particles[currentParticle].ParticleBody.Dispose();
-                    particles.RemoveAt(currentParticle);
-                    currentParticle--;
-
-                }
-            }
-
+            
             
 
         }
@@ -90,12 +150,27 @@ namespace FireHose_DirectX_
         public void Draw(SpriteBatch spriteBatch)
         {
             //    spriteBatch.Begin();
-            for (int index = 0; index < particles.Count; index++)
+            //foreach (Body particle in particles)
+            //{
+            //    spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(particle.Position), null, ParticleColor, 0f, particleOrigin, 1f, SpriteEffects.None, 0f);
+            //}
+
+            foreach (KeyValuePair<Body,Color> entry in particleDictionary)
             {
-                particles[index].Draw(spriteBatch);
+                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(entry.Key.Position), null, entry.Value, 0f, particleOrigin, 1f, SpriteEffects.None, 0f);
             }
+
             //    spriteBatch.End();
         }
+
+        //Dummy method for pushing information to the text box
+
+        //public string GetInfo()
+        //{
+        //    //return MyString = ConvertUnits.ToDisplayUnits(particleEngine.ParticleEmitterLocation).ToString();
+        //    return MyString = ConvertUnits.ToSimUnits(particleTexture.Width - 2).ToString();
+
+        //}
 
         
 
