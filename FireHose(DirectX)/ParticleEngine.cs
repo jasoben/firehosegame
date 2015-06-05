@@ -37,12 +37,10 @@ namespace FireHose_DirectX_
 
         public int ParticleTTL;
         private float particleDensity;
-        private float particlePower;
+        private float particlePower 
 
         Random randomVelocity;
         private List<float> particleVelocities;
-
-        public int ParticlePower;
 
         public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int particlePower)
         {
@@ -59,7 +57,6 @@ namespace FireHose_DirectX_
             particleColors = new List<Color>();
 
             ParticleColor = particleColor;
-            ParticlePower = particlePower;
             ParticleVelocity = particleVelocity;
             ThisWorld = world;
             
@@ -85,11 +82,12 @@ namespace FireHose_DirectX_
             {
                 particle.CollisionCategories = Category.Cat3;
                 particle.CollidesWith = Category.Cat4 | Category.Cat1;
-                particle.IsSensor = true;
+                particle.Restitution = .05f;
+               // particle.IsSensor = true;
                 particleVelocities.Add(-100);
                 particleColors.Add(ParticleColor);
-                particleDensity = 1f;
-                particlePower = .1f;                
+                particleDensity = .01f;
+                particlePower = .003f;                
             }
             else
             {
@@ -113,7 +111,7 @@ namespace FireHose_DirectX_
         {
 
             ParticleEmitterLocation = particleEmitterLocation;
-            ParticleVelocity = particleVelocity;
+            ParticleVelocity = particleVelocity * particlePower;
             
             for (int i = 0; i < particles.Count; i++)
             {
@@ -121,7 +119,7 @@ namespace FireHose_DirectX_
                 
                 if (particlesTTL[i] > (ParticleTTL - 10))
                 {
-                    particles[i].ApplyLinearImpulse((ParticleVelocity / 300)+ (ParticleVelocity / (100 * (particleVelocities[i]))));
+                    particles[i].ApplyLinearImpulse((ParticleVelocity / 100)+ (ParticleVelocity / (100 * (particleVelocities[i]))));
                 }
                 if (particlesTTL[i] < 10)
                 {
@@ -139,6 +137,7 @@ namespace FireHose_DirectX_
                     
                 }
 
+                particles[i].OnCollision += particleCollided;
                 
             }
 
@@ -171,6 +170,18 @@ namespace FireHose_DirectX_
         //    return MyString = ConvertUnits.ToSimUnits(particleTexture.Width - 2).ToString();
 
         //}
+
+        public bool particleCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            if (fixtureB.CollisionCategories == Category.Cat4)
+            { 
+                return true;
+            }
+            else
+            { 
+                return true;
+            }
+        }
 
         
 
