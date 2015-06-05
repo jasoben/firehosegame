@@ -43,8 +43,6 @@ namespace FireHose_DirectX_
             get { return world; }
         }
 
-        public int DeltaColor;
-
         //Define the level variable (these are just boxes that are static and register collisions)
         Body level;
         Texture2D levelTexture;
@@ -86,13 +84,13 @@ namespace FireHose_DirectX_
         //these properties grab the screencenter property and determine where the players start       
         public Vector2 Player1StartPosition
         {
-            get { return (ScreenCenter - new Vector2(200, 0));  }
+            get { return (ScreenCenter - new Vector2(200, 100));  }
 
         }
 
         public Vector2 Player2StartPosition
         {
-            get { return (ScreenCenter + new Vector2(200, 0)); }
+            get { return (ScreenCenter + new Vector2(200, -100)); }
 
         }
         #endregion
@@ -228,26 +226,10 @@ namespace FireHose_DirectX_
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
 
-            player1.playerBody.OnCollision += player1Collided;
-            player2.playerBody.OnCollision += player2Collided;
+           
 
             base.Update(gameTime);
 
-            DeltaColor--;
-            if (DeltaColor < 0)
-                player1.PlayerColor = Color.White;
-
-            if (player1.PlayerHealth < 0)
-            {
-                player1.PlayerHealth = 10000;
-                player1.Restart(Player1StartPosition, world);
-            }
-
-            if (player2.PlayerHealth < 0)
-            {
-                player2.PlayerHealth = 10000;
-                player2.Restart(Player2StartPosition, world);
-            }
         }
 
 
@@ -276,40 +258,6 @@ namespace FireHose_DirectX_
                         
             base.Draw(gameTime);
         }
-
-        public bool player1Collided(Fixture fixtureA, Fixture fixtureB, Contact contact)
-        {
-            if (fixtureB.CollisionCategories == Category.Cat3)
-            {
-                DeltaColor = 20;
-                player1.PlayerHealth--;
-                player1.PlayerColor = Color.Orange;
-                return true;
-            }
-            else
-            {
-                player1.PlayerColor = Color.White;
-                return true;
-            }
-            
-        }
-
-        public bool player2Collided(Fixture fixtureA, Fixture fixtureB, Contact contact)
-        {
-            if (fixtureB.CollisionCategories == Category.Cat3)
-            {
-                DeltaColor = 20;
-                player1.PlayerHealth--;
-                player2.PlayerColor = Color.Orange;
-                return true;
-            }
-            else
-            {
-                player2.PlayerColor = Color.White;
-                return true;
-            }
-        }
-        
 
     }
 }

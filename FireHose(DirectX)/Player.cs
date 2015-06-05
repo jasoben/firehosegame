@@ -41,6 +41,8 @@ namespace FireHose_DirectX_
 
         public Color PlayerColor;
 
+        private int DeltaColor;
+
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
 
@@ -89,7 +91,17 @@ namespace FireHose_DirectX_
             
             //Dummy method for pushing info to text box
             //Location = fireGun.GetLocation();
-            
+            playerBody.OnCollision += playerCollided;
+
+            DeltaColor--;
+            if (DeltaColor < 0)
+                PlayerColor = Color.White;
+
+            if (PlayerHealth < 0)
+            {
+                PlayerHealth = 10000;
+                Restart(PlayerStartPosition, World);
+            }
                         
         }
 
@@ -191,6 +203,22 @@ namespace FireHose_DirectX_
             }
         }
 
+        public bool playerCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            if (fixtureB.CollisionCategories == Category.Cat3)
+            {
+                DeltaColor = 20;
+                PlayerHealth--;
+                PlayerColor = Color.Orange;
+                return true;
+            }
+            else
+            {
+                PlayerColor = Color.White;
+                return true;
+            }
+
+        }
         
         
     }
