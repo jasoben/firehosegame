@@ -28,9 +28,7 @@ namespace FireHose_DirectX_
         public Vector2 GunOrigin;
         public float GunRotation;
 
-        public int ParticlePower;
-
-        public String MyString;
+        // public String MyString;
 
         Texture2D fireGunTexture;
         Texture2D waterGunTexture;
@@ -41,6 +39,11 @@ namespace FireHose_DirectX_
         public Color ParticleColor;
 
         public World ThisWorld;
+
+        Random randomVelocity;
+        public int randomizer;
+        public int rx;
+        public int ry;
 
         //this bool decides which gun to use
         public bool IsItFire;
@@ -55,16 +58,20 @@ namespace FireHose_DirectX_
 
             IsItFire = isItFire;
 
+            randomVelocity = new Random();
+
             if (IsItFire == true)
             {
                 ParticleColor = Color.Orange;
-                ParticlePower = 5;
+                randomizer = 15;
+                
+               
             }
 
             if (IsItFire == false)
             {
                 ParticleColor = Color.Blue;
-                ParticlePower = 10;
+                randomizer = 20;
             }
             
         }
@@ -76,7 +83,7 @@ namespace FireHose_DirectX_
             waterGunTexture = content.Load<Texture2D>("watergun.png");
             particleTexture = content.Load<Texture2D>("particle.png");
 
-            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor, ParticlePower);
+            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor);
                 
         }
 
@@ -114,11 +121,13 @@ namespace FireHose_DirectX_
         public void Blast(Controls controls, List<Keys> playerControls)
         {
 
+            rx = randomVelocity.Next(-randomizer, randomizer);
+            ry = randomVelocity.Next(-randomizer, randomizer);
+
             Vector2 calculatedGunPosition = new Vector2((int)(Math.Cos(GunRotation) * 10), (int)(Math.Sin(GunRotation) * 10));
             ParticleEmitterLocation = ParticleEmitterLocation = PlayerPosition + calculatedGunPosition / 10;
-            ParticleVelocity = ConvertUnits.ToDisplayUnits(ParticleEmitterLocation) - ConvertUnits.ToDisplayUnits(PlayerPosition);
+            ParticleVelocity = ConvertUnits.ToDisplayUnits(ParticleEmitterLocation + new Vector2(rx/15, ry/15)) - ConvertUnits.ToDisplayUnits(PlayerPosition); 
             
-
             if (!IsItFire) {
 
                 if ((!controls.isHeld(Keys.U, Buttons.LeftShoulder)) &&

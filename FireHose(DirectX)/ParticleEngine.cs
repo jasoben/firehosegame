@@ -39,10 +39,9 @@ namespace FireHose_DirectX_
         private float particleDensity;
         private float particlePower;
 
-        Random randomVelocity;
-        private List<float> particleVelocities;
+        public int CurrentParticle;
 
-        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int particlePower)
+        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor)
         {
             ParticleEmitterLocation = particleEmitterLocation;
             //ParticleEmitterVelocity = particleVelocity;
@@ -53,7 +52,6 @@ namespace FireHose_DirectX_
 
             particles = new List<Body>();
             particlesTTL = new List<int>();
-            particleVelocities = new List<float>();
             particleColors = new List<Color>();
 
             ParticleColor = particleColor;
@@ -70,7 +68,7 @@ namespace FireHose_DirectX_
             Color particleColor = new Color(255, 255, 255);
             ParticleTTL = particleTTL; 
 
-            randomVelocity = new Random();
+            
 
             particle = BodyFactory.CreateCircle(ThisWorld, ConvertUnits.ToSimUnits(particleTexture.Width / 2), particleDensity, ParticleEmitterLocation);
             particle.BodyType = BodyType.Dynamic;
@@ -81,23 +79,20 @@ namespace FireHose_DirectX_
             if (ParticleTTL > 50)
             {
                 particle.CollisionCategories = Category.Cat3;
-                particle.CollidesWith = Category.Cat4 | Category.Cat1;
+                particle.CollidesWith = Category.Cat4 | Category.Cat1 | Category.Cat2;
                 particle.Restitution = .05f;
                 particle.Friction = 15f;
-                // particle.IsSensor = true;
-                particleVelocities.Add(-100);
                 particleColors.Add(ParticleColor);
                 particleDensity = .01f;
-                particlePower = .003f;                
+                particlePower = .00003f;                
             }
             else
             {
                 particle.CollisionCategories = Category.Cat2;
-                particle.CollidesWith = Category.Cat1 | Category.Cat4;
-                particleVelocities.Add(randomVelocity.Next(1, 50));
+                particle.CollidesWith = Category.Cat1 | Category.Cat4 | Category.Cat3;
                 particleColors.Add(ParticleColor);
                 particleDensity = 1f;
-                particlePower = .2f;
+                particlePower = .004f;
             }
             
             particles.Add(particle);
@@ -114,13 +109,16 @@ namespace FireHose_DirectX_
             ParticleEmitterLocation = particleEmitterLocation;
             ParticleVelocity = particleVelocity * particlePower;
             
+
             for (int i = 0; i < particles.Count; i++)
             {
                 particlesTTL[i] = particlesTTL[i] - 1;
-                
+                CurrentParticle = i;
+                particles[i].OnCollision += particleCollided;
+
                 if (particlesTTL[i] > (ParticleTTL - 10))
                 {
-                    particles[i].ApplyLinearImpulse((ParticleVelocity / 100) * (particleVelocities[i]));
+                    particles[i].ApplyLinearImpulse(ParticleVelocity); 
                 }
                 if (particlesTTL[i] < 10)
                 {
@@ -134,11 +132,9 @@ namespace FireHose_DirectX_
                     particleDictionary.Remove(particles[i]);
                     particles.RemoveAt(i);
                     particlesTTL.RemoveAt(i);
-                    particleVelocities.RemoveAt(i);
-                    
                 }
 
-               particles[i].OnCollision += particleCollided;
+               
                 
             }
 
@@ -174,14 +170,18 @@ namespace FireHose_DirectX_
 
         public bool particleCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
         {
-            if (fixtureB.CollisionCategories == Category.Cat4)
-            { 
+
+            if (fixtureA.CollisionCategories == Category.Cat3)
+            {
+                particlesTTL[CurrentParticle] = 0;
                 return true;
             }
             else
-            { 
+            {
                 return true;
             }
+            
+            
         }
 
         
