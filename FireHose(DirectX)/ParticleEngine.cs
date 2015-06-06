@@ -37,7 +37,7 @@ namespace FireHose_DirectX_
 
         public int ParticleTTL;
         private float particleDensity;
-        private float particlePower 
+        private float particlePower;
 
         Random randomVelocity;
         private List<float> particleVelocities;
@@ -83,7 +83,8 @@ namespace FireHose_DirectX_
                 particle.CollisionCategories = Category.Cat3;
                 particle.CollidesWith = Category.Cat4 | Category.Cat1;
                 particle.Restitution = .05f;
-               // particle.IsSensor = true;
+                particle.Friction = 15f;
+                // particle.IsSensor = true;
                 particleVelocities.Add(-100);
                 particleColors.Add(ParticleColor);
                 particleDensity = .01f;
@@ -93,7 +94,7 @@ namespace FireHose_DirectX_
             {
                 particle.CollisionCategories = Category.Cat2;
                 particle.CollidesWith = Category.Cat1 | Category.Cat4;
-                particleVelocities.Add(randomVelocity.Next(1, 20));
+                particleVelocities.Add(randomVelocity.Next(1, 50));
                 particleColors.Add(ParticleColor);
                 particleDensity = 1f;
                 particlePower = .2f;
@@ -119,7 +120,7 @@ namespace FireHose_DirectX_
                 
                 if (particlesTTL[i] > (ParticleTTL - 10))
                 {
-                    particles[i].ApplyLinearImpulse((ParticleVelocity / 100)+ (ParticleVelocity / (100 * (particleVelocities[i]))));
+                    particles[i].ApplyLinearImpulse((ParticleVelocity / 100) * (particleVelocities[i]));
                 }
                 if (particlesTTL[i] < 10)
                 {
@@ -137,7 +138,7 @@ namespace FireHose_DirectX_
                     
                 }
 
-                particles[i].OnCollision += particleCollided;
+               particles[i].OnCollision += particleCollided;
                 
             }
 
