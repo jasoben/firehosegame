@@ -36,12 +36,11 @@ namespace FireHose_DirectX_
 
         public World World;
 
-        public List<Rectangle> FireRectangles;
-        public Rectangle PlayerRectangle;
-
         public Color PlayerColor;
 
         private int DeltaColor;
+
+        private Vector2 centorOfMass;
 
         public bool isGrounded = true; 
 
@@ -51,18 +50,22 @@ namespace FireHose_DirectX_
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             
             PlayerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
-            
+            centorOfMass = new Vector2(ConvertUnits.ToSimUnits(0f), ConvertUnits.ToSimUnits(10f));
+
             playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, PlayerPosition);
             playerBody.BodyType = BodyType.Dynamic;
             playerBody.CollisionCategories = Category.Cat1;
-            playerBody.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat4 ;
-           // playerBody.LocalCenter = new Vector2(0, 20);
+            playerBody.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat13 | Category.Cat4 ;
+            playerBody.LocalCenter = centorOfMass;
             
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
 
-            fireGun = new Gun(this, PlayerPosition, world, true);
-            waterGun = new Gun(this, PlayerPosition, world, false);
+            playerBody.OnCollision += playerCollided;
+            playerBody.OnSeparation += playerSeparated;
+
+            fireGun = new Gun(this, PlayerPosition, world, true, playerNumber);
+            waterGun = new Gun(this, PlayerPosition, world, false, playerNumber);
 
             PlayerNumber = playerNumber;
 
@@ -93,8 +96,7 @@ namespace FireHose_DirectX_
             
             //Dummy method for pushing info to text box
             //Location = fireGun.GetLocation();
-            playerBody.OnCollision += playerCollided;
-            playerBody.OnSeparation += playerSeparated;
+            
 
             DeltaColor--;
             if (DeltaColor < 0)
@@ -106,7 +108,7 @@ namespace FireHose_DirectX_
                 Restart(PlayerStartPosition, World);
             }
 
-            Console.WriteLine(isGrounded);
+         
                         
         }
 
@@ -165,7 +167,7 @@ namespace FireHose_DirectX_
                 if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
                 {
                     flyDirection = controls.Fly(false);
-                    flyDirection = new Vector2(-2* flyDirection.X, flyDirection.Y);
+                    flyDirection = new Vector2(-1* flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
                 }
             }
@@ -200,6 +202,7 @@ namespace FireHose_DirectX_
 
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
+            playerBody.LocalCenter = centorOfMass;
         }
 
         public void CheckBounds()

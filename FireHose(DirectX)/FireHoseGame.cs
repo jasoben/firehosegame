@@ -72,6 +72,8 @@ namespace FireHose_DirectX_
         Player player1;
         Player player2;
 
+        Altar altar1;
+
         //Define the list of keys-- so we can easily pass the right keys to the right player object AND define the keys later on
         //TODO: Probably need to do the same thing for gamepad controls
 
@@ -93,6 +95,9 @@ namespace FireHose_DirectX_
             get { return (ScreenCenter + new Vector2(200, -100)); }
 
         }
+
+        private Rectangle drawRectangle; 
+
         #endregion
 
         public FireHoseGame()
@@ -178,7 +183,7 @@ namespace FireHose_DirectX_
             //make the level body
             level = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(1400f), ConvertUnits.ToSimUnits(100f), 1f, levelPosition);
             level.CollisionCategories = Category.Cat4;
-            level.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3;
+            level.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat13;
             level.IsStatic = true;
             level.Restitution = .3f;
             level.Friction = .5f;
@@ -188,6 +193,9 @@ namespace FireHose_DirectX_
 
             player2 = new Player(Player2StartPosition, world, 2);
             player2.LoadContent(this.Content);
+
+            altar1 = new Altar(world, new Vector2(200, 400));
+            altar1.LoadContent(this.Content);
 
             font = Content.Load<SpriteFont>("PescaFont");
             
@@ -223,10 +231,9 @@ namespace FireHose_DirectX_
             player1.Update(Controls[1], gameTime, Player1KeyControls);
             player2.Update(Controls[2], gameTime, Player2KeyControls);
 
+            altar1.Update();
+
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
-
-
-           
 
             base.Update(gameTime);
 
@@ -246,13 +253,16 @@ namespace FireHose_DirectX_
 
             //draw level and players
             spriteBatch.Begin();
-            spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(level.Position), null, Color.White, 0f, LevelOrigin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(level.Position), null , Color.White, 0f, LevelOrigin, 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(level.Position), null, Color.White, 0f, LevelOrigin, new Vector2(2f,1f), SpriteEffects.None, 0f);
+
             player1.Draw(spriteBatch);
             player2.Draw(spriteBatch);
-            
+
+            altar1.Draw(spriteBatch);
             //Dummy for getting information from classes to push into troubleshooting text box
-            //spriteBatch.DrawString(font, player2.Location, new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
+            spriteBatch.DrawString(font, altar1.AltarAmount.ToString(), new Vector2(100, 200), Color.Black);
+           // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
             
             spriteBatch.End();
                         

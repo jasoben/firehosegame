@@ -54,6 +54,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Altar.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="FireHoseGame.cs" />
@@ -100,6 +101,9 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\altar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\dude.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

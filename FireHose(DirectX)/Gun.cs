@@ -50,11 +50,14 @@ namespace FireHose_DirectX_
         
         public bool isFiring = false;
 
-        public Gun(Player player, Vector2 playerPosition, World world, bool isItFire)
+        public int PlayerNumber;
+
+        public Gun(Player player, Vector2 playerPosition, World world, bool isItFire, int playerNumber)
         {
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             PlayerPosition = playerPosition;
             ThisWorld = world;
+            PlayerNumber = playerNumber;
 
             IsItFire = isItFire;
 
@@ -83,7 +86,7 @@ namespace FireHose_DirectX_
             waterGunTexture = content.Load<Texture2D>("watergun.png");
             particleTexture = content.Load<Texture2D>("particle.png");
 
-            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor);
+            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor, PlayerNumber);
                 
         }
 
@@ -125,7 +128,7 @@ namespace FireHose_DirectX_
             ry = randomVelocity.Next(-randomizer, randomizer);
 
             Vector2 calculatedGunPosition = new Vector2((int)(Math.Cos(GunRotation) * 10), (int)(Math.Sin(GunRotation) * 10));
-            ParticleEmitterLocation = ParticleEmitterLocation = PlayerPosition + calculatedGunPosition / 10;
+            ParticleEmitterLocation = ParticleEmitterLocation = PlayerPosition + calculatedGunPosition / 7;
             ParticleVelocity = ConvertUnits.ToDisplayUnits(ParticleEmitterLocation + new Vector2(rx/15, ry/15)) - ConvertUnits.ToDisplayUnits(PlayerPosition); 
             
             if (!IsItFire) {
