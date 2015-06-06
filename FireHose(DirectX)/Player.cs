@@ -43,6 +43,8 @@ namespace FireHose_DirectX_
 
         private int DeltaColor;
 
+        public bool isGrounded = true; 
+
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
 
@@ -54,7 +56,7 @@ namespace FireHose_DirectX_
             playerBody.BodyType = BodyType.Dynamic;
             playerBody.CollisionCategories = Category.Cat1;
             playerBody.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat4 ;
-           
+           // playerBody.LocalCenter = new Vector2(0, 20);
             
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
@@ -92,6 +94,7 @@ namespace FireHose_DirectX_
             //Dummy method for pushing info to text box
             //Location = fireGun.GetLocation();
             playerBody.OnCollision += playerCollided;
+            playerBody.OnSeparation += playerSeparated;
 
             DeltaColor--;
             if (DeltaColor < 0)
@@ -102,6 +105,8 @@ namespace FireHose_DirectX_
                 PlayerHealth = 10000;
                 Restart(PlayerStartPosition, World);
             }
+
+            Console.WriteLine(isGrounded);
                         
         }
 
@@ -121,7 +126,7 @@ namespace FireHose_DirectX_
             //if (player.ContactList != null)
             //{
 
-            if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
+            if (controls.isHeld(Keys.U, Buttons.LeftShoulder) && (isGrounded == true))
             {
                 if (controls.isHeld(playerControls[0], Buttons.LeftThumbstickLeft))
                 {
@@ -133,12 +138,14 @@ namespace FireHose_DirectX_
                 {
                     playerBody.ApplyLinearImpulse(new Vector2(.2f, 0));
                 }
+
+                if (controls.onPress(playerControls[2], Buttons.A))
+                {
+                    playerBody.ApplyLinearImpulse(new Vector2(0, -4));
+                }
             }
 
-            if (controls.onPress(playerControls[2], Buttons.A))
-            {
-                playerBody.ApplyLinearImpulse(new Vector2(0, -4));
-            }
+            
              
             //} else {
             if (controls.isHeld(playerControls[3], Buttons.B))
@@ -189,6 +196,7 @@ namespace FireHose_DirectX_
 
             playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
             playerBody.BodyType = BodyType.Dynamic;
+            playerBody.AngularDamping = 4f;
 
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
@@ -212,6 +220,12 @@ namespace FireHose_DirectX_
                 PlayerColor = Color.Orange;
                 return true;
             }
+            if (fixtureB.CollisionCategories == Category.Cat4)
+            {
+                playerBody.SetTransform(playerBody.Position, 0f);
+                isGrounded = true;
+                return true;
+            }
             else
             {
                 PlayerColor = Color.White;
@@ -219,7 +233,18 @@ namespace FireHose_DirectX_
             }
 
         }
-        
-        
+
+        public void playerSeparated(Fixture fixtureA, Fixture fixtureB)
+        {
+            
+            if (fixtureB.CollisionCategories == Category.Cat4)
+            {
+                isGrounded = false;
+            }
+            
+
+        }
+
+
     }
 }

@@ -147,7 +147,7 @@ namespace FireHose_DirectX_
                 }
             } else 
             {
-                if (controls.isHeld(Keys.Y, Buttons.A) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight) || controls.isThumbStick(Buttons.RightThumbstickDown))
+                if (controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight) || controls.isThumbStick(Buttons.RightThumbstickDown))
                 {
                     isFiring = true;
                     particleEngine.GenerateNewParticle(120);

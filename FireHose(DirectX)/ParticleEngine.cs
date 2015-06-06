@@ -112,26 +112,28 @@ namespace FireHose_DirectX_
 
             for (int i = 0; i < particles.Count; i++)
             {
-                particlesTTL[i] = particlesTTL[i] - 1;
-                CurrentParticle = i;
-                particles[i].OnCollision += particleCollided;
 
-                if (particlesTTL[i] > (ParticleTTL - 10))
+                CurrentParticle = i;
+                particles[CurrentParticle].OnCollision += particleCollided;
+
+                particlesTTL[CurrentParticle] = particlesTTL[CurrentParticle] - 1;
+
+                if (particlesTTL[CurrentParticle] > (ParticleTTL - 10))
                 {
-                    particles[i].ApplyLinearImpulse(ParticleVelocity); 
+                    particles[CurrentParticle].ApplyLinearImpulse(ParticleVelocity); 
                 }
-                if (particlesTTL[i] < 10)
+                if (particlesTTL[CurrentParticle] < 10)
                 {
-                    particleDictionary[particles[i]] = new Color(ParticleColor, (.1f * i));
-                    particles[i].Mass = .001f;
+                    particleDictionary[particles[CurrentParticle]] = new Color(ParticleColor, (.1f * CurrentParticle));
+                    particles[CurrentParticle].Mass = .001f;
                 }
-                if (particlesTTL[i] < 0)
+                if (particlesTTL[CurrentParticle] < 0)
                 {
                     
-                    particles[i].Dispose();
-                    particleDictionary.Remove(particles[i]);
-                    particles.RemoveAt(i);
-                    particlesTTL.RemoveAt(i);
+                    particles[CurrentParticle].Dispose();
+                    particleDictionary.Remove(particles[CurrentParticle]);
+                    particles.RemoveAt(CurrentParticle);
+                    particlesTTL.RemoveAt(CurrentParticle);
                 }
 
                
