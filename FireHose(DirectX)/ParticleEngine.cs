@@ -40,12 +40,14 @@ namespace FireHose_DirectX_
         private float particlePower;
 
         public int CurrentParticle;
+        public int PlayerNumber; 
 
-        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor)
+        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int playerNumber)
         {
             ParticleEmitterLocation = particleEmitterLocation;
             //ParticleEmitterVelocity = particleVelocity;
             //PlayerLocation = playerLocation;
+            PlayerNumber = playerNumber;
             
             this.particleTexture = particleTexture;
             particleOrigin = new Vector2(particleTexture.Width / 2f, particleTexture.Height / 2f);
@@ -75,26 +77,29 @@ namespace FireHose_DirectX_
             particle.Restitution = .1f;
             particle.Friction = .5f;
 
-            
+            particle.OnCollision += particleCollided;
+
             if (ParticleTTL > 50)
             {
-                particle.CollisionCategories = Category.Cat3;
-                particle.CollidesWith = Category.Cat4 | Category.Cat1 | Category.Cat2;
-                particle.Restitution = .05f;
+                if (PlayerNumber == 1)
+                    particle.CollisionCategories = Category.Cat3;
+                else if (PlayerNumber == 2)
+                    particle.CollisionCategories = Category.Cat13;
+                particle.CollidesWith = Category.Cat4 | Category.Cat1 | Category.Cat2 | Category.Cat5;
+                particle.Restitution = .01f;
                 particle.Friction = 15f;
-                particleColors.Add(ParticleColor);
                 particleDensity = .01f;
-                particlePower = .00003f;                
+                particlePower = .000015f;                
             }
             else
             {
                 particle.CollisionCategories = Category.Cat2;
-                particle.CollidesWith = Category.Cat1 | Category.Cat4 | Category.Cat3;
-                particleColors.Add(ParticleColor);
+                particle.CollidesWith = Category.Cat1 | Category.Cat4 | Category.Cat3 | Category.Cat13 | Category.Cat5;
                 particleDensity = 1f;
-                particlePower = .004f;
+                particlePower = .002f;
             }
-            
+
+            particleColors.Add(ParticleColor);
             particles.Add(particle);
             particlesTTL.Add(ParticleTTL);
 
@@ -114,8 +119,9 @@ namespace FireHose_DirectX_
             {
 
                 CurrentParticle = i;
-                particles[CurrentParticle].OnCollision += particleCollided;
 
+                
+              
                 particlesTTL[CurrentParticle] = particlesTTL[CurrentParticle] - 1;
 
                 if (particlesTTL[CurrentParticle] > (ParticleTTL - 10))
@@ -127,9 +133,10 @@ namespace FireHose_DirectX_
                     particleDictionary[particles[CurrentParticle]] = new Color(ParticleColor, (.1f * CurrentParticle));
                     particles[CurrentParticle].Mass = .001f;
                 }
+
                 if (particlesTTL[CurrentParticle] < 0)
                 {
-                    
+                    particles[CurrentParticle].OnCollision -= particleCollided;
                     particles[CurrentParticle].Dispose();
                     particleDictionary.Remove(particles[CurrentParticle]);
                     particles.RemoveAt(CurrentParticle);
@@ -175,6 +182,12 @@ namespace FireHose_DirectX_
 
             if (fixtureA.CollisionCategories == Category.Cat3)
             {
+                fixtureA.Body.Awake = false;
+                particlesTTL[CurrentParticle] = 0;
+                return true;
+            }
+            if (fixtureB.CollisionCategories == Category.Cat5)
+            {
                 particlesTTL[CurrentParticle] = 0;
                 return true;
             }
@@ -182,11 +195,9 @@ namespace FireHose_DirectX_
             {
                 return true;
             }
-            
-            
-        }
 
-        
+
+        }
 
     }
 }
