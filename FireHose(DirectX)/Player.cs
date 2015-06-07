@@ -42,7 +42,9 @@ namespace FireHose_DirectX_
 
         private Vector2 centorOfMass;
 
-        public bool isGrounded = true; 
+        public bool isGrounded = true;
+
+        private int totalHealth = 100;
 
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
@@ -74,7 +76,7 @@ namespace FireHose_DirectX_
 
             PlayerColor = Color.White;
 
-            PlayerHealth = 10000;
+            PlayerHealth = totalHealth;
         }
 
         public void LoadContent(ContentManager content)
@@ -104,7 +106,7 @@ namespace FireHose_DirectX_
 
             if (PlayerHealth < 0)
             {
-                PlayerHealth = 10000;
+                PlayerHealth = totalHealth;
                 Restart(PlayerStartPosition, World);
             }
 
@@ -229,6 +231,8 @@ namespace FireHose_DirectX_
                 isGrounded = true;
                 return true;
             }
+
+            
             else
             {
                 PlayerColor = Color.White;

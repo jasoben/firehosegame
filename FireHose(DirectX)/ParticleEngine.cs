@@ -85,7 +85,7 @@ namespace FireHose_DirectX_
                     particle.CollisionCategories = Category.Cat3;
                 else if (PlayerNumber == 2)
                     particle.CollisionCategories = Category.Cat13;
-                particle.CollidesWith = Category.Cat4 | Category.Cat1 | Category.Cat2 | Category.Cat5;
+                particle.CollidesWith = Category.Cat4 | Category.Cat1 | Category.Cat5 | Category.Cat2;
                 particle.Restitution = .01f;
                 particle.Friction = 15f;
                 particleDensity = .01f;
@@ -94,7 +94,7 @@ namespace FireHose_DirectX_
             else
             {
                 particle.CollisionCategories = Category.Cat2;
-                particle.CollidesWith = Category.Cat1 | Category.Cat4 | Category.Cat3 | Category.Cat13 | Category.Cat5;
+                particle.CollidesWith = Category.Cat1 | Category.Cat4 | Category.Cat13 | Category.Cat5 | Category.Cat3; 
                 particleDensity = 1f;
                 particlePower = .002f;
             }
@@ -120,21 +120,19 @@ namespace FireHose_DirectX_
 
                 CurrentParticle = i;
 
-                
-              
                 particlesTTL[CurrentParticle] = particlesTTL[CurrentParticle] - 1;
 
                 if (particlesTTL[CurrentParticle] > (ParticleTTL - 10))
                 {
                     particles[CurrentParticle].ApplyLinearImpulse(ParticleVelocity); 
                 }
-                if (particlesTTL[CurrentParticle] < 10)
+                if (particlesTTL[CurrentParticle] < 10 && particlesTTL[CurrentParticle] > 0)
                 {
                     particleDictionary[particles[CurrentParticle]] = new Color(ParticleColor, (.1f * CurrentParticle));
                     particles[CurrentParticle].Mass = .001f;
                 }
 
-                if (particlesTTL[CurrentParticle] < 0)
+                if (particlesTTL[CurrentParticle] == 0)
                 {
                     particles[CurrentParticle].OnCollision -= particleCollided;
                     particles[CurrentParticle].Dispose();
@@ -179,18 +177,18 @@ namespace FireHose_DirectX_
 
         public bool particleCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
         {
+            
+            
+            if (fixtureB.CollisionCategories == Category.Cat3)
+            {
 
-            if (fixtureA.CollisionCategories == Category.Cat3)
-            {
-                fixtureA.Body.Awake = false;
-                particlesTTL[CurrentParticle] = 0;
+                fixtureB.Body.Awake = false;
+                fixtureB.CollidesWith = Category.Cat2;
+                
                 return true;
             }
-            if (fixtureB.CollisionCategories == Category.Cat5)
-            {
-                particlesTTL[CurrentParticle] = 0;
-                return true;
-            }
+            
+
             else
             {
                 return true;

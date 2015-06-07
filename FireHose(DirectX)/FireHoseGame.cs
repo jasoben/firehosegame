@@ -188,6 +188,8 @@ namespace FireHose_DirectX_
             level.Restitution = .3f;
             level.Friction = .5f;
 
+            level.OnCollision += levelCollided;
+
             player1 = new Player(Player1StartPosition, world, 1);
             player1.LoadContent(this.Content);
 
@@ -232,9 +234,9 @@ namespace FireHose_DirectX_
             player2.Update(Controls[2], gameTime, Player2KeyControls);
 
             altar1.Update();
-
+            
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
-
+            
             base.Update(gameTime);
 
         }
@@ -267,6 +269,19 @@ namespace FireHose_DirectX_
             spriteBatch.End();
                         
             base.Draw(gameTime);
+        }
+
+        public bool levelCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            if (fixtureB.CollisionCategories == Category.Cat3)
+            {
+                fixtureB.Body.Awake = false;
+                return true;
+            }
+            else
+            {
+                return true;
+            }
         }
 
     }
