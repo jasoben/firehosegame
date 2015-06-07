@@ -21,17 +21,21 @@ namespace FireHose_DirectX_
     class Particle
 
     {
-        public Vector2 ParticlePosition;
+        //public Vector2 ParticlePosition;
+        public Body ParticleBody;
         public Color ParticleColor;
         public float DrawScale;
         public int ParticleTTL;
+        public int InitialTTL;
 
-        public Particle(Vector2 particlePosition, Color color, float scale, int ttl)
+        public Particle(Body body, Color color, float scale, int ttl)
         {
-            ParticlePosition = particlePosition;
+            //ParticlePosition = particlePosition;
+            ParticleBody = body;
             ParticleColor = color;
             DrawScale = scale;
             ParticleTTL = ttl;
+            InitialTTL = ttl;
 
         }
 

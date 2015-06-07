@@ -251,7 +251,7 @@ namespace FireHose_DirectX_
         protected override void Draw(GameTime gameTime)
         {
             
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             //draw level and players
             spriteBatch.Begin();
