@@ -23,10 +23,12 @@ namespace FireHose_DirectX_
         public Vector2 ParticleVelocity;
         Vector2 particleOrigin;
 
-        private List<Body> particles;
-        private List<Color> particleColors;
-        private List<int> particlesTTL;
-        private Dictionary<Body, Color> particleDictionary = new Dictionary<Body,Color>(); 
+        private List<Body> particleBodies;
+        //private List<Color> particleColors;
+        //private List<int> particlesTTL;
+        //private Dictionary<Body, Color> particleDictionary = new Dictionary<Body,Color>(); 
+
+        private List<Particle> particles;
 
         private Texture2D particleTexture;
         public Color ParticleColor;
@@ -35,14 +37,17 @@ namespace FireHose_DirectX_
 
         Body particle;
 
-        public int ParticleTTL;
+        Particle thatParticle;
+
+        float drawScale = 1f;
+
         private float particleDensity;
         private float particlePower;
 
         public int CurrentParticle;
         public int PlayerNumber;
 
-        private float drawScale = 1f;
+        //private float drawScale = 1f;
 
         public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int playerNumber)
         {
@@ -54,9 +59,10 @@ namespace FireHose_DirectX_
             this.particleTexture = particleTexture;
             particleOrigin = new Vector2(particleTexture.Width / 2f, particleTexture.Height / 2f);
 
-            particles = new List<Body>();
-            particlesTTL = new List<int>();
-            particleColors = new List<Color>();
+            particles = new List<Particle>();
+            particleBodies = new List<Body>();
+            //particlesTTL = new List<int>();
+            //particleColors = new List<Color>();
 
             ParticleColor = particleColor;
             ParticleVelocity = particleVelocity;
@@ -67,19 +73,17 @@ namespace FireHose_DirectX_
 
         public Body GenerateNewParticle(int particleTTL)
         {
-            Texture2D theParticleTexture = particleTexture;
             
-            Color particleColor = new Color(255, 255, 255);
-            ParticleTTL = particleTTL; 
+            Texture2D theParticleTexture = particleTexture;
             
             particle = BodyFactory.CreateCircle(ThisWorld, ConvertUnits.ToSimUnits(particleTexture.Width / 2), particleDensity, ParticleEmitterLocation);
             particle.BodyType = BodyType.Dynamic;
             particle.Restitution = .1f;
             particle.Friction = .5f;
-
+            
             particle.OnCollision += particleCollided;
 
-            if (ParticleTTL > 50)
+            if (particleTTL > 50)
             {
                 if (PlayerNumber == 1)
                     particle.CollisionCategories = Category.Cat3;
@@ -99,11 +103,17 @@ namespace FireHose_DirectX_
                 particlePower = .002f;
             }
 
-            particleColors.Add(ParticleColor);
-            particles.Add(particle);
-            particlesTTL.Add(ParticleTTL);
+            //particleColors.Add(ParticleColor);
+            //particles.Add(particle);
+            //particlesTTL.Add(ParticleTTL);
 
-            particleDictionary.Add(particle, ParticleColor);
+            //particleDictionary.Add(particle, ParticleColor);
+
+
+            thatParticle = new Particle(particle.Position, ParticleColor, drawScale, particleTTL);
+            
+            particles.Add(thatParticle);
+            particleBodies.Add(particle);
 
             return particle;
         }
@@ -115,30 +125,35 @@ namespace FireHose_DirectX_
             ParticleVelocity = particleVelocity * particlePower;
             
 
-            for (int i = 0; i < particles.Count; i++)
+            for (int i = 0; i < particleBodies.Count; i++)
             {
 
                 CurrentParticle = i;
 
-                particlesTTL[CurrentParticle] = particlesTTL[CurrentParticle] - 1;
+                particles[CurrentParticle].ParticlePosition = particleBodies[CurrentParticle].Position;
+                particles[CurrentParticle].ParticleTTL = particles[CurrentParticle].ParticleTTL - 1;
 
-                if (particlesTTL[CurrentParticle] > (ParticleTTL - 10))
+               
+
+                if (particles[CurrentParticle].ParticleTTL > (particles[CurrentParticle].ParticleTTL - 10))
                 {
-                    particles[CurrentParticle].ApplyLinearImpulse(ParticleVelocity); 
+                    //particleBodies[CurrentParticle].ApplyLinearImpulse(ParticleVelocity);
+                    Console.WriteLine("testing" + CurrentParticle);
+                    
                 }
-                if (particlesTTL[CurrentParticle] < 10 && particlesTTL[CurrentParticle] > 0)
+                if ((particles[CurrentParticle].ParticleTTL < 10) && (particles[CurrentParticle].ParticleTTL > 0))
                 {
-                    particleDictionary[particles[CurrentParticle]] = new Color(ParticleColor, (.1f * CurrentParticle));
-                    particles[CurrentParticle].Mass = .001f;
+                    particles[CurrentParticle].ParticleColor = new Color(ParticleColor, (.1f * CurrentParticle));
+                    particleBodies[CurrentParticle].Mass = .001f;
                 }
 
-                if (particlesTTL[CurrentParticle] == 0)
+                if (particles[CurrentParticle].ParticleTTL == 0)
                 {
-                    particles[CurrentParticle].OnCollision -= particleCollided;
-                    particles[CurrentParticle].Dispose();
-                    particleDictionary.Remove(particles[CurrentParticle]);
+                    particleBodies[CurrentParticle].OnCollision -= particleCollided;
+                    particleBodies[CurrentParticle].Dispose();
+                    particleBodies.RemoveAt(CurrentParticle);
                     particles.RemoveAt(CurrentParticle);
-                    particlesTTL.RemoveAt(CurrentParticle);
+                    
                 }
 
                
@@ -158,9 +173,9 @@ namespace FireHose_DirectX_
             //    spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(particle.Position), null, ParticleColor, 0f, particleOrigin, 1f, SpriteEffects.None, 0f);
             //}
 
-            foreach (KeyValuePair<Body,Color> entry in particleDictionary)
+            foreach (Particle particle in particles)
             {
-                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(entry.Key.Position), null, entry.Value, 0f, particleOrigin, drawScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(particle.ParticlePosition), null, particle.ParticleColor, 0f, particleOrigin, particle.DrawScale, SpriteEffects.None, 0f);
             }
 
             //    spriteBatch.End();
@@ -189,8 +204,8 @@ namespace FireHose_DirectX_
             }
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
-                drawScale = 5f;
-                particleDictionary[particles[CurrentParticle]] = new Color(Color.Black, .01f);
+                particles[CurrentParticle].DrawScale = 5f;
+                particles[CurrentParticle].ParticleColor = new Color(Color.Black, .01f);
                 
                 return true;
             }
