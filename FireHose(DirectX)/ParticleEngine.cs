@@ -40,7 +40,9 @@ namespace FireHose_DirectX_
         private float particlePower;
 
         public int CurrentParticle;
-        public int PlayerNumber; 
+        public int PlayerNumber;
+
+        private float drawScale = 1f;
 
         public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int playerNumber)
         {
@@ -69,9 +71,7 @@ namespace FireHose_DirectX_
             
             Color particleColor = new Color(255, 255, 255);
             ParticleTTL = particleTTL; 
-
             
-
             particle = BodyFactory.CreateCircle(ThisWorld, ConvertUnits.ToSimUnits(particleTexture.Width / 2), particleDensity, ParticleEmitterLocation);
             particle.BodyType = BodyType.Dynamic;
             particle.Restitution = .1f;
@@ -160,7 +160,7 @@ namespace FireHose_DirectX_
 
             foreach (KeyValuePair<Body,Color> entry in particleDictionary)
             {
-                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(entry.Key.Position), null, entry.Value, 0f, particleOrigin, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(entry.Key.Position), null, entry.Value, 0f, particleOrigin, drawScale, SpriteEffects.None, 0f);
             }
 
             //    spriteBatch.End();
@@ -181,9 +181,16 @@ namespace FireHose_DirectX_
             
             if (fixtureB.CollisionCategories == Category.Cat3)
             {
-
+                fixtureB.IsSensor = true;
                 fixtureB.Body.Awake = false;
                 fixtureB.CollidesWith = Category.Cat2;
+                
+                return true;
+            }
+            if (fixtureB.CollisionCategories == Category.Cat2)
+            {
+                drawScale = 5f;
+                particleDictionary[particles[CurrentParticle]] = new Color(Color.Black, .01f);
                 
                 return true;
             }
