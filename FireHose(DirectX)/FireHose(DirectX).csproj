@@ -64,7 +64,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoundEffect.cs" />
+    <Compile Include="SoundItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -100,18 +100,23 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <MonoGameContentReference Include="Content\Content.mgcb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\altar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\capture-noise.wav" />
+    <Content Include="Content\death-noise.wav" />
     <Content Include="Content\dude.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\dudedamage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fire-sound.wav" />
     <Content Include="Content\firegun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -121,12 +126,21 @@
     <Content Include="Content\level.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\lighting-fire-sound.wav" />
+    <Content Include="Content\ouch-noise.wav" />
     <Content Include="Content\particle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\steam.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\water-sound.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\watergun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\you-win-noise.wav" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\kooten.ttf">

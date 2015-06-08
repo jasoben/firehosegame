@@ -26,6 +26,7 @@ namespace FireHose_DirectX_
         private List<Particle> particles;
 
         private Texture2D particleTexture;
+        private Texture2D steamTexture;
         public Color ParticleColor;
 
         public World ThisWorld;
@@ -44,12 +45,13 @@ namespace FireHose_DirectX_
 
         //private float drawScale = 1f;
 
-        public ParticleEngine(World world, Texture2D particleTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int playerNumber)
+        public ParticleEngine(World world, Texture2D particleTexture, Texture2D steamTexture, Vector2 particleEmitterLocation, Vector2 particleVelocity, Color particleColor, int playerNumber)
         {
             ParticleEmitterLocation = particleEmitterLocation;
             PlayerNumber = playerNumber;
             
             this.particleTexture = particleTexture;
+            this.steamTexture = steamTexture;
             particleOrigin = new Vector2(particleTexture.Width / 2f, particleTexture.Height / 2f);
 
             particles = new List<Particle>();
@@ -93,8 +95,8 @@ namespace FireHose_DirectX_
                 particlePower = .002f;
             }
 
-          
-            thatParticle = new Particle(particle, ParticleColor, drawScale, particleTTL);
+
+            thatParticle = new Particle(particle, ParticleColor, drawScale, particleTTL, particleTexture);
             
             particles.Add(thatParticle);
          
@@ -112,6 +114,7 @@ namespace FireHose_DirectX_
             {
 
                 CurrentParticle = i;
+                particles[CurrentParticle].Update();
 
                 particles[CurrentParticle].ParticleTTL = particles[CurrentParticle].ParticleTTL - 1;
 
@@ -157,7 +160,7 @@ namespace FireHose_DirectX_
 
             foreach (Particle particle in particles)
             {
-                spriteBatch.Draw(particleTexture, ConvertUnits.ToDisplayUnits(particle.ParticleBody.Position), null, particle.ParticleColor, 0f, particleOrigin, particle.DrawScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(particle.CurrentTexture, ConvertUnits.ToDisplayUnits(particle.ParticleBody.Position), null, particle.ParticleColor, particle.RandomRotation, particleOrigin, particle.DrawScale, SpriteEffects.None, 0f);
             }
 
             //    spriteBatch.End();
@@ -194,9 +197,9 @@ namespace FireHose_DirectX_
             }
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
-                particles[CurrentParticle].DrawScale = 8f;
-                particles[CurrentParticle].ParticleColor = new Color(Color.Gray,1f);
-                
+                particles[CurrentParticle].DrawScale = 5f;
+                particles[CurrentParticle].CurrentTexture = steamTexture;
+                particles[CurrentParticle].ParticleColor = new Color(Color.Gray, 1f);
                 return true;
             }
             

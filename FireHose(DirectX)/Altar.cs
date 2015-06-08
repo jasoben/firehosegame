@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Storage;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -30,9 +32,17 @@ namespace FireHose_DirectX_
         public int DrenchedAmount;
         public bool AltarIsLit = false;
 
+        SoundEffect lightingFire;
+        SoundItem lightingFireSound;
+
+        SoundEffect capture;
+        SoundItem captureSound;
+
         public float DrawScale;
 
         public int PlayerNumber;
+
+        public bool playSound = true;
 
         public Altar(World world, Vector2 position)
         {
@@ -55,6 +65,12 @@ namespace FireHose_DirectX_
         {
             altarTexture = content.Load<Texture2D>("altar.png");
             DrawOrigin = new Vector2(altarTexture.Width / 2, altarTexture.Height / 2);
+
+            lightingFire = content.Load<SoundEffect>("lighting-fire-sound");
+            lightingFireSound = new SoundItem(lightingFire);
+
+            capture = content.Load<SoundEffect>("capture-noise");
+            captureSound = new SoundItem(capture);
         }
 
         public void Draw(SpriteBatch sb)
@@ -91,6 +107,7 @@ namespace FireHose_DirectX_
                 {
                     PlayerNumber = 1;
                     LightAltar(2000f);
+                    lightingFireSound.PlaySound();
                 }
 
               //  Console.WriteLine("testing");
@@ -102,6 +119,7 @@ namespace FireHose_DirectX_
                 {
                     PlayerNumber = 2;
                     LightAltar(2000f);
+                    lightingFireSound.PlaySound();
                 }
 
                 //  Console.WriteLine("testing");
@@ -112,7 +130,7 @@ namespace FireHose_DirectX_
                 DrenchedAmount += 2000;
                 if (DrenchedAmount > 50000)
                 {
-                    LightAltar(-3000);
+                    LightAltar(-5000);
                 }
                 return true;
             }
@@ -129,6 +147,8 @@ namespace FireHose_DirectX_
             {
                 AltarIsLit = true;
                 AltarAmount = 100500;
+                lightingFireSound.StopSound();
+                PlaySound(playSound);
             }
                         
             if (AltarAmount < 0)
@@ -136,6 +156,8 @@ namespace FireHose_DirectX_
                 AltarAmount = 0;
                 DrenchedAmount = 0;
                 AltarIsLit = false;
+                playSound = true;
+                lightingFireSound.StopSound();
             }
             if (DrenchedAmount < 0)
                 DrenchedAmount = 500;
@@ -145,6 +167,14 @@ namespace FireHose_DirectX_
                
         }
 
+        public void PlaySound(bool playTheSound)
+        {
+            if (playTheSound == true)
+            {
+                playSound = false;
+                captureSound.PlaySingleSound();
+            }
+        }
         
     }
 }

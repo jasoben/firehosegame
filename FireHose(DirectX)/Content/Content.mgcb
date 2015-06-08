@@ -91,3 +91,45 @@
 /processorParam:Quality=Best
 /build:juanitos-firehose.mp3
 
+#begin water-sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:water-sound.wav
+
+#begin fire-sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:fire-sound.wav
+
+#begin capture-noise.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:capture-noise.wav
+
+#begin death-noise.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:death-noise.wav
+
+#begin lighting-fire-sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:lighting-fire-sound.wav
+
+#begin ouch-noise.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ouch-noise.wav
+
+#begin you-win-noise.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:you-win-noise.wav
+

@@ -29,10 +29,20 @@ namespace FireHose_DirectX_
         Gun fireGun;
         Gun waterGun;
 
-        private SoundEffect waterSound;
-        
         public int PlayerHealth;
         public Vector2 HealthScale;
+
+        SoundEffect water;
+        SoundItem waterSound;
+
+        SoundEffect fire;
+        SoundItem fireSound;
+
+        SoundEffect ouch;
+        SoundItem ouchSound;
+
+        SoundEffect death;
+        SoundItem deathSound;
 
         Vector2 flyDirection;
         public Vector2 PlayerPosition;
@@ -55,6 +65,8 @@ namespace FireHose_DirectX_
         public bool isGrounded = true;
 
         private int totalHealth = 100;
+
+        public int RestartTimer = 300;
 
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
@@ -88,7 +100,16 @@ namespace FireHose_DirectX_
             fireGun.LoadContent(content);
             waterGun.LoadContent(content);
 
-           
+            water = content.Load<SoundEffect>("water-sound");
+            fire = content.Load<SoundEffect>("fire-sound");
+            ouch = content.Load<SoundEffect>("ouch-noise");
+            death = content.Load<SoundEffect>("death-noise");
+
+
+            waterSound = new SoundItem(water);
+            fireSound = new SoundItem(fire);
+            ouchSound = new SoundItem(ouch);
+            deathSound = new SoundItem(death);
             
         }
 
@@ -111,8 +132,7 @@ namespace FireHose_DirectX_
 
             if (PlayerHealth < 0)
             {
-                PlayerHealth = totalHealth;
-                Restart();
+                playerBody.SetTransform(new Vector2(3000f, 3000f), 0f);
             }
 
             if (PlayerHealth < 80)
@@ -180,6 +200,16 @@ namespace FireHose_DirectX_
                 playerBody.ApplyForce(flyDirection);                
                 
             }
+            if (controls.isPressed(Keys.A, Buttons.RightThumbstickDown) || controls.isPressed(Keys.A, Buttons.RightThumbstickLeft) || controls.isPressed(Keys.A, Buttons.RightThumbstickUp) || controls.isPressed(Keys.A, Buttons.RightThumbstickRight))
+            {
+
+                fireSound.PlaySound();
+            }
+            if (controls.onRelease(Keys.A, Buttons.RightThumbstickDown) || controls.onRelease(Keys.A, Buttons.RightThumbstickLeft) || controls.onRelease(Keys.A, Buttons.RightThumbstickUp) || controls.onRelease(Keys.A, Buttons.RightThumbstickRight))
+            {
+
+                fireSound.StopSound();
+            }
 
             if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
             {
@@ -189,10 +219,16 @@ namespace FireHose_DirectX_
                     flyDirection = new Vector2(-1* flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
                     
-                } else
+                }
+                if (controls.isPressed(Keys.A, Buttons.LeftThumbstickDown) || controls.isPressed(Keys.A, Buttons.LeftThumbstickLeft) || controls.isPressed(Keys.A, Buttons.LeftThumbstickUp) || controls.isPressed(Keys.A, Buttons.LeftThumbstickRight))
                 {
-                   
-                    
+                    waterSound.SoundVolume = .3f;
+                    waterSound.PlaySound();
+                }
+                if (controls.onRelease(Keys.A, Buttons.LeftThumbstickDown) || controls.onRelease(Keys.A, Buttons.LeftThumbstickLeft) || controls.onRelease(Keys.A, Buttons.LeftThumbstickUp) || controls.onRelease(Keys.A, Buttons.LeftThumbstickRight))
+                {
+                    waterSound.SoundVolume = .3f;
+                    waterSound.StopSound();
                 }
             }
            
@@ -216,8 +252,20 @@ namespace FireHose_DirectX_
         public void Restart()
         {
 
-            playerBody.Dispose();
-            CreatePlayer();
+            if (RestartTimer > 298)
+                deathSound.PlaySingleSound();
+
+            RestartTimer -= 1;
+            if (RestartTimer < 0)
+            {
+                
+                playerBody.Dispose();
+                CreatePlayer();
+                RestartTimer = 300;
+                
+            }
+            
+           
             
         }
 
@@ -264,6 +312,7 @@ namespace FireHose_DirectX_
                 DeltaColor = 20;
                 PlayerHealth--;
                 PlayerColor = Color.Orange;
+                ouchSound.PlaySingleSound();
                 return true;
             }
             if (fixtureB.CollisionCategories == Category.Cat4)
@@ -276,12 +325,14 @@ namespace FireHose_DirectX_
                     DeltaColor = 20;
                     PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.Y);
                     PlayerColor = Color.Orange;
+                    ouchSound.PlaySingleSound();
                 }
                 if (Math.Abs(playerBody.LinearVelocity.X) > 10f)
                 {
                     DeltaColor = 20;
                     PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.X);
                     PlayerColor = Color.Orange;
+                    ouchSound.PlaySingleSound();
                 }
                 return true;
             }
