@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Collision;
@@ -27,6 +29,8 @@ namespace FireHose_DirectX_
         Gun fireGun;
         Gun waterGun;
 
+        private SoundEffect waterSound;
+        
         public int PlayerHealth;
         public Vector2 HealthScale;
 
@@ -85,6 +89,9 @@ namespace FireHose_DirectX_
             playerOrigin = new Vector2(playerTexture.Width / 2f, playerTexture.Height / 2f);
             fireGun.LoadContent(content);
             waterGun.LoadContent(content);
+
+            waterSound = content.Load<SoundEffect>("water-noise.wav");
+            
         }
 
         public void Update(Controls controls, GameTime gameTime, List<Keys> playerControls)
@@ -120,7 +127,8 @@ namespace FireHose_DirectX_
             {
                 DamageColor = new Color(Color.Black, 0f);
             }
-           
+
+            
                         
         }
 
@@ -172,7 +180,8 @@ namespace FireHose_DirectX_
             {
                 flyDirection = controls.Fly(true);
                 flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
-                playerBody.ApplyForce(flyDirection);
+                playerBody.ApplyForce(flyDirection);                
+                
             }
 
             if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
@@ -182,6 +191,11 @@ namespace FireHose_DirectX_
                     flyDirection = controls.Fly(false);
                     flyDirection = new Vector2(-1* flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
+                    
+                } else
+                {
+                   
+                    
                 }
             }
            
@@ -299,6 +313,6 @@ namespace FireHose_DirectX_
 
         }
 
-
+        
     }
 }

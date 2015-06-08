@@ -320,7 +320,8 @@ namespace FireHose_DirectX_
             //player.LinearDamping = 2f;
 
             mainSong = Content.Load<Song>("songs/juanitos-firehose");
-            MediaPlayer.Play(mainSong);
+          //  MediaPlayer.Play(mainSong);
+            MediaPlayer.Volume = 50f;
             MediaPlayer.IsRepeating = true;
 
             BuildLevel();
