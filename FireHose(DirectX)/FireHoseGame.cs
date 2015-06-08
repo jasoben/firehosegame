@@ -250,7 +250,7 @@ namespace FireHose_DirectX_
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
             
-            //this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
