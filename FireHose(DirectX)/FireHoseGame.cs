@@ -34,7 +34,10 @@ namespace FireHose_DirectX_
         SpriteFont font;
 
         Song mainSong;
-        
+
+        public string WinMessage = null;
+        public Color WinColor;
+
         //We make a list of Controls so we can easily pass the right control information from separate player objects to their associated (by an integer value) control object
         public List<Controls> Controls;
 
@@ -379,7 +382,9 @@ namespace FireHose_DirectX_
             KeepScore();
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
-            
+
+            YouWin();
+
             base.Update(gameTime);
 
         }
@@ -428,6 +433,10 @@ namespace FireHose_DirectX_
                 spriteBatch.DrawString(font, ((int)(player2.RestartTimer / 60) + 1).ToString(), new Vector2(1600, 800), Color.GreenYellow, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
             }
 
+            if (WinMessage != null)
+            {
+                spriteBatch.DrawString(font, WinMessage, new Vector2(100, 500), WinColor, 0f, new Vector2(0, 0), 10f, SpriteEffects.None, 0f);
+            }
             spriteBatch.End();
                         
             base.Draw(gameTime);
@@ -571,6 +580,23 @@ namespace FireHose_DirectX_
                         player2.PlayerScore += 75;
                 }
             }
+        }
+
+        public void YouWin()
+        {
+            if (player1.PlayerScore >= 1000000)
+            {
+                WinMessage = "Player One Wins!";
+                WinColor = Color.CornflowerBlue;
+                player2.PlayerScore = 0;
+            }
+            if (player2.PlayerScore >= 1000000)
+            {
+                WinMessage = "Player Two Wins!";
+                WinColor = Color.GreenYellow;
+                player1.PlayerScore = 0;
+            }
+            
         }
     }
 }
