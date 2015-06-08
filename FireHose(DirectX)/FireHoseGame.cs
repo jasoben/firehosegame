@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Collision;
@@ -30,6 +32,8 @@ namespace FireHose_DirectX_
         SpriteBatch spriteBatch;
 
         SpriteFont font;
+
+        Song mainSong;
         
         //We make a list of Controls so we can easily pass the right control information from separate player objects to their associated (by an integer value) control object
         public List<Controls> Controls;
@@ -315,17 +319,13 @@ namespace FireHose_DirectX_
             //This lineardamping is for when we implement a fixture beneath the player body object that slows it while on the ground
             //player.LinearDamping = 2f;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            mainSong = Content.Load<Song>("songs/juanitos-firehose");
+
+            mainSong = Content.Load<Song>("juanitos-firehose");
           //  MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 50f;
             MediaPlayer.IsRepeating = true;
 
-=======
->>>>>>> parent of 3ac033b... Added music
-=======
->>>>>>> parent of 3ac033b... Added music
+
             BuildLevel();
 
             player1 = new Player(Player1StartPosition, world, 1);

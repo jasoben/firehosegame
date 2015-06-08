@@ -88,7 +88,7 @@ namespace FireHose_DirectX_
             fireGun.LoadContent(content);
             waterGun.LoadContent(content);
 
-            waterSound = content.Load<SoundEffect>("water-noise.wav");
+           
             
         }
 

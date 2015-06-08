@@ -85,3 +85,9 @@
 /processorParam:TextureFormat=Color
 /build:dudedamage.png
 
+#begin juanitos-firehose.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:juanitos-firehose.mp3
+
