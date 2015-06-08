@@ -316,11 +316,14 @@ namespace FireHose_DirectX_
             //player.LinearDamping = 2f;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             mainSong = Content.Load<Song>("songs/juanitos-firehose");
           //  MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 50f;
             MediaPlayer.IsRepeating = true;
 
+=======
+>>>>>>> parent of 3ac033b... Added music
 =======
 >>>>>>> parent of 3ac033b... Added music
             BuildLevel();
