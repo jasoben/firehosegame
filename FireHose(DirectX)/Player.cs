@@ -28,6 +28,7 @@ namespace FireHose_DirectX_
         Gun waterGun;
 
         public int PlayerHealth;
+        public Vector2 HealthScale;
 
         Vector2 flyDirection;
         public Vector2 PlayerPosition;
@@ -38,8 +39,12 @@ namespace FireHose_DirectX_
         public World World;
 
         public Color PlayerColor;
+        public Color OriginalPlayerColor;
+        public Color DamageColor;
 
         private int DeltaColor;
+
+        public int PlayerScore = 0;
 
         private Vector2 centorOfMass;
 
@@ -54,7 +59,11 @@ namespace FireHose_DirectX_
             PlayerStartPosition = playerStartPosition;
             World = world;
             PlayerNumber = playerNumber;
-            PlayerColor = Color.White;
+            
+            if (PlayerNumber == 1)
+                PlayerColor = OriginalPlayerColor = Color.CornflowerBlue;
+            if (PlayerNumber == 2)
+                PlayerColor = OriginalPlayerColor = Color.GreenYellow;
 
             PlayerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
             centorOfMass = new Vector2(ConvertUnits.ToSimUnits(0f), ConvertUnits.ToSimUnits(10f));
@@ -91,7 +100,7 @@ namespace FireHose_DirectX_
 
             DeltaColor--;
             if (DeltaColor < 0)
-                PlayerColor = Color.White;
+                PlayerColor = OriginalPlayerColor;
 
             if (PlayerHealth < 0)
             {
@@ -99,14 +108,23 @@ namespace FireHose_DirectX_
                 Restart();
             }
 
-         
+            if (PlayerHealth < 80)
+            {
+                DamageColor = new Color(Color.Red, (1f - ((float)PlayerHealth / (float)totalHealth)));
+                HealthScale = new Vector2(.5f, (.5f * (1f - ((float)PlayerHealth / (float)totalHealth))));
+            }
+            else
+            {
+                DamageColor = new Color(Color.Black, 0f);
+            }
+           
                         
         }
 
         public void Draw(SpriteBatch sb)
         {
+            sb.Draw(damageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, DamageColor, playerBody.Rotation, playerOrigin, HealthScale, SpriteEffects.None, 1f);
             sb.Draw(playerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
-            sb.Draw(damageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.Red, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
             fireGun.Draw(sb);
             waterGun.Draw(sb);
         }
@@ -219,7 +237,7 @@ namespace FireHose_DirectX_
                 playerBody.SetTransform(new Vector2(ConvertUnits.ToSimUnits(100f), playerBody.Position.Y), 0f);
             }
             
-            if (PlayerPosition.Y > 1100)
+            if (PlayerPosition.Y > 1200)
             {
                 Restart();
             }
@@ -238,10 +256,22 @@ namespace FireHose_DirectX_
             {
                 playerBody.SetTransform(playerBody.Position, 0f);
                 isGrounded = true;
+
+                if (Math.Abs(playerBody.LinearVelocity.Y) > 10f)
+                {
+                    DeltaColor = 20;
+                    PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.Y);
+                    PlayerColor = Color.Orange;
+                }
+                if (Math.Abs(playerBody.LinearVelocity.X) > 10f)
+                {
+                    DeltaColor = 20;
+                    PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.X);
+                    PlayerColor = Color.Orange;
+                }
                 return true;
             }
 
-            
             else
             {
                 PlayerColor = Color.White;

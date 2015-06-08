@@ -61,7 +61,7 @@ namespace FireHose_DirectX_
         Body lipRight;
 
         public List<Body> levelBlocks;
-        Body[] levelItems;
+        private List<Altar> altars;
 
         private Vector2 levelOrigin;
 
@@ -241,8 +241,9 @@ namespace FireHose_DirectX_
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1800;
-            graphics.PreferredBackBufferHeight = 900;
-            this.graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = 1000;
+            
+            //this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -322,8 +323,7 @@ namespace FireHose_DirectX_
             player2 = new Player(Player2StartPosition, world, 2);
             player2.LoadContent(this.Content);
 
-            altar1 = new Altar(world, new Vector2(200, 400));
-            altar1.LoadContent(this.Content);
+            BuildAltars();
 
             font = Content.Load<SpriteFont>("PescaFont");
             
@@ -360,7 +360,13 @@ namespace FireHose_DirectX_
             player2.Update(Controls[2], gameTime, Player2KeyControls);
 
             altar1.Update();
-            
+            altar2.Update();
+            altar3.Update();
+            altar4.Update();
+            altar5.Update();
+
+            KeepScore();
+
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
             
             base.Update(gameTime);
@@ -391,8 +397,14 @@ namespace FireHose_DirectX_
             player2.Draw(spriteBatch);
 
             altar1.Draw(spriteBatch);
+            altar2.Draw(spriteBatch);
+            altar3.Draw(spriteBatch);
+            altar4.Draw(spriteBatch);
+            altar5.Draw(spriteBatch);
+
             //Dummy for getting information from classes to push into troubleshooting text box
-            spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 200), Color.White);
+            spriteBatch.DrawString(font, "Player 1: " + player1.PlayerScore.ToString(), new Vector2(50, 75), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, "Player 2: " + player2.PlayerScore.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
             
             spriteBatch.End();
@@ -411,6 +423,29 @@ namespace FireHose_DirectX_
             {
                 return true;
             }
+        }
+
+        public void BuildAltars()
+        {
+            altar1 = new Altar(world, new Vector2(130, 695));
+            altar1.LoadContent(this.Content);
+
+            altar2 = new Altar(world, new Vector2(1660, 695));
+            altar2.LoadContent(this.Content);
+
+            altar3 = new Altar(world, new Vector2(900, 700));
+            altar3.LoadContent(this.Content);
+
+            altar4 = new Altar(world, new Vector2(600, 350));
+            altar4.LoadContent(this.Content);
+
+            altar5 = new Altar(world, new Vector2(1200, 350));
+            altar5.LoadContent(this.Content);
+            
+            Altar[] theAltars = { altar1, altar2, altar3, altar4, altar5 };
+
+            altars = new List<Altar>(theAltars);
+
         }
 
         public void BuildLevel()
@@ -501,6 +536,20 @@ namespace FireHose_DirectX_
 
             boxlipright = new Vector2(.25f, .5f);
             spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(lipRight.Position), null, Color.White, 0f, levelOrigin, boxlipright, SpriteEffects.None, 0f);
+        }
+
+        public void KeepScore() 
+        {
+            foreach (Altar altar in altars)
+            {
+                if (altar.AltarIsLit)
+                {
+                    if (altar.PlayerNumber == 1)
+                        player1.PlayerScore += 50;
+                    if (altar.PlayerNumber == 2)
+                        player2.PlayerScore += 50;
+                }
+            }
         }
     }
 }

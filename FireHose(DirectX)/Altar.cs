@@ -28,9 +28,11 @@ namespace FireHose_DirectX_
 
         public float AltarAmount;
         public int DrenchedAmount;
-        public bool AltarIsLit;
+        public bool AltarIsLit = false;
 
         public float DrawScale;
+
+        public int PlayerNumber;
 
         public Altar(World world, Vector2 position)
         {
@@ -38,10 +40,10 @@ namespace FireHose_DirectX_
             SimPosition = new Vector2(ConvertUnits.ToSimUnits(position.X), ConvertUnits.ToSimUnits(position.Y));
             DrawPosition = position;
             
-            altar = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(10f), ConvertUnits.ToSimUnits(200f), 1f, SimPosition);
+            altar = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(5f), ConvertUnits.ToSimUnits(100f), 1f, SimPosition);
             altar.IsStatic = true;
             altar.CollisionCategories = Category.Cat5;
-            altar.CollidesWith = Category.Cat2 | Category.Cat3;
+            altar.CollidesWith = Category.Cat2 | Category.Cat3 | Category.Cat13;
             altar.OnCollision += altarCollision;
 
             AltarAmount = 0;
@@ -59,6 +61,17 @@ namespace FireHose_DirectX_
         {
             sb.Draw(altarTexture, DrawPosition, null, Color.Brown, 0f, DrawOrigin, 1f, SpriteEffects.None, 1f);
             sb.Draw(altarTexture, DrawPosition, null, Color.Orange, 0f, DrawOrigin, DrawScale, SpriteEffects.None, 1f);
+            if (AltarIsLit)
+            {
+                if (PlayerNumber == 1)
+                {
+                    sb.Draw(altarTexture, DrawPosition + new Vector2(0f, -60f), null, Color.CornflowerBlue, 0f, DrawOrigin, .3f, SpriteEffects.None, 1f);
+                } else if (PlayerNumber == 2)
+                {
+                    sb.Draw(altarTexture, DrawPosition + new Vector2(0f, -60f), null, Color.GreenYellow, 0f, DrawOrigin, .3f, SpriteEffects.None, 1f);
+                }
+            }
+
         }
 
         public void Update()
@@ -74,8 +87,24 @@ namespace FireHose_DirectX_
         {
             if (fixtureB.CollisionCategories == Category.Cat3)
             {
-                LightAltar(2000f);
+                if (!AltarIsLit)
+                {
+                    PlayerNumber = 1;
+                    LightAltar(2000f);
+                }
+
               //  Console.WriteLine("testing");
+                return true;
+            }
+            if (fixtureB.CollisionCategories == Category.Cat13)
+            {
+                if (!AltarIsLit)
+                {
+                    PlayerNumber = 2;
+                    LightAltar(2000f);
+                }
+
+                //  Console.WriteLine("testing");
                 return true;
             }
             if (fixtureB.CollisionCategories == Category.Cat2)
@@ -101,13 +130,12 @@ namespace FireHose_DirectX_
                 AltarIsLit = true;
                 AltarAmount = 100500;
             }
-
-            else
-                AltarIsLit = false;
+                        
             if (AltarAmount < 0)
             {
                 AltarAmount = 0;
                 DrenchedAmount = 0;
+                AltarIsLit = false;
             }
             if (DrenchedAmount < 0)
                 DrenchedAmount = 500;
@@ -116,5 +144,7 @@ namespace FireHose_DirectX_
 
                
         }
+
+        
     }
 }

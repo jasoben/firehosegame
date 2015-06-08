@@ -184,10 +184,18 @@ namespace FireHose_DirectX_
                 
                 return true;
             }
+            if (fixtureB.CollisionCategories == Category.Cat13)
+            {
+                fixtureB.IsSensor = true;
+                fixtureB.Body.Awake = false;
+                fixtureB.CollidesWith = Category.Cat2;
+
+                return true;
+            }
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
                 particles[CurrentParticle].DrawScale = 8f;
-                particles[CurrentParticle].ParticleColor = new Color(Color.Gray,.5f);
+                particles[CurrentParticle].ParticleColor = new Color(Color.Gray,1f);
                 
                 return true;
             }
