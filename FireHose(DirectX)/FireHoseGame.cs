@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Collision;
@@ -32,8 +30,6 @@ namespace FireHose_DirectX_
         SpriteBatch spriteBatch;
 
         SpriteFont font;
-
-        protected Song mainSong; 
         
         //We make a list of Controls so we can easily pass the right control information from separate player objects to their associated (by an integer value) control object
         public List<Controls> Controls;
@@ -319,11 +315,14 @@ namespace FireHose_DirectX_
             //This lineardamping is for when we implement a fixture beneath the player body object that slows it while on the ground
             //player.LinearDamping = 2f;
 
+<<<<<<< HEAD
             mainSong = Content.Load<Song>("songs/juanitos-firehose");
           //  MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 50f;
             MediaPlayer.IsRepeating = true;
 
+=======
+>>>>>>> parent of 3ac033b... Added music
             BuildLevel();
 
             player1 = new Player(Player1StartPosition, world, 1);
@@ -415,18 +414,6 @@ namespace FireHose_DirectX_
             spriteBatch.DrawString(font, "Player 1: " + player1.PlayerScore.ToString(), new Vector2(50, 75), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(font, "Player 2: " + player2.PlayerScore.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
-
-            if (player1.RestartTimer < 300)
-            {
-                spriteBatch.DrawString(font, ((int)(player1.RestartTimer / 60) + 1).ToString(), new Vector2(50, 800), Color.CornflowerBlue, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
-            }
-
-            if (player2.RestartTimer < 300)
-            {
-                spriteBatch.DrawString(font, ((int)(player2.RestartTimer / 60) + 1).ToString(), new Vector2(1600, 800), Color.GreenYellow, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
-            }
-            
-           
             
             spriteBatch.End();
                         

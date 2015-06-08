@@ -56,8 +56,6 @@ namespace FireHose_DirectX_
 
         private int totalHealth = 100;
 
-        public int RestartTimer = 300;
-
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
 
@@ -114,8 +112,7 @@ namespace FireHose_DirectX_
             if (PlayerHealth < 0)
             {
                 PlayerHealth = totalHealth;
-                playerBody.SetTransform(new Vector2(3000f, 3000f), 0f);
-                
+                Restart();
             }
 
             if (PlayerHealth < 80)
@@ -218,14 +215,9 @@ namespace FireHose_DirectX_
 
         public void Restart()
         {
-            
-            RestartTimer -= 1;
-            if (RestartTimer < 0)
-            {
-                playerBody.Dispose();
-                CreatePlayer();
-                RestartTimer = 300;
-            }
+
+            playerBody.Dispose();
+            CreatePlayer();
             
         }
 

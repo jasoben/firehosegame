@@ -33,7 +33,6 @@ namespace FireHose_DirectX_
         Texture2D fireGunTexture;
         Texture2D waterGunTexture;
         Texture2D particleTexture;
-        Texture2D steamTexture;
 
         ParticleEngine particleEngine;
 
@@ -86,9 +85,8 @@ namespace FireHose_DirectX_
             fireGunTexture = content.Load<Texture2D>("firegun.png");
             waterGunTexture = content.Load<Texture2D>("watergun.png");
             particleTexture = content.Load<Texture2D>("particle.png");
-            steamTexture = content.Load<Texture2D>("steam.png");
 
-            particleEngine = new ParticleEngine(ThisWorld, particleTexture, steamTexture, PlayerPosition, ParticleVelocity, ParticleColor, PlayerNumber);
+            particleEngine = new ParticleEngine(ThisWorld, particleTexture, PlayerPosition, ParticleVelocity, ParticleColor, PlayerNumber);
                 
         }
 
