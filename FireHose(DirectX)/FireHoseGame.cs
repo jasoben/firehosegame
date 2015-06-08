@@ -566,9 +566,9 @@ namespace FireHose_DirectX_
                 if (altar.AltarIsLit)
                 {
                     if (altar.PlayerNumber == 1)
-                        player1.PlayerScore += 50;
+                        player1.PlayerScore += 75;
                     if (altar.PlayerNumber == 2)
-                        player2.PlayerScore += 50;
+                        player2.PlayerScore += 75;
                 }
             }
         }

@@ -38,11 +38,15 @@ namespace FireHose_DirectX_
         SoundEffect capture;
         SoundItem captureSound;
 
+        SoundEffect extinguish;
+        SoundItem extinguishSound;
+
         public float DrawScale;
 
         public int PlayerNumber;
 
-        public bool playSound = true;
+        public bool playLightSound = true;
+        public bool playExtinguishSound = false;
 
         public Altar(World world, Vector2 position)
         {
@@ -71,6 +75,9 @@ namespace FireHose_DirectX_
 
             capture = content.Load<SoundEffect>("capture-noise");
             captureSound = new SoundItem(capture);
+
+            extinguish = content.Load<SoundEffect>("extinguish-sound");
+            extinguishSound = new SoundItem(extinguish);
         }
 
         public void Draw(SpriteBatch sb)
@@ -147,8 +154,9 @@ namespace FireHose_DirectX_
             {
                 AltarIsLit = true;
                 AltarAmount = 100500;
+                playExtinguishSound = true;
                 lightingFireSound.StopSound();
-                PlaySound(playSound);
+                PlayLightSound(playLightSound);
             }
                         
             if (AltarAmount < 0)
@@ -156,8 +164,9 @@ namespace FireHose_DirectX_
                 AltarAmount = 0;
                 DrenchedAmount = 0;
                 AltarIsLit = false;
-                playSound = true;
+                playLightSound = true;
                 lightingFireSound.StopSound();
+                PlayExtinguishSound(playExtinguishSound);
             }
             if (DrenchedAmount < 0)
                 DrenchedAmount = 500;
@@ -167,12 +176,21 @@ namespace FireHose_DirectX_
                
         }
 
-        public void PlaySound(bool playTheSound)
+        public void PlayLightSound(bool playTheSound)
         {
             if (playTheSound == true)
             {
-                playSound = false;
+                playLightSound = false;
                 captureSound.PlaySingleSound();
+            }
+        }
+
+        public void PlayExtinguishSound(bool playTheSound)
+        {
+            if (playTheSound == true)
+            {
+                playExtinguishSound = false;
+                extinguishSound.PlaySingleSound();
             }
         }
         

@@ -133,3 +133,9 @@
 /processorParam:Quality=Best
 /build:you-win-noise.wav
 
+#begin extinguish-sound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:extinguish-sound.wav
+

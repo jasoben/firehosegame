@@ -116,6 +116,9 @@
     <Content Include="Content\dudedamage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\extinguish-sound.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\fire-sound.wav" />
     <Content Include="Content\firegun.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
