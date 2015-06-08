@@ -22,6 +22,7 @@ namespace FireHose_DirectX_
     {
         public Body playerBody;
         Texture2D playerTexture;
+        Texture2D damageTexture;
         Vector2 playerOrigin;
         Gun fireGun;
         Gun waterGun;
@@ -69,6 +70,7 @@ namespace FireHose_DirectX_
         public void LoadContent(ContentManager content)
         {
             playerTexture = content.Load<Texture2D>("dude.png");
+            damageTexture = content.Load<Texture2D>("dudedamage.png");
             playerOrigin = new Vector2(playerTexture.Width / 2f, playerTexture.Height / 2f);
             fireGun.LoadContent(content);
             waterGun.LoadContent(content);
@@ -104,6 +106,7 @@ namespace FireHose_DirectX_
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(playerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
+            sb.Draw(damageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.Red, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
             fireGun.Draw(sb);
             waterGun.Draw(sb);
         }

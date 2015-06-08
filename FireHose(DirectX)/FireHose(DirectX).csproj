@@ -105,7 +105,8 @@
     <Content Include="Content\altar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\dude.png">
+    <Content Include="Content\dude.png" />
+    <Content Include="Content\dudedamage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\firegun.png">

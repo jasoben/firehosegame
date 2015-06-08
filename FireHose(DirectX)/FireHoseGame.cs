@@ -222,13 +222,13 @@ namespace FireHose_DirectX_
         //these properties grab the screencenter property and determine where the players start       
         public Vector2 Player1StartPosition
         {
-            get { return (ScreenCenter - new Vector2(200, 100));  }
+            get { return (new Vector2(250, 800));  }
 
         }
 
         public Vector2 Player2StartPosition
         {
-            get { return (ScreenCenter + new Vector2(200, -100)); }
+            get { return (new Vector2(1550, 800)); }
 
         }
 
@@ -242,6 +242,7 @@ namespace FireHose_DirectX_
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 900;
+            this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -391,7 +392,7 @@ namespace FireHose_DirectX_
 
             altar1.Draw(spriteBatch);
             //Dummy for getting information from classes to push into troubleshooting text box
-            spriteBatch.DrawString(font, altar1.AltarAmount.ToString(), new Vector2(100, 200), Color.Black);
+            spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 200), Color.White);
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
             
             spriteBatch.End();
