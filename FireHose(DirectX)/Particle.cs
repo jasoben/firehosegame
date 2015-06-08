@@ -12,65 +12,45 @@ using FarseerPhysics.Collision;
 using FarseerPhysics.Common;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
+using Tao.Sdl;
 
 #endregion
+
 namespace FireHose_DirectX_
 {
     class Particle
+
     {
+        //public Vector2 ParticlePosition;
+        public Body ParticleBody;
+        public Color ParticleColor;
+        public float DrawScale;
+        public int ParticleTTL;
+        public int InitialTTL;
+        public Texture2D CurrentTexture;
+        private Random randomRotation;
+        public float RandomRotation;
 
-        public Texture2D ParticleTexture { get; set; }
-        public Vector2 ParticlePosition { get; set; }
-        public Vector2 ParticleVelocity { get; set; }
-        public Rectangle SourceRectangle;
-        public Rectangle FlyingRectangle;
-
-        //public float FireAngle { get; set; }
-        //public float FireAngularVelocity { get; set; }
-        public Color ParticleColor { get; set; }
-        public float ParticleSize { get; set; }
-        public int ParticleTTL { get; set; }
-
-        public Particle(Texture2D particleTexture, Vector2 particlePosition, Vector2 particleVelocity, Color particleColor, float particleSize, int particleTTL)
+        public Particle(Body body, Color color, float scale, int ttl, Texture2D currentTexture)
         {
+            //ParticlePosition = particlePosition;
+            ParticleBody = body;
+            ParticleColor = color;
+            DrawScale = scale;
+            ParticleTTL = ttl;
+            InitialTTL = ttl;
 
-            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
-            ParticlePosition = ConvertUnits.ToDisplayUnits(particlePosition);
-            ParticleTexture = particleTexture;
-            ParticleColor = particleColor;
-            ParticleSize = particleSize;
-            ParticleTTL = particleTTL;
-            ParticleVelocity = new Vector2(particleVelocity.X, -1 * particleVelocity.Y);
-            ParticleVelocity = ParticleVelocity / 5;
-            SourceRectangle = new Rectangle(0, 0, ParticleTexture.Width, ParticleTexture.Height);
-            FlyingRectangle = SourceRectangle;
-            FlyingRectangle.Width = 50;
-            FlyingRectangle.Height = 50;
+            CurrentTexture = currentTexture;
+            randomRotation = new Random();
+            RandomRotation = randomRotation.Next(0, 360);
 
         }
 
         public void Update()
         {
-            ParticleTTL--;
-            ParticlePosition += ParticleVelocity;
-
-            FlyingRectangle.X = (int)ParticlePosition.X;
-            FlyingRectangle.Y += (int)ParticlePosition.Y;
-            
+            RandomRotation += .05f;
         }
 
-        
-        public void Draw(SpriteBatch particleSB)
-        {
-            Vector2 origin = new Vector2(ParticleTexture.Width / 2, ParticleTexture.Height / 2);
-            particleSB.Draw(ParticleTexture, ParticlePosition, SourceRectangle, ParticleColor, 1f, origin, ParticleSize, SpriteEffects.None, 0f);
-           
-        }
-
-        public Rectangle GetRectangle() 
-        {
-            return FlyingRectangle;
-            
-        }   
+       
     }
 }

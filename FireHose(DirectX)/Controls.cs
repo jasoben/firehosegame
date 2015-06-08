@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
+
 using Tao.Sdl; 
 
 
@@ -17,7 +18,11 @@ namespace FireHose_DirectX_
 		
         public GamePadState gp;
 		public GamePadState gpo;
+<<<<<<< HEAD
         
+=======
+               
+>>>>>>> origin/Jason
         //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls
         public int PlayerNumber;
 
@@ -92,12 +97,11 @@ namespace FireHose_DirectX_
 
         public bool isThumbStick(Buttons button)
         {
-
             return (gp.IsButtonDown(button) && gpo.IsButtonDown(button));
-            
         }
 
         //This method calculates the vector of flying when the player blasts fire
+<<<<<<< HEAD
         //TODO: maxSpeed actually controls the acceloration, not a real maxSpeed -- maybe rename it?
         public Vector2 FlyFire()
         {
@@ -117,19 +121,31 @@ namespace FireHose_DirectX_
         public Vector2 FlyWater()
         {
             float maxSpeed = 15f;
+=======
+        
+        public Vector2 Fly(bool isItFire)
+        {
+            
+            float maxAccel = 20f;
+            float rawThumbStickX = gp.ThumbSticks.Right.X * maxAccel;
+            float rawThumbStickY = gp.ThumbSticks.Right.Y * maxAccel;
+>>>>>>> origin/Jason
 
-            float rawThumbStickX = gp.ThumbSticks.Left.X * maxSpeed;
-            float rawThumbStickY = gp.ThumbSticks.Left.Y * maxSpeed;
+            if (isItFire == false)
+            {
+                maxAccel = 15f;
+                rawThumbStickX = gp.ThumbSticks.Left.X * maxAccel;
+                rawThumbStickY = gp.ThumbSticks.Left.Y * maxAccel;
+            }
+            
 
             int thumbStickX = (int)rawThumbStickX;
             int thumbStickY = (int)rawThumbStickY;
 
             return new Vector2(thumbStickX, thumbStickY);
 
-
         }
 
-	
 	}
 }
 
