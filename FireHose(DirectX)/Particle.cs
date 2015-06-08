@@ -27,8 +27,11 @@ namespace FireHose_DirectX_
         public float DrawScale;
         public int ParticleTTL;
         public int InitialTTL;
+        public Texture2D CurrentTexture;
+        private Random randomRotation;
+        public float RandomRotation;
 
-        public Particle(Body body, Color color, float scale, int ttl)
+        public Particle(Body body, Color color, float scale, int ttl, Texture2D currentTexture)
         {
             //ParticlePosition = particlePosition;
             ParticleBody = body;
@@ -36,9 +39,15 @@ namespace FireHose_DirectX_
             DrawScale = scale;
             ParticleTTL = ttl;
             InitialTTL = ttl;
-
+            CurrentTexture = currentTexture;
+            randomRotation = new Random();
+            RandomRotation = randomRotation.Next(0, 360);
         }
 
+        public void Update()
+        {
+            RandomRotation += .05f;
+        }
        
     }
 }
