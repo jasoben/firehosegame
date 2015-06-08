@@ -50,33 +50,20 @@ namespace FireHose_DirectX_
         {
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
-            
+            PlayerStartPosition = playerStartPosition;
+            World = world;
+            PlayerNumber = playerNumber;
+            PlayerColor = Color.White;
+
             PlayerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
             centorOfMass = new Vector2(ConvertUnits.ToSimUnits(0f), ConvertUnits.ToSimUnits(10f));
 
-            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, PlayerPosition);
-            playerBody.BodyType = BodyType.Dynamic;
-            playerBody.CollisionCategories = Category.Cat1;
-            playerBody.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat13 | Category.Cat4 ;
-            playerBody.LocalCenter = centorOfMass;
-            
-            playerBody.Restitution = .3f;
-            playerBody.Friction = .5f;
-
-            playerBody.OnCollision += playerCollided;
-            playerBody.OnSeparation += playerSeparated;
+            CreatePlayer();
 
             fireGun = new Gun(this, PlayerPosition, world, true, playerNumber);
             waterGun = new Gun(this, PlayerPosition, world, false, playerNumber);
 
-            PlayerNumber = playerNumber;
-
-            PlayerStartPosition = playerStartPosition;
-            World = world;
-
-            PlayerColor = Color.White;
-
-            PlayerHealth = totalHealth;
+            
         }
 
         public void LoadContent(ContentManager content)
@@ -107,7 +94,7 @@ namespace FireHose_DirectX_
             if (PlayerHealth < 0)
             {
                 PlayerHealth = totalHealth;
-                Restart(PlayerStartPosition, World);
+                Restart();
             }
 
          
@@ -191,28 +178,47 @@ namespace FireHose_DirectX_
             //}
         }
 
-        public void Restart(Vector2 playerStartPosition, World world)
+        public void Restart()
         {
 
             playerBody.Dispose();
+            CreatePlayer();
+            
+        }
 
-            Vector2 playerPosition = ConvertUnits.ToSimUnits(playerStartPosition + new Vector2(0, 1.25f));
+        public void CreatePlayer()
+        {
+            Vector2 playerPosition = ConvertUnits.ToSimUnits(PlayerStartPosition + new Vector2(0, 1.25f));
 
-            playerBody = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
+            playerBody = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
             playerBody.BodyType = BodyType.Dynamic;
             playerBody.AngularDamping = 4f;
 
             playerBody.Restitution = .3f;
             playerBody.Friction = .5f;
             playerBody.LocalCenter = centorOfMass;
+
+            playerBody.OnCollision += playerCollided;
+            playerBody.OnSeparation += playerSeparated;
+
+            PlayerHealth = totalHealth;
         }
 
         public void CheckBounds()
         {
-            if (PlayerPosition.X < -100 || PlayerPosition.X > 1900 || PlayerPosition.Y > 1000 || PlayerPosition.Y < -6000)
+            if (PlayerPosition.X < -0)
             {
-                Restart(PlayerStartPosition, World);
-
+                playerBody.SetTransform(new Vector2(ConvertUnits.ToSimUnits(1700f), playerBody.Position.Y), 0f);
+            }
+            
+            if (PlayerPosition.X > 1800)
+            {
+                playerBody.SetTransform(new Vector2(ConvertUnits.ToSimUnits(100f), playerBody.Position.Y), 0f);
+            }
+            
+            if (PlayerPosition.Y > 1100)
+            {
+                Restart();
             }
         }
 
