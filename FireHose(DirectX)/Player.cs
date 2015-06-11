@@ -24,7 +24,12 @@ namespace FireHose_DirectX_
     {
         public Body playerBody;
         Texture2D playerTexture;
+        Texture2D playerDeadTexture;
         Texture2D damageTexture;
+        Texture2D bumpDamageTexture;
+
+        public Texture2D CurrentPlayerTexture;
+
         Vector2 playerOrigin;
         Gun fireGun;
         Gun waterGun;
@@ -49,6 +54,7 @@ namespace FireHose_DirectX_
         public Vector2 PlayerStartPosition; 
 
         public int PlayerNumber;
+        int BumpCount = 30;
 
         public World World;
 
@@ -63,10 +69,14 @@ namespace FireHose_DirectX_
         private Vector2 centorOfMass;
 
         public bool isGrounded = true;
+        public bool BumpDamaged = false;
+
+        private int deathTimer = 90;
 
         private int totalHealth = 100;
 
-        public int RestartTimer = 300;
+        public int RestartTimer = 120;
+        public int TotalRestartTime = 120;
 
         public Player(Vector2 playerStartPosition, World world, int playerNumber)
         {
@@ -96,6 +106,8 @@ namespace FireHose_DirectX_
         {
             playerTexture = content.Load<Texture2D>("dude.png");
             damageTexture = content.Load<Texture2D>("dudedamage.png");
+            playerDeadTexture = content.Load<Texture2D>("deadDude.png");
+            bumpDamageTexture = content.Load<Texture2D>("BumpDamage");
             playerOrigin = new Vector2(playerTexture.Width / 2f, playerTexture.Height / 2f);
             fireGun.LoadContent(content);
             waterGun.LoadContent(content);
@@ -105,6 +117,7 @@ namespace FireHose_DirectX_
             ouch = content.Load<SoundEffect>("ouch-noise");
             death = content.Load<SoundEffect>("death-noise");
 
+            CurrentPlayerTexture = playerTexture;
 
             waterSound = new SoundItem(water);
             fireSound = new SoundItem(fire);
@@ -132,12 +145,13 @@ namespace FireHose_DirectX_
 
             if (PlayerHealth < 0)
             {
-                playerBody.SetTransform(new Vector2(3000f, 3000f), 0f);
+                DeadPlayer();
+                
             }
 
-            if (PlayerHealth < 80)
+            if (PlayerHealth < 80 && PlayerHealth >= 0)
             {
-                DamageColor = new Color(Color.Red, (1f - ((float)PlayerHealth / (float)totalHealth)));
+                DamageColor = new Color(Color.White, (1f - ((float)PlayerHealth / (float)totalHealth)));
                 HealthScale = new Vector2(.5f, (.5f * (1f - ((float)PlayerHealth / (float)totalHealth))));
             }
             else
@@ -145,94 +159,109 @@ namespace FireHose_DirectX_
                 DamageColor = new Color(Color.Black, 0f);
             }
 
+            if (BumpDamaged == true)
+            {
+                BumpCount--;
+                Console.WriteLine(BumpCount);
+                if (BumpCount < 0)
+                {
+                    BumpDamaged = false;
+                    BumpCount = 30;
+                }
+            }
             
                         
         }
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(damageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, DamageColor, playerBody.Rotation, playerOrigin, HealthScale, SpriteEffects.None, 1f);
-            sb.Draw(playerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
-            fireGun.Draw(sb);
+            
+            sb.Draw(CurrentPlayerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
+            sb.Draw(damageTexture,  ConvertUnits.ToDisplayUnits(playerBody.Position), null, DamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
             waterGun.Draw(sb);
+            fireGun.Draw(sb);
+            
+            if (BumpDamaged == true)
+            {
+                sb.Draw(bumpDamageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.White, playerBody.Rotation, playerOrigin, 1f, SpriteEffects.None, 1f);
+            }
         }
 
         public void Move(Controls controls, List<Keys> playerControls)
         {
 
-
-           
-
-            //if (player.ContactList != null)
-            //{
-
-            if (controls.isHeld(Keys.U, Buttons.LeftShoulder) && (isGrounded == true))
+            if (playerBody.BodyType == BodyType.Dynamic)
             {
-                if (controls.isHeld(playerControls[0], Buttons.LeftThumbstickLeft))
+
+               
+
+                if (controls.isHeld(Keys.U, Buttons.LeftShoulder) && (isGrounded == true))
                 {
-                    playerBody.ApplyLinearImpulse(new Vector2(-.2f, 0));
+                    if (controls.isHeld(playerControls[0], Buttons.LeftThumbstickLeft))
+                    {
+                        playerBody.ApplyLinearImpulse(new Vector2(-.2f, 0));
+                    }
+
+
+                    if (controls.isHeld(playerControls[1], Buttons.LeftThumbstickRight))
+                    {
+                        playerBody.ApplyLinearImpulse(new Vector2(.2f, 0));
+                    }
+
+                    if (controls.onPress(playerControls[2], Buttons.A))
+                    {
+                        playerBody.ApplyLinearImpulse(new Vector2(0, -4));
+                    }
                 }
 
 
-                if (controls.isHeld(playerControls[1], Buttons.LeftThumbstickRight))
+
+               
+                if (controls.isHeld(playerControls[3], Buttons.B))
                 {
-                    playerBody.ApplyLinearImpulse(new Vector2(.2f, 0));
+                    playerBody.ApplyForce(new Vector2(0, -20f));
                 }
 
-                if (controls.onPress(playerControls[2], Buttons.A))
+                if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
                 {
-                    playerBody.ApplyLinearImpulse(new Vector2(0, -4));
-                }
-            }
-
-            
-             
-            //} else {
-            if (controls.isHeld(playerControls[3], Buttons.B))
-            {
-                playerBody.ApplyForce(new Vector2(0, -20f));
-            }
-
-            if (controls.isThumbStick(Buttons.RightThumbstickDown) || controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight))
-            {
-                flyDirection = controls.Fly(true);
-                flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
-                playerBody.ApplyForce(flyDirection);                
-                
-            }
-            if (controls.isPressed(Keys.A, Buttons.RightThumbstickDown) || controls.isPressed(Keys.A, Buttons.RightThumbstickLeft) || controls.isPressed(Keys.A, Buttons.RightThumbstickUp) || controls.isPressed(Keys.A, Buttons.RightThumbstickRight))
-            {
-
-                fireSound.PlaySound();
-            }
-            if (controls.onRelease(Keys.A, Buttons.RightThumbstickDown) || controls.onRelease(Keys.A, Buttons.RightThumbstickLeft) || controls.onRelease(Keys.A, Buttons.RightThumbstickUp) || controls.onRelease(Keys.A, Buttons.RightThumbstickRight))
-            {
-
-                fireSound.StopSound();
-            }
-
-            if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
-            {
-                if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
-                {
-                    flyDirection = controls.Fly(false);
-                    flyDirection = new Vector2(-1* flyDirection.X, flyDirection.Y);
+                    flyDirection = controls.Fly(true);
+                    flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
                     playerBody.ApplyForce(flyDirection);
-                    
+
                 }
-                if (controls.isPressed(Keys.A, Buttons.LeftThumbstickDown) || controls.isPressed(Keys.A, Buttons.LeftThumbstickLeft) || controls.isPressed(Keys.A, Buttons.LeftThumbstickUp) || controls.isPressed(Keys.A, Buttons.LeftThumbstickRight))
+                if (controls.isPressed(Keys.A, Buttons.RightThumbstickDown) || controls.isPressed(Keys.A, Buttons.RightThumbstickLeft) || controls.isPressed(Keys.A, Buttons.RightThumbstickUp) || controls.isPressed(Keys.A, Buttons.RightThumbstickRight))
                 {
-                    waterSound.SoundVolume = .3f;
-                    waterSound.PlaySound();
+
+                    fireSound.PlaySound();
                 }
-                if (controls.onRelease(Keys.A, Buttons.LeftThumbstickDown) || controls.onRelease(Keys.A, Buttons.LeftThumbstickLeft) || controls.onRelease(Keys.A, Buttons.LeftThumbstickUp) || controls.onRelease(Keys.A, Buttons.LeftThumbstickRight))
+                if (controls.onRelease(Keys.A, Buttons.RightThumbstickDown) || controls.onRelease(Keys.A, Buttons.RightThumbstickLeft) || controls.onRelease(Keys.A, Buttons.RightThumbstickUp) || controls.onRelease(Keys.A, Buttons.RightThumbstickRight))
                 {
-                    waterSound.SoundVolume = .3f;
-                    waterSound.StopSound();
+
+                    fireSound.StopSound();
                 }
-            }
+
+                if (!controls.isHeld(Keys.U, Buttons.LeftShoulder))
+                {
+                    if (controls.isThumbStick(Buttons.LeftThumbstickDown) || controls.isThumbStick(Buttons.LeftThumbstickUp) || controls.isThumbStick(Buttons.LeftThumbstickLeft) || controls.isThumbStick(Buttons.LeftThumbstickRight))
+                    {
+                        flyDirection = controls.Fly(false);
+                        flyDirection = new Vector2(-1 * flyDirection.X, flyDirection.Y);
+                        playerBody.ApplyForce(flyDirection);
+
+                    }
+                    if (controls.isPressed(Keys.A, Buttons.LeftThumbstickDown) || controls.isPressed(Keys.A, Buttons.LeftThumbstickLeft) || controls.isPressed(Keys.A, Buttons.LeftThumbstickUp) || controls.isPressed(Keys.A, Buttons.LeftThumbstickRight))
+                    {
+                        waterSound.SoundVolume = .3f;
+                        waterSound.PlaySound();
+                    }
+                    if (controls.onRelease(Keys.A, Buttons.LeftThumbstickDown) || controls.onRelease(Keys.A, Buttons.LeftThumbstickLeft) || controls.onRelease(Keys.A, Buttons.LeftThumbstickUp) || controls.onRelease(Keys.A, Buttons.LeftThumbstickRight))
+                    {
+                        waterSound.SoundVolume = .3f;
+                        waterSound.StopSound();
+                    }
+                }
+            }           
            
-            //}
 
         }
 
@@ -252,7 +281,7 @@ namespace FireHose_DirectX_
         public void Restart()
         {
 
-            if (RestartTimer > 298)
+            if (RestartTimer > (TotalRestartTime -2))
                 deathSound.PlaySingleSound();
 
             RestartTimer -= 1;
@@ -261,7 +290,7 @@ namespace FireHose_DirectX_
                 
                 playerBody.Dispose();
                 CreatePlayer();
-                RestartTimer = 300;
+                RestartTimer = TotalRestartTime;
                 
             }
             
@@ -272,6 +301,8 @@ namespace FireHose_DirectX_
         public void CreatePlayer()
         {
             Vector2 playerPosition = ConvertUnits.ToSimUnits(PlayerStartPosition + new Vector2(0, 1.25f));
+
+            CurrentPlayerTexture = playerTexture;
 
             playerBody = BodyFactory.CreateRectangle(World, ConvertUnits.ToSimUnits(50f), ConvertUnits.ToSimUnits(50f), 2f, playerPosition);
             playerBody.BodyType = BodyType.Dynamic;
@@ -315,8 +346,10 @@ namespace FireHose_DirectX_
                 ouchSound.PlaySingleSound();
                 return true;
             }
+
             if (fixtureB.CollisionCategories == Category.Cat4)
             {
+                
                 playerBody.SetTransform(playerBody.Position, 0f);
                 isGrounded = true;
 
@@ -324,15 +357,18 @@ namespace FireHose_DirectX_
                 {
                     DeltaColor = 20;
                     PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.Y);
-                    PlayerColor = Color.Orange;
+                    PlayerColor = Color.Red;
                     ouchSound.PlaySingleSound();
+                    BumpDamage(); 
                 }
+
                 if (Math.Abs(playerBody.LinearVelocity.X) > 10f)
                 {
                     DeltaColor = 20;
                     PlayerHealth -= (int)Math.Abs(playerBody.LinearVelocity.X);
-                    PlayerColor = Color.Orange;
+                    PlayerColor = Color.Red;
                     ouchSound.PlaySingleSound();
+                    BumpDamage(); 
                 }
                 return true;
             }
@@ -356,6 +392,32 @@ namespace FireHose_DirectX_
 
         }
 
+        public void BumpDamage()
+        {
+            BumpDamaged = true;
+        }
         
+        public void DeadPlayer()
+        {
+            fireSound.StopSound();
+            waterSound.StopSound();
+            DamageColor = new Color(Color.Black, 0f);
+            CurrentPlayerTexture = playerDeadTexture;
+            deathTimer -= 1;
+            playerBody.BodyType = BodyType.Kinematic;
+            if (deathTimer > 85)
+            {
+                playerBody.LinearVelocity = new Vector2(0, 0);
+                playerBody.AngularVelocity = 0f;
+            }
+            playerBody.LinearVelocity = new Vector2(0, 4f);
+            playerBody.AngularVelocity = 1f;
+            
+            if (deathTimer < 0)
+            {
+                //playerBody.SetTransform(new Vector2(3000f, 3000f), 0f);
+                deathTimer = 90;
+            }
+        }
     }
 }

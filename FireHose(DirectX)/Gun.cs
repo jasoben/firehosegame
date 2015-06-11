@@ -53,13 +53,15 @@ namespace FireHose_DirectX_
 
         public int PlayerNumber;
 
+        public Player Player;
+
         public Gun(Player player, Vector2 playerPosition, World world, bool isItFire, int playerNumber)
         {
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
             PlayerPosition = playerPosition;
             ThisWorld = world;
             PlayerNumber = playerNumber;
-
+            Player = player;
             IsItFire = isItFire;
 
             randomVelocity = new Random();
@@ -126,44 +128,50 @@ namespace FireHose_DirectX_
         public void Blast(Controls controls, List<Keys> playerControls)
         {
 
-            rx = randomVelocity.Next(-randomizer, randomizer);
-            ry = randomVelocity.Next(-randomizer, randomizer);
-
-            Vector2 calculatedGunPosition = new Vector2((int)(Math.Cos(GunRotation) * 10), (int)(Math.Sin(GunRotation) * 10));
-            ParticleEmitterLocation = ParticleEmitterLocation = PlayerPosition + calculatedGunPosition / 7;
-            ParticleVelocity = ConvertUnits.ToDisplayUnits(ParticleEmitterLocation + new Vector2(rx/15, ry/15)) - ConvertUnits.ToDisplayUnits(PlayerPosition); 
-            
-            if (!IsItFire) {
-
-                if ((!controls.isHeld(Keys.U, Buttons.LeftShoulder)) &&
-                ((controls.isThumbStick(Buttons.LeftThumbstickDown) ||
-                controls.isThumbStick(Buttons.LeftThumbstickUp) ||
-                controls.isThumbStick(Buttons.LeftThumbstickLeft) ||
-                controls.isThumbStick(Buttons.LeftThumbstickRight))))
-                //if(controls.isHeld(Keys.R, Buttons.A))
-                {
-                    isFiring = true;
-                    particleEngine.GenerateNewParticle(30);
-                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-                } else
-                {
-                    isFiring = false;
-                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-                }
-            } else 
+            if (Player.playerBody.BodyType != BodyType.Kinematic)
             {
-                if (controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight) || controls.isThumbStick(Buttons.RightThumbstickDown))
+                rx = randomVelocity.Next(-randomizer, randomizer);
+                ry = randomVelocity.Next(-randomizer, randomizer);
+
+                Vector2 calculatedGunPosition = new Vector2((int)(Math.Cos(GunRotation) * 10), (int)(Math.Sin(GunRotation) * 10));
+                ParticleEmitterLocation = ParticleEmitterLocation = PlayerPosition + calculatedGunPosition / 7;
+                ParticleVelocity = ConvertUnits.ToDisplayUnits(ParticleEmitterLocation + new Vector2(rx / 15, ry / 15)) - ConvertUnits.ToDisplayUnits(PlayerPosition);
+
+                if (!IsItFire)
                 {
-                    isFiring = true;
-                    particleEngine.GenerateNewParticle(120);
-                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
-                } else
+
+                    if ((!controls.isHeld(Keys.U, Buttons.LeftShoulder)) &&
+                    ((controls.isThumbStick(Buttons.LeftThumbstickDown) ||
+                    controls.isThumbStick(Buttons.LeftThumbstickUp) ||
+                    controls.isThumbStick(Buttons.LeftThumbstickLeft) ||
+                    controls.isThumbStick(Buttons.LeftThumbstickRight))))
+                    //if(controls.isHeld(Keys.R, Buttons.A))
+                    {
+                        isFiring = true;
+                        particleEngine.GenerateNewParticle(30);
+                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                    }
+                    else
+                    {
+                        isFiring = false;
+                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                    }
+                }
+                else
                 {
-                    isFiring = false;
-                    particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                    if (controls.isThumbStick(Buttons.RightThumbstickUp) || controls.isThumbStick(Buttons.RightThumbstickLeft) || controls.isThumbStick(Buttons.RightThumbstickRight) || controls.isThumbStick(Buttons.RightThumbstickDown))
+                    {
+                        isFiring = true;
+                        particleEngine.GenerateNewParticle(120);
+                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                    }
+                    else
+                    {
+                        isFiring = false;
+                        particleEngine.Update(isFiring, ParticleEmitterLocation, ParticleVelocity);
+                    }
                 }
             }
-
             
             
         }

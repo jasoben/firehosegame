@@ -42,6 +42,7 @@ namespace FireHose_DirectX_
         SoundItem extinguishSound;
 
         public float DrawScale;
+        public int DrawScaleTimer = 0;
 
         public int PlayerNumber;
 
@@ -103,7 +104,21 @@ namespace FireHose_DirectX_
             LightAltar(-400);
             DrenchedAmount -= 400;
 
-            DrawScale = AltarAmount / 100500;
+            if (AltarIsLit == false)
+                DrawScale = AltarAmount / 100500;
+
+            if (AltarIsLit == true)
+            {
+                DrawScaleTimer++;
+                if (DrawScaleTimer <= 20)
+                    DrawScale += .01f;
+                if (DrawScaleTimer > 20 && DrawScaleTimer <= 40)
+                    DrawScale -= .01f;
+                if (DrawScaleTimer > 40)
+                    DrawScaleTimer = 0;
+            }
+
+           
         }
 
         public bool altarCollision (Fixture fixtureA, Fixture fixtureB, Contact contact)
@@ -137,7 +152,8 @@ namespace FireHose_DirectX_
                 DrenchedAmount += 2000;
                 if (DrenchedAmount > 50000)
                 {
-                    LightAltar(-5000);
+                    LightAltar(-2000);
+                    AltarIsLit = false;
                 }
                 return true;
             }

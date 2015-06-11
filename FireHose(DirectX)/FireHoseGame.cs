@@ -250,7 +250,7 @@ namespace FireHose_DirectX_
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
             
-            this.graphics.IsFullScreen = true;
+           // this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -423,12 +423,12 @@ namespace FireHose_DirectX_
             spriteBatch.DrawString(font, "Player 2: " + player2.PlayerScore.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
 
-            if (player1.RestartTimer < 300)
+            if (player1.RestartTimer < player1.TotalRestartTime)
             {
                 spriteBatch.DrawString(font, ((int)(player1.RestartTimer / 60) + 1).ToString(), new Vector2(50, 800), Color.CornflowerBlue, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
             }
 
-            if (player2.RestartTimer < 300)
+            if (player2.RestartTimer < player2.TotalRestartTime)
             {
                 spriteBatch.DrawString(font, ((int)(player2.RestartTimer / 60) + 1).ToString(), new Vector2(1600, 800), Color.GreenYellow, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
             }
