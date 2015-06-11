@@ -26,6 +26,7 @@ namespace FireHose_DirectX_
         Texture2D playerTexture;
         Texture2D playerDeadTexture;
         Texture2D damageTexture;
+        Texture2D burnDamageTexture;
         Texture2D bumpDamageTexture;
 
         public Texture2D CurrentPlayerTexture;
@@ -61,6 +62,7 @@ namespace FireHose_DirectX_
         public Color PlayerColor;
         public Color OriginalPlayerColor;
         public Color DamageColor;
+        public Color BurnDamageColor;
 
         private int DeltaColor;
 
@@ -74,6 +76,11 @@ namespace FireHose_DirectX_
         private int deathTimer = 90;
 
         private int totalHealth = 100;
+
+        public float WinPercent
+        {
+            get { return (float)PlayerScore / 1000000f; }
+        }
 
         public int RestartTimer = 120;
         public int TotalRestartTime = 120;
@@ -106,6 +113,7 @@ namespace FireHose_DirectX_
         {
             playerTexture = content.Load<Texture2D>("dude.png");
             damageTexture = content.Load<Texture2D>("dudedamage.png");
+            burnDamageTexture = content.Load<Texture2D>("BurnDamage");
             playerDeadTexture = content.Load<Texture2D>("deadDude.png");
             bumpDamageTexture = content.Load<Texture2D>("BumpDamage");
             playerOrigin = new Vector2(playerTexture.Width / 2f, playerTexture.Height / 2f);
@@ -151,12 +159,13 @@ namespace FireHose_DirectX_
 
             if (PlayerHealth < 80 && PlayerHealth >= 0)
             {
-                DamageColor = new Color(Color.White, (1f - ((float)PlayerHealth / (float)totalHealth)));
+                
                 HealthScale = new Vector2(.5f, (.5f * (1f - ((float)PlayerHealth / (float)totalHealth))));
             }
             else
             {
                 DamageColor = new Color(Color.Black, 0f);
+                BurnDamageColor = new Color(Color.Black, 0f);
             }
 
             if (BumpDamaged == true)
@@ -178,6 +187,7 @@ namespace FireHose_DirectX_
             
             sb.Draw(CurrentPlayerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
             sb.Draw(damageTexture,  ConvertUnits.ToDisplayUnits(playerBody.Position), null, DamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
+            sb.Draw(burnDamageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, BurnDamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
             waterGun.Draw(sb);
             fireGun.Draw(sb);
             
@@ -343,6 +353,8 @@ namespace FireHose_DirectX_
                 DeltaColor = 20;
                 PlayerHealth--;
                 PlayerColor = Color.Orange;
+                JointFactory.CreateWeldJoint(World, fixtureA.Body, fixtureB.Body, new Vector2(contact.Manifold.LocalPoint.X, contact.Manifold.LocalPoint.Y), Vector2.Zero);
+                BurnDamageColor = new Color(Color.Black, (1f - (float)PlayerHealth / (float)totalHealth));
                 ouchSound.PlaySingleSound();
                 return true;
             }
@@ -395,6 +407,7 @@ namespace FireHose_DirectX_
         public void BumpDamage()
         {
             BumpDamaged = true;
+            DamageColor = new Color(Color.White, (1f - ((float)PlayerHealth / (float)totalHealth)));
         }
         
         public void DeadPlayer()
@@ -402,6 +415,7 @@ namespace FireHose_DirectX_
             fireSound.StopSound();
             waterSound.StopSound();
             DamageColor = new Color(Color.Black, 0f);
+            BurnDamageColor = new Color(Color.Black, 0f);
             CurrentPlayerTexture = playerDeadTexture;
             deathTimer -= 1;
             playerBody.BodyType = BodyType.Kinematic;

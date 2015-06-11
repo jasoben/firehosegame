@@ -51,6 +51,7 @@ namespace FireHose_DirectX_
         }
 
         Texture2D levelTexture;
+        Texture2D winBarTexture;
 
         //Define the level variables (these are just boxes that are static and register collisions)
         Body level;
@@ -239,7 +240,7 @@ namespace FireHose_DirectX_
 
         }
 
-        private Rectangle drawRectangle; 
+        //private Rectangle drawRectangle; 
 
         #endregion
 
@@ -314,6 +315,7 @@ namespace FireHose_DirectX_
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
                         
             levelTexture = Content.Load<Texture2D>("level.png");
+            winBarTexture = Content.Load<Texture2D>("WinBar");
 
             //define the screen center and where the middle level piece texture should be placed in relation to the level object
             screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);
@@ -418,9 +420,15 @@ namespace FireHose_DirectX_
             altar4.Draw(spriteBatch);
             altar5.Draw(spriteBatch);
 
-            //Dummy for getting information from classes to push into troubleshooting text box
-            spriteBatch.DrawString(font, "Player 1: " + player1.PlayerScore.ToString(), new Vector2(50, 75), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, "Player 2: " + player2.PlayerScore.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+            //Draw Winning Bars
+            spriteBatch.Draw(winBarTexture, new Vector2(0, 10), null, Color.CornflowerBlue, 0f, new Vector2(0, 0), new Vector2(player1.WinPercent, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(winBarTexture, new Vector2(1800, 60), null, Color.GreenYellow, (float)Math.PI, new Vector2(0, 0), new Vector2(player2.WinPercent, 1f), SpriteEffects.None, 0f);
+
+            //Draw the center line
+            spriteBatch.Draw(levelTexture, new Vector2(900, 0), null, Color.Aquamarine, 0f, Vector2.Zero, new Vector2(.2f, 1f), SpriteEffects.None, 0f);
+
+            //spriteBatch.DrawString(font, "Player 2: " + player1.WinPercent.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
 
             if (player1.RestartTimer < player1.TotalRestartTime)
