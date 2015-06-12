@@ -421,13 +421,15 @@ namespace FireHose_DirectX_
             altar5.Draw(spriteBatch);
 
             //Draw Winning Bars
+            spriteBatch.Draw(winBarTexture, new Vector2(0, 10), null, Color.Black, 0f, new Vector2(0, 0), new Vector2(2f, 1f), SpriteEffects.None, 0f);
             spriteBatch.Draw(winBarTexture, new Vector2(0, 10), null, Color.CornflowerBlue, 0f, new Vector2(0, 0), new Vector2(player1.WinPercent, 1f), SpriteEffects.None, 0f);
             spriteBatch.Draw(winBarTexture, new Vector2(1800, 60), null, Color.GreenYellow, (float)Math.PI, new Vector2(0, 0), new Vector2(player2.WinPercent, 1f), SpriteEffects.None, 0f);
 
             //Draw the center line
             spriteBatch.Draw(levelTexture, new Vector2(900, 0), null, Color.Aquamarine, 0f, Vector2.Zero, new Vector2(.2f, 1f), SpriteEffects.None, 0f);
 
-            //spriteBatch.DrawString(font, "Player 2: " + player1.WinPercent.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, player1.PlayerScore.ToString(), new Vector2((900 * player1.WinPercent) + 120, 20), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, player2.PlayerScore.ToString(), new Vector2(1660 - (900 * player2.WinPercent), 20), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
 
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
 
@@ -586,6 +588,19 @@ namespace FireHose_DirectX_
                         player1.PlayerScore += 75;
                     if (altar.PlayerNumber == 2)
                         player2.PlayerScore += 75;
+                }
+                if (altar.FivePercentPenalty)
+                {
+                    if (altar.PlayerNumber == 1)
+                    {
+                        player1.PlayerScore = player1.PlayerScore - (int)(.05f * player1.PlayerScore);
+                        player2.PlayerScore = player2.PlayerScore + (int)(.05f * player1.PlayerScore);
+                    }
+                    if (altar.PlayerNumber == 2)
+                    {
+                        player2.PlayerScore = player2.PlayerScore - (int)(.05f * player2.PlayerScore);
+                        player1.PlayerScore = player1.PlayerScore + (int)(.05f * player2.PlayerScore);
+                    }
                 }
             }
         }
