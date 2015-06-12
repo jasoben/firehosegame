@@ -57,6 +57,7 @@
     <Compile Include="Altar.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="ConvertUnits.cs" />
+    <Compile Include="CountDown.cs" />
     <Compile Include="FireHoseGame.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="LevelScreen.cs" />
@@ -149,6 +150,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\lighting-fire-sound.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MinusFive.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\ouch-noise.wav">

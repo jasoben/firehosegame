@@ -432,6 +432,7 @@ namespace FireHose_DirectX_
                 //playerBody.SetTransform(new Vector2(3000f, 3000f), 0f);
                 deathTimer = 90;
             }
+            Restart();
         }
     }
 }

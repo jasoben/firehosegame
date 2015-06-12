@@ -27,10 +27,13 @@ namespace FireHose_DirectX_
         private Vector2 DrawOrigin; 
 
         private Texture2D altarTexture;
+        private Texture2D fivePercentTexture;
 
         public float AltarAmount;
         public int DrenchedAmount;
         public bool AltarIsLit = false;
+
+        CountDown fivePercentCountdown;
 
         SoundEffect lightingFire;
         SoundItem lightingFireSound;
@@ -70,6 +73,7 @@ namespace FireHose_DirectX_
         public void LoadContent(ContentManager content)
         {
             altarTexture = content.Load<Texture2D>("altar.png");
+            fivePercentTexture = content.Load<Texture2D>("MinusFive.png");
             DrawOrigin = new Vector2(altarTexture.Width / 2, altarTexture.Height / 2);
 
             lightingFire = content.Load<SoundEffect>("lighting-fire-sound");
@@ -96,13 +100,26 @@ namespace FireHose_DirectX_
                     sb.Draw(altarTexture, DrawPosition + new Vector2(0f, -60f), null, Color.GreenYellow, 0f, DrawOrigin, .3f, SpriteEffects.None, 1f);
                 }
             }
+            if (fivePercentCountdown != null)
+            {
+                if (fivePercentCountdown.CountDownIsDone == false)
+                    sb.Draw(fivePercentTexture, DrawPosition + new Vector2(-60f, -240f), null, Color.White, 0f, DrawOrigin, 1f, SpriteEffects.None, 1f);
+
+            }
+
 
         }
 
         public void Update()
         {
-            
-            LightAltar(-400);
+
+            if (fivePercentCountdown != null)
+            {
+                fivePercentCountdown.Update();
+                if (fivePercentCountdown.CountDownIsDone == true)
+                    fivePercentCountdown = null;
+            }
+                LightAltar(-400);
             DrenchedAmount -= 400;
 
             if (AltarIsLit == false)
@@ -155,6 +172,7 @@ namespace FireHose_DirectX_
                 if (DrenchedAmount > 50000 && AltarIsLit == true)
                 {
                     FivePercentPenalty = true;
+                    ShowReduction();
                     AltarIsLit = false;
                 }
                 else if (DrenchedAmount > 50000 && AltarIsLit == false)
@@ -221,7 +239,11 @@ namespace FireHose_DirectX_
             }
         }
 
-        
+        public void ShowReduction()
+        {
+            fivePercentCountdown = new CountDown(30);
+
+        }
         
     }
 }

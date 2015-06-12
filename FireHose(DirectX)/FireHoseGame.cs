@@ -251,7 +251,7 @@ namespace FireHose_DirectX_
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
             
-           // this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -261,7 +261,7 @@ namespace FireHose_DirectX_
             //TODO: probably need a public variable for this.
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
-
+            
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace FireHose_DirectX_
                 Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
             };
 
-            this.IsMouseVisible = true;
+            //this.IsMouseVisible = true;
 
             base.Initialize();
 
