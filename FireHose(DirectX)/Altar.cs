@@ -48,6 +48,7 @@ namespace FireHose_DirectX_
 
         public bool playLightSound = true;
         public bool playExtinguishSound = false;
+        public bool FivePercentPenalty = false;
 
         public Altar(World world, Vector2 position)
         {
@@ -150,10 +151,20 @@ namespace FireHose_DirectX_
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
                 DrenchedAmount += 2000;
-                if (DrenchedAmount > 50000)
+
+                if (DrenchedAmount > 50000 && AltarIsLit == true)
+                {
+                    FivePercentPenalty = true;
+                    AltarIsLit = false;
+                }
+                else if (DrenchedAmount > 50000 && AltarIsLit == false)
                 {
                     LightAltar(-2000);
-                    AltarIsLit = false;
+                    FivePercentPenalty = false;
+                }
+                else
+                {
+                    FivePercentPenalty = false;
                 }
                 return true;
             }
@@ -209,6 +220,8 @@ namespace FireHose_DirectX_
                 extinguishSound.PlaySingleSound();
             }
         }
+
+        
         
     }
 }
