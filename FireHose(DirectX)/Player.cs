@@ -31,6 +31,12 @@ namespace FireHose_DirectX_
 
         public Texture2D CurrentPlayerTexture;
 
+        AnimatedSprite runAnimationLeft;
+        Texture2D runAnimationTextureLeft;
+        AnimatedSprite runAnimationRight;
+        Texture2D runAnimationTextureRight;
+        
+
         Vector2 playerOrigin;
         Gun fireGun;
         Gun waterGun;
@@ -52,7 +58,9 @@ namespace FireHose_DirectX_
 
         Vector2 flyDirection;
         public Vector2 PlayerPosition;
-        public Vector2 PlayerStartPosition; 
+        public Vector2 PlayerStartPosition;
+
+        
 
         public int PlayerNumber;
         int BumpCount = 30;
@@ -111,7 +119,17 @@ namespace FireHose_DirectX_
 
         public void LoadContent(ContentManager content)
         {
-            playerTexture = content.Load<Texture2D>("dude.png");
+            if (PlayerNumber == 1)
+                playerTexture = content.Load<Texture2D>("manStanding2.png");
+            if (PlayerNumber == 2)
+                playerTexture = content.Load<Texture2D>("manStanding1.png");
+
+            runAnimationTextureLeft = content.Load<Texture2D>("runMarshmallowManLeft.png");
+            runAnimationLeft = new AnimatedSprite(runAnimationTextureLeft, 1, 8, PlayerColor);
+
+            runAnimationTextureRight = content.Load<Texture2D>("runMarshmallowManRight.png");
+            runAnimationRight = new AnimatedSprite(runAnimationTextureRight, 1, 8, PlayerColor);
+                        
             damageTexture = content.Load<Texture2D>("dudedamage.png");
             burnDamageTexture = content.Load<Texture2D>("BurnDamage");
             playerDeadTexture = content.Load<Texture2D>("deadDude.png");
@@ -145,7 +163,12 @@ namespace FireHose_DirectX_
             
             //Dummy method for pushing info to text box
             //Location = fireGun.GetLocation();
-            
+
+            if (this.isGrounded == true)
+            {
+                runAnimationLeft.Update();
+                runAnimationRight.Update();
+            }
 
             DeltaColor--;
             if (DeltaColor < 0)
@@ -184,13 +207,24 @@ namespace FireHose_DirectX_
 
         public void Draw(SpriteBatch sb)
         {
-            
-            sb.Draw(CurrentPlayerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
-            sb.Draw(damageTexture,  ConvertUnits.ToDisplayUnits(playerBody.Position), null, DamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
+
+            if (playerBody.LinearVelocity.X < 1f && playerBody.LinearVelocity.X > -1f)
+                sb.Draw(CurrentPlayerTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, PlayerColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 0f);
+
+            if (playerBody.LinearVelocity.X >= 1f)
+                runAnimationRight.Draw(sb, ConvertUnits.ToDisplayUnits(playerBody.Position), PlayerColor, playerOrigin, playerBody.Rotation);
+
+            if (playerBody.LinearVelocity.X <= -1f)
+                runAnimationLeft.Draw(sb, ConvertUnits.ToDisplayUnits(playerBody.Position), PlayerColor, playerOrigin, playerBody.Rotation);
+
+
+
+            sb.Draw(damageTexture,  ConvertUnits.ToDisplayUnits(playerBody.Position) - new Vector2(0f, 1f), null, DamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
             sb.Draw(burnDamageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, BurnDamageColor, playerBody.Rotation, playerOrigin, .5f, SpriteEffects.None, 1f);
             waterGun.Draw(sb);
             fireGun.Draw(sb);
             
+
             if (BumpDamaged == true)
             {
                 sb.Draw(bumpDamageTexture, ConvertUnits.ToDisplayUnits(playerBody.Position), null, Color.White, playerBody.Rotation, playerOrigin, 1f, SpriteEffects.None, 1f);
