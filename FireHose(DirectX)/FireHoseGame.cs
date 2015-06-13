@@ -14,7 +14,7 @@ using FarseerPhysics.Collision;
 using FarseerPhysics.Common;
 using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
-using Tao.Sdl; 
+using Tao.Sdl;
 
 #endregion
 
@@ -30,9 +30,6 @@ namespace FireHose_DirectX_
         //Standard mono stuff
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-<<<<<<< HEAD
-        
-=======
 
         SpriteFont font;
 
@@ -42,7 +39,6 @@ namespace FireHose_DirectX_
         public string WinMessage = null;
         public Color WinColor;
 
->>>>>>> origin/Jason
         //We make a list of Controls so we can easily pass the right control information from separate player objects to their associated (by an integer value) control object
         public List<Controls> Controls;
 
@@ -54,74 +50,9 @@ namespace FireHose_DirectX_
         {
             get { return world; }
         }
-<<<<<<< HEAD
-
-        //Define the level variable (these are just boxes that are static and register collisions)
-        Body level;
-        Texture2D levelTexture;
-        private Vector2 levelOrigin;
-
-        //TODO: Do I need these properties linked to these fields?
-        public Vector2 LevelOrigin
-        {
-            get { return levelOrigin; }
-        }
-
-        private Vector2 screenCenter;
-
-        public Vector2 ScreenCenter
-        {
-            get { return screenCenter; }
-        }
-
-        private Vector2 levelPosition;
-
-        public Vector2 LevelPosition
-        {
-            get { return levelPosition; }
-            set { levelPosition = value; }
-        }
-
-        Player player1;
-        Player player2;
-
-        //Define the list of keys-- so we can easily pass the right keys to the right player object AND define the keys later on
-        //TODO: Probably need to do the same thing for gamepad controls
-
-        public List<Keys> Player1KeyControls;
-        public List<Keys> Player2KeyControls;
-        
-        //define the particle texture for either water or fire variables        
-        public Texture2D ParticleTexture;
-
-        //define two different collision detection objects, one for each player objects
-        CollisionDetector Player1CollisionDetector;
-        CollisionDetector Player2CollisionDetector;
-
-        public Rectangle Player1Rectangle;
-        public Rectangle Player2Rectangle;
-
-        public List<Rectangle> Player1FireRectangles;
-        public List<Rectangle> Player2FireRectangles;
-
-        //this bool activates whether there is damage taken or not 
-        public bool Player1Damaged;
-        public bool Player2Damaged;
-
-        //These are the damage meters
-        //The first property is to generally calculate player damage in the method that checks for either player-specific 
-
-        public int PlayerDamageMeter;
-        public int Player1DamageMeter;
-        public int Player2DamageMeter;
-=======
 
         Texture2D levelTexture;
-<<<<<<< HEAD
->>>>>>> origin/Jason
-=======
         Texture2D winBarTexture;
->>>>>>> origin/Jason
 
 
         //TEMPORARY STUFF FOR GAME EXPO
@@ -145,11 +76,9 @@ namespace FireHose_DirectX_
         public List<Body> levelBlocks;
         private List<Altar> altars;
 
-<<<<<<< HEAD
-=======
         private Vector2 levelOrigin;
 
-        
+
         public Vector2 LevelOrigin
         {
             get { return levelOrigin; }
@@ -299,15 +228,14 @@ namespace FireHose_DirectX_
 
         public List<Keys> Player1KeyControls;
         public List<Keys> Player2KeyControls;
-        
+
         //define the particle texture for either water or fire variables        
         public Texture2D ParticleTexture;
 
->>>>>>> origin/Jason
         //these properties grab the screencenter property and determine where the players start       
         public Vector2 Player1StartPosition
         {
-            get { return (new Vector2(250, 800));  }
+            get { return (new Vector2(250, 800)); }
 
         }
 
@@ -316,7 +244,6 @@ namespace FireHose_DirectX_
             get { return (new Vector2(1550, 800)); }
 
         }
-        #endregion
 
         //private Rectangle drawRectangle; 
 
@@ -328,13 +255,13 @@ namespace FireHose_DirectX_
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
-            
+
             this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
             world = new World(new Vector2(0, 9.8f));
-            
+
             //This conversion doohicky is from farseer, and it is necessary to define our conversion ratio because farseer is build to work with metric units
             //TODO: probably need a public variable for this.
 
@@ -343,7 +270,7 @@ namespace FireHose_DirectX_
 
             //TEMPORARY STUFF FOR GAME EXPO
             controlsCountdown = new CountDown(1800);
-            
+
         }
 
         /// <summary>
@@ -359,12 +286,12 @@ namespace FireHose_DirectX_
 
             //This is where we make our list of control objects
             //I add in a dummy one for controls[0] so that I don't have to pass a zero to indicate player one, a one to indicate player two
-            List<Controls> controls = new List<Controls>(); 
+            List<Controls> controls = new List<Controls>();
             controls.Add(new Controls(1));
             controls.Add(new Controls(1));
             controls.Add(new Controls(2));
 
-            Controls = controls; 
+            Controls = controls;
 
             //Here we can define lists of our player keys
             //TODO: probably need to make one of these for gamepad buttons as well so we can 
@@ -373,25 +300,13 @@ namespace FireHose_DirectX_
                 Keys.A, Keys.D, Keys.Space, Keys.W, Keys.F
             };
 
-           
+
             Player2KeyControls = new List<Keys>() 
             {
                 Keys.J, Keys.L, Keys.LeftControl, Keys.I, Keys.H
             };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            
-            Player1CollisionDetector = new CollisionDetector();
-            Player2CollisionDetector = new CollisionDetector();
-            Player1DamageMeter = 0;
-            Player2DamageMeter = 0;
-=======
-            this.IsMouseVisible = true;
->>>>>>> origin/Jason
-=======
             //this.IsMouseVisible = true;
->>>>>>> origin/Jason
 
             base.Initialize();
 
@@ -403,11 +318,11 @@ namespace FireHose_DirectX_
         /// </summary>
         protected override void LoadContent()
         {
-            
+
             // TODO: use this.Content to load your game content here
 
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-                        
+
             levelTexture = Content.Load<Texture2D>("level.png");
             winBarTexture = Content.Load<Texture2D>("WinBar");
 
@@ -417,27 +332,15 @@ namespace FireHose_DirectX_
 
             //This lineardamping is for when we implement a fixture beneath the player body object that slows it while on the ground
             //player.LinearDamping = 2f;
-<<<<<<< HEAD
-            
-            //define where the first piece of level goes
-            levelPosition = ConvertUnits.ToSimUnits(ScreenCenter) + new Vector2(0, 1.25f);
-
-            //make the level body
-            level = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(1400f), ConvertUnits.ToSimUnits(100f), 1f, levelPosition);
-            level.IsStatic = true;
-            level.Restitution = .3f;
-            level.Friction = .5f;
-=======
 
             mainSong = Content.Load<Song>("juanitos-firehose");
             MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = .10f;
             MediaPlayer.IsRepeating = true;
 
-            
+
 
             BuildLevel();
->>>>>>> origin/Jason
 
             player1 = new Player(Player1StartPosition, world, 1);
             player1.LoadContent(this.Content);
@@ -448,10 +351,10 @@ namespace FireHose_DirectX_
             BuildAltars();
 
             font = Content.Load<SpriteFont>("PescaFont");
-            
+
         }
 
-      
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -469,7 +372,7 @@ namespace FireHose_DirectX_
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-          //  if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //  if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
             //TODO the previous is useful for exiting, but is busted on lab computers!
 
@@ -479,17 +382,7 @@ namespace FireHose_DirectX_
             Controls[2].Update();
 
             player1.Update(Controls[1], gameTime, Player1KeyControls);
-<<<<<<< HEAD
-            player2.Update(Controls[2], gameTime, Player1KeyControls);
-
-            //this is the collision detection stuff
-            Player1FireRectangles = player1.GetFireRectangles();
-            Player2FireRectangles = player2.GetFireRectangles();
-            Player1Rectangle = player1.GetPlayerRectangle();
-            Player2Rectangle = player2.GetPlayerRectangle();
-=======
             player2.Update(Controls[2], gameTime, Player2KeyControls);
->>>>>>> origin/Jason
 
             altar1.Update();
             altar2.Update();
@@ -497,21 +390,11 @@ namespace FireHose_DirectX_
             altar4.Update();
             altar5.Update();
 
-<<<<<<< HEAD
-            Player1DamageMeter = CheckDamage(Player1Damaged, player1, Player1DamageMeter);
-            Player2DamageMeter = CheckDamage(Player2Damaged, player2, Player2DamageMeter);
-            //end collision detection stuff
-            
-            world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
-
-            base.Update(gameTime);
-                         
-=======
             KeepScore();
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
-            songVolume = .5f * (((float)player1.PlayerScore + (float)player2.PlayerScore) / 2000000); 
+            songVolume = .5f * (((float)player1.PlayerScore + (float)player2.PlayerScore) / 2000000);
             MediaPlayer.Volume = .10f + songVolume;
 
             //TEMPORARY STUFF FOR GAME EXPO
@@ -527,11 +410,10 @@ namespace FireHose_DirectX_
 
             base.Update(gameTime);
 
->>>>>>> origin/Jason
         }
 
 
-        
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -539,12 +421,8 @@ namespace FireHose_DirectX_
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
-<<<<<<< HEAD
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-=======
+
             GraphicsDevice.Clear(Color.Black);
->>>>>>> origin/Jason
 
             //draw level and players
             spriteBatch.Begin();
@@ -556,8 +434,6 @@ namespace FireHose_DirectX_
 
             player1.Draw(spriteBatch);
             player2.Draw(spriteBatch);
-<<<<<<< HEAD
-=======
 
             altar1.Draw(spriteBatch);
             altar2.Draw(spriteBatch);
@@ -574,9 +450,9 @@ namespace FireHose_DirectX_
             spriteBatch.Draw(levelTexture, new Vector2(900, 0), null, Color.Aquamarine, 0f, Vector2.Zero, new Vector2(.2f, 1f), SpriteEffects.None, 0f);
 
             spriteBatch.DrawString(font, player1.PlayerScore.ToString(), new Vector2((900 * player1.WinPercent) + 120, 20), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, player2.PlayerScore.ToString(), new Vector2(1660 - (900 * player2.WinPercent), 20), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, player2.PlayerScore.ToString(), new Vector2(1660 - (900 * player2.WinPercent), 20), Color.GreenYellow, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
 
-           // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
+            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
 
             if (player1.RestartTimer < player1.TotalRestartTime)
             {
@@ -591,12 +467,9 @@ namespace FireHose_DirectX_
             if (WinMessage != null)
             {
                 spriteBatch.DrawString(font, WinMessage, new Vector2(100, 500), WinColor, 0f, new Vector2(0, 0), 10f, SpriteEffects.None, 0f);
-              
+
                 spriteBatch.DrawString(font, "Press BACK to restart match", new Vector2(100, 700), Color.White, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
             }
-<<<<<<< HEAD
->>>>>>> origin/Jason
-=======
 
 
             //TEMPORARY STUFF FOR GAME EXPO
@@ -612,34 +485,21 @@ namespace FireHose_DirectX_
             }
 
 
->>>>>>> origin/Jason
             spriteBatch.End();
-                        
+
             base.Draw(gameTime);
         }
 
-<<<<<<< HEAD
-        //this method needs to be in the base class so that we can check all collisions
-        private int CheckDamage(bool playerDamage, Player player, int playerDamageMeter)
-=======
         public bool levelCollided(Fixture fixtureA, Fixture fixtureB, Contact contact)
->>>>>>> origin/Jason
         {
             if (fixtureB.CollisionCategories == Category.Cat3)
             {
-<<<<<<< HEAD
-                player.PlayerColor = Color.Orange;
-                PlayerDamageMeter++;
-            } else {
-                player.PlayerColor = Color.White;
-=======
                 fixtureB.Body.Awake = false;
                 return true;
             }
             else
             {
                 return true;
->>>>>>> origin/Jason
             }
         }
 
@@ -659,7 +519,7 @@ namespace FireHose_DirectX_
 
             altar5 = new Altar(world, new Vector2(1200, 350));
             altar5.LoadContent(this.Content);
-            
+
             Altar[] theAltars = { altar1, altar2, altar3, altar4, altar5 };
 
             altars = new List<Altar>(theAltars);
@@ -702,17 +562,9 @@ namespace FireHose_DirectX_
 
 
             levelBlocks = new List<Body>(levelItems);
-            
+
             foreach (Body levelThing in levelBlocks)
             {
-<<<<<<< HEAD
-                //this calls the method to reset the player
-                player.Restart(player.PlayerStartPosition, world);
-                PlayerDamageMeter = 0;
-            }
-            
-            return PlayerDamageMeter;
-=======
                 levelThing.CollisionCategories = Category.Cat4;
                 levelThing.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat3 | Category.Cat13;
                 levelThing.IsStatic = true;
@@ -750,7 +602,6 @@ namespace FireHose_DirectX_
 
             boxsideright = new Vector2(.25f, 5f);
             spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(sideRight.Position), null, Color.White, 0f, levelOrigin, boxsideright, SpriteEffects.None, 0f);
->>>>>>> origin/Jason
 
             boxstartleft = new Vector2(3f, .25f);
             spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(startLeft.Position), null, Color.White, 0f, levelOrigin, boxstartleft, SpriteEffects.None, 0f);
@@ -764,11 +615,8 @@ namespace FireHose_DirectX_
             boxlipright = new Vector2(.25f, .5f);
             spriteBatch.Draw(levelTexture, ConvertUnits.ToDisplayUnits(lipRight.Position), null, Color.White, 0f, levelOrigin, boxlipright, SpriteEffects.None, 0f);
         }
-<<<<<<< HEAD
-        
-=======
 
-        public void KeepScore() 
+        public void KeepScore()
         {
             foreach (Altar altar in altars)
             {
@@ -809,11 +657,8 @@ namespace FireHose_DirectX_
                 WinColor = Color.GreenYellow;
                 player1.PlayerScore = 0;
             }
-            
+
         }
-<<<<<<< HEAD
->>>>>>> origin/Jason
-=======
 
 
         //TEMPORARY STUFF FOR GAME EXPO
@@ -829,10 +674,10 @@ namespace FireHose_DirectX_
 
                     player1.PlayerHealth = -100;
                     player2.PlayerHealth = -100;
-                    
+
                     player1.Restart();
                     player2.Restart();
-                    
+
                     foreach (Altar altar in altars)
                     {
                         altar.AltarAmount = 0;
@@ -845,6 +690,5 @@ namespace FireHose_DirectX_
                 }
             }
         }
->>>>>>> origin/Jason
     }
 }
