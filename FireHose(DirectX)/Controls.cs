@@ -19,7 +19,7 @@ namespace FireHose_DirectX_
         public GamePadState gp;
 		public GamePadState gpo;
                
-        //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls
+        //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls 
         public int PlayerNumber;
 
         public Controls(int playerNumber)
