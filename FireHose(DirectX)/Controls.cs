@@ -22,8 +22,12 @@ namespace FireHose_DirectX_
         
 =======
                
+<<<<<<< HEAD
 >>>>>>> origin/Jason
         //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls
+=======
+        //PlayerNumber allows the Controls class to direct gamepad input to the right Player object based on the method calls 
+>>>>>>> jason
         public int PlayerNumber;
 
         public Controls(int playerNumber)
