@@ -37,6 +37,7 @@ namespace FireHose_DirectX_
         SpriteFont font;
 
         Song mainSong;
+        float songVolume;
 
         public string WinMessage = null;
         public Color WinColor;
@@ -121,6 +122,10 @@ namespace FireHose_DirectX_
 =======
         Texture2D winBarTexture;
 >>>>>>> origin/Jason
+
+
+        //TEMPORARY STUFF FOR GAME EXPO
+        CountDown controlsCountdown;
 
         //Define the level variables (these are just boxes that are static and register collisions)
         Body level;
@@ -324,7 +329,7 @@ namespace FireHose_DirectX_
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
             
-          //  this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -334,6 +339,10 @@ namespace FireHose_DirectX_
             //TODO: probably need a public variable for this.
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+
+
+            //TEMPORARY STUFF FOR GAME EXPO
+            controlsCountdown = new CountDown(1800);
             
         }
 
@@ -502,7 +511,19 @@ namespace FireHose_DirectX_
 
             world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
+            songVolume = .5f * (((float)player1.PlayerScore + (float)player2.PlayerScore) / 2000000); 
+            MediaPlayer.Volume = .10f + songVolume;
+
+            //TEMPORARY STUFF FOR GAME EXPO
             YouWin();
+
+            //TEMPORARY STUFF FOR GAME EXPO
+            NewGame(Controls[1], Controls[2]);
+
+
+
+            //TEMPORARY STUFF FOR GAME EXPO
+            controlsCountdown.Update();
 
             base.Update(gameTime);
 
@@ -570,7 +591,27 @@ namespace FireHose_DirectX_
             if (WinMessage != null)
             {
                 spriteBatch.DrawString(font, WinMessage, new Vector2(100, 500), WinColor, 0f, new Vector2(0, 0), 10f, SpriteEffects.None, 0f);
+              
+                spriteBatch.DrawString(font, "Press BACK to restart match", new Vector2(100, 700), Color.White, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
             }
+<<<<<<< HEAD
+>>>>>>> origin/Jason
+=======
+
+
+            //TEMPORARY STUFF FOR GAME EXPO
+            if (controlsCountdown.CountDownIsDone == false)
+            {
+                spriteBatch.DrawString(font, "Firehose!", new Vector2(520, 400), Color.Yellow, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Controls:", new Vector2(520, 480), Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Left Shoulder Button + Left Thumbstick to Walk", new Vector2(520, 520), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Left Thumbstick to Blast Water", new Vector2(520, 540), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Right Thumbstick to Blast Fire", new Vector2(520, 560), Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Goal:", new Vector2(980, 480), Color.LightGreen, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Light Altars, Burninate Peasants", new Vector2(980, 520), Color.LightGreen, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            }
+
+
 >>>>>>> origin/Jason
             spriteBatch.End();
                         
@@ -769,6 +810,40 @@ namespace FireHose_DirectX_
                 player1.PlayerScore = 0;
             }
             
+        }
+<<<<<<< HEAD
+>>>>>>> origin/Jason
+=======
+
+
+        //TEMPORARY STUFF FOR GAME EXPO
+        public void NewGame(Controls controls1, Controls controls2)
+        {
+            if (WinMessage != null)
+            {
+                if (controls1.onPress(Keys.Escape, Buttons.Back) || controls2.onPress(Keys.Escape, Buttons.Back))
+                {
+                    controlsCountdown = null;
+
+                    controlsCountdown = new CountDown(1800);
+
+                    player1.PlayerHealth = -100;
+                    player2.PlayerHealth = -100;
+                    
+                    player1.Restart();
+                    player2.Restart();
+                    
+                    foreach (Altar altar in altars)
+                    {
+                        altar.AltarAmount = 0;
+                    }
+
+                    player1.PlayerScore = 0;
+                    player2.PlayerScore = 0;
+
+                    WinMessage = null;
+                }
+            }
         }
 >>>>>>> origin/Jason
     }
