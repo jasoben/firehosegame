@@ -661,7 +661,7 @@ namespace FireHose_DirectX_
         }
 
 
-        //TEMPORARY STUFF FOR GAME EXPO
+        //TEMPORARY STUFF FOR GAME EXPO 1
         public void NewGame(Controls controls1, Controls controls2)
         {
             if (WinMessage != null)
