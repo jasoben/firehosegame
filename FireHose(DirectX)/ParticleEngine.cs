@@ -197,7 +197,7 @@ namespace FireHose_DirectX_
             }
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
-                particles[CurrentParticle].DrawScale = 5f;
+                particles[CurrentParticle].DrawScale = 10f;
                 particles[CurrentParticle].CurrentTexture = steamTexture;
                 particles[CurrentParticle].ParticleColor = new Color(Color.Gray, 1f);
                 return true;

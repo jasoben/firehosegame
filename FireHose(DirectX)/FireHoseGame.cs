@@ -116,6 +116,10 @@ namespace FireHose_DirectX_
 =======
 
         Texture2D levelTexture;
+<<<<<<< HEAD
+>>>>>>> origin/Jason
+=======
+        Texture2D winBarTexture;
 >>>>>>> origin/Jason
 
         //Define the level variables (these are just boxes that are static and register collisions)
@@ -309,7 +313,7 @@ namespace FireHose_DirectX_
         }
         #endregion
 
-        private Rectangle drawRectangle; 
+        //private Rectangle drawRectangle; 
 
         #endregion
 
@@ -320,7 +324,7 @@ namespace FireHose_DirectX_
             graphics.PreferredBackBufferWidth = 1800;
             graphics.PreferredBackBufferHeight = 1000;
             
-            this.graphics.IsFullScreen = true;
+          //  this.graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -330,7 +334,7 @@ namespace FireHose_DirectX_
             //TODO: probably need a public variable for this.
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
-
+            
         }
 
         /// <summary>
@@ -367,6 +371,7 @@ namespace FireHose_DirectX_
             };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             
             Player1CollisionDetector = new CollisionDetector();
             Player2CollisionDetector = new CollisionDetector();
@@ -374,6 +379,9 @@ namespace FireHose_DirectX_
             Player2DamageMeter = 0;
 =======
             this.IsMouseVisible = true;
+>>>>>>> origin/Jason
+=======
+            //this.IsMouseVisible = true;
 >>>>>>> origin/Jason
 
             base.Initialize();
@@ -392,6 +400,7 @@ namespace FireHose_DirectX_
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
                         
             levelTexture = Content.Load<Texture2D>("level.png");
+            winBarTexture = Content.Load<Texture2D>("WinBar");
 
             //define the screen center and where the middle level piece texture should be placed in relation to the level object
             screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);
@@ -535,17 +544,25 @@ namespace FireHose_DirectX_
             altar4.Draw(spriteBatch);
             altar5.Draw(spriteBatch);
 
-            //Dummy for getting information from classes to push into troubleshooting text box
-            spriteBatch.DrawString(font, "Player 1: " + player1.PlayerScore.ToString(), new Vector2(50, 75), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(font, "Player 2: " + player2.PlayerScore.ToString(), new Vector2(1600, 75), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+            //Draw Winning Bars
+            spriteBatch.Draw(winBarTexture, new Vector2(0, 10), null, Color.Black, 0f, new Vector2(0, 0), new Vector2(2f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(winBarTexture, new Vector2(0, 10), null, Color.CornflowerBlue, 0f, new Vector2(0, 0), new Vector2(player1.WinPercent, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(winBarTexture, new Vector2(1800, 60), null, Color.GreenYellow, (float)Math.PI, new Vector2(0, 0), new Vector2(player2.WinPercent, 1f), SpriteEffects.None, 0f);
+
+            //Draw the center line
+            spriteBatch.Draw(levelTexture, new Vector2(900, 0), null, Color.Aquamarine, 0f, Vector2.Zero, new Vector2(.2f, 1f), SpriteEffects.None, 0f);
+
+            spriteBatch.DrawString(font, player1.PlayerScore.ToString(), new Vector2((900 * player1.WinPercent) + 120, 20), Color.CornflowerBlue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(font, player2.PlayerScore.ToString(), new Vector2(1660 - (900 * player2.WinPercent), 20), Color.GreenYellow, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+
            // spriteBatch.DrawString(font, Mouse.GetState().Position.ToString(), new Vector2(100, 300), Color.Black);
 
-            if (player1.RestartTimer < 300)
+            if (player1.RestartTimer < player1.TotalRestartTime)
             {
                 spriteBatch.DrawString(font, ((int)(player1.RestartTimer / 60) + 1).ToString(), new Vector2(50, 800), Color.CornflowerBlue, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
             }
 
-            if (player2.RestartTimer < 300)
+            if (player2.RestartTimer < player2.TotalRestartTime)
             {
                 spriteBatch.DrawString(font, ((int)(player2.RestartTimer / 60) + 1).ToString(), new Vector2(1600, 800), Color.GreenYellow, 0f, new Vector2(0, 0), 5f, SpriteEffects.None, 0f);
             }
@@ -720,6 +737,19 @@ namespace FireHose_DirectX_
                         player1.PlayerScore += 75;
                     if (altar.PlayerNumber == 2)
                         player2.PlayerScore += 75;
+                }
+                if (altar.FivePercentPenalty)
+                {
+                    if (altar.PlayerNumber == 1)
+                    {
+                        player1.PlayerScore = player1.PlayerScore - (int)(.05f * player1.PlayerScore);
+                        player2.PlayerScore = player2.PlayerScore + (int)(.05f * player1.PlayerScore);
+                    }
+                    if (altar.PlayerNumber == 2)
+                    {
+                        player2.PlayerScore = player2.PlayerScore - (int)(.05f * player2.PlayerScore);
+                        player1.PlayerScore = player1.PlayerScore + (int)(.05f * player2.PlayerScore);
+                    }
                 }
             }
         }

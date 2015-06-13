@@ -27,10 +27,13 @@ namespace FireHose_DirectX_
         private Vector2 DrawOrigin; 
 
         private Texture2D altarTexture;
+        private Texture2D fivePercentTexture;
 
         public float AltarAmount;
         public int DrenchedAmount;
         public bool AltarIsLit = false;
+
+        CountDown fivePercentCountdown;
 
         SoundEffect lightingFire;
         SoundItem lightingFireSound;
@@ -42,11 +45,13 @@ namespace FireHose_DirectX_
         SoundItem extinguishSound;
 
         public float DrawScale;
+        public int DrawScaleTimer = 0;
 
         public int PlayerNumber;
 
         public bool playLightSound = true;
         public bool playExtinguishSound = false;
+        public bool FivePercentPenalty = false;
 
         public Altar(World world, Vector2 position)
         {
@@ -68,6 +73,7 @@ namespace FireHose_DirectX_
         public void LoadContent(ContentManager content)
         {
             altarTexture = content.Load<Texture2D>("altar.png");
+            fivePercentTexture = content.Load<Texture2D>("MinusFive.png");
             DrawOrigin = new Vector2(altarTexture.Width / 2, altarTexture.Height / 2);
 
             lightingFire = content.Load<SoundEffect>("lighting-fire-sound");
@@ -94,16 +100,43 @@ namespace FireHose_DirectX_
                     sb.Draw(altarTexture, DrawPosition + new Vector2(0f, -60f), null, Color.GreenYellow, 0f, DrawOrigin, .3f, SpriteEffects.None, 1f);
                 }
             }
+            if (fivePercentCountdown != null)
+            {
+                if (fivePercentCountdown.CountDownIsDone == false)
+                    sb.Draw(fivePercentTexture, DrawPosition + new Vector2(-60f, -240f), null, Color.White, 0f, DrawOrigin, 1f, SpriteEffects.None, 1f);
+
+            }
+
 
         }
 
         public void Update()
         {
-            
-            LightAltar(-400);
+
+            if (fivePercentCountdown != null)
+            {
+                fivePercentCountdown.Update();
+                if (fivePercentCountdown.CountDownIsDone == true)
+                    fivePercentCountdown = null;
+            }
+                LightAltar(-400);
             DrenchedAmount -= 400;
 
-            DrawScale = AltarAmount / 100500;
+            if (AltarIsLit == false)
+                DrawScale = AltarAmount / 100500;
+
+            if (AltarIsLit == true)
+            {
+                DrawScaleTimer++;
+                if (DrawScaleTimer <= 20)
+                    DrawScale += .01f;
+                if (DrawScaleTimer > 20 && DrawScaleTimer <= 40)
+                    DrawScale -= .01f;
+                if (DrawScaleTimer > 40)
+                    DrawScaleTimer = 0;
+            }
+
+           
         }
 
         public bool altarCollision (Fixture fixtureA, Fixture fixtureB, Contact contact)
@@ -135,9 +168,21 @@ namespace FireHose_DirectX_
             if (fixtureB.CollisionCategories == Category.Cat2)
             {
                 DrenchedAmount += 2000;
-                if (DrenchedAmount > 50000)
+
+                if (DrenchedAmount > 50000 && AltarIsLit == true)
                 {
-                    LightAltar(-5000);
+                    FivePercentPenalty = true;
+                    ShowReduction();
+                    AltarIsLit = false;
+                }
+                else if (DrenchedAmount > 50000 && AltarIsLit == false)
+                {
+                    LightAltar(-2000);
+                    FivePercentPenalty = false;
+                }
+                else
+                {
+                    FivePercentPenalty = false;
                 }
                 return true;
             }
@@ -192,6 +237,12 @@ namespace FireHose_DirectX_
                 playExtinguishSound = false;
                 extinguishSound.PlaySingleSound();
             }
+        }
+
+        public void ShowReduction()
+        {
+            fivePercentCountdown = new CountDown(30);
+
         }
         
     }
